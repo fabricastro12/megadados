@@ -25,15 +25,27 @@ export interface ServiceDeps {
 
 /** Uniform in [0, 1) from the OS CSPRNG: the wheel's result is decided here, never in a browser. */
 export function cryptoRandom(): number {
-  return randomInt(0, 2 ** 48) / 2 ** 48;
+  return randomInt(0, 2 ** 47) / 2 ** 47;
 }
 
-export type ServiceError = EngineError | 'invalid_command' | 'no_room' | 'not_in_room' | 'no_game' | 'already_playing';
+export type ServiceError =
+  | EngineError
+  | 'invalid_command'
+  | 'no_room'
+  | 'not_in_room'
+  | 'no_game'
+  | 'already_playing'
+  | 'room_closed'
+  | 'wrong_pin'
+  | 'host_present'
+  | 'unauthenticated';
 
 export type ServiceResult<T> = { ok: true; value: T } | { ok: false; error: ServiceError; status: number };
 
 const STATUS: Partial<Record<ServiceError, number>> = {
   invalid_command: 400,
+  unauthenticated: 401,
+  wrong_pin: 403,
   no_room: 404,
   no_game: 404,
   not_in_room: 403,
@@ -42,12 +54,14 @@ const STATUS: Partial<Record<ServiceError, number>> = {
   not_your_turn: 403,
 };
 
-function fail<T>(error: ServiceError): ServiceResult<T> {
+export function fail<T>(error: ServiceError): ServiceResult<T> {
   return { ok: false, error, status: STATUS[error] ?? 409 };
 }
 
 /** What clients get: the public state, the question's text while it is on screen, and the version. */
 export interface StateEnvelope {
+  /** Which game of the room (a rematch is a new one); versions restart with each game. */
+  game: number;
   version: number;
   state: PublicGameState;
   question: { id: string; prompt: string; options: string[]; imageUrl: string | null; explanation: string | null } | null;
@@ -58,11 +72,12 @@ export const topics = {
   screens: (code: string) => `room:${code}:screens`,
 };
 
-async function envelope(tx: SqlExecutor, state: GameState, version: number): Promise<StateEnvelope> {
+async function envelope(tx: SqlExecutor, game: number, state: GameState, version: number): Promise<StateEnvelope> {
   const view = toPublicState(state);
   const questionId = view.question?.id;
   const content = questionId ? await repo.questionContent(tx, questionId) : null;
   return {
+    game,
     version,
     state: view,
     question: content
@@ -146,9 +161,9 @@ export async function startGame(deps: ServiceDeps, input: { roomCode: string; us
     );
     if (!created.ok) return fail(created.error);
 
-    await repo.insertGame(tx, room.id, created.state);
+    const game = await repo.insertGame(tx, room.id, created.state);
     await repo.setRoomStatus(tx, room.id, 'playing');
-    await repo.broadcast(tx, topics.room(room.code), 'state', await envelope(tx, created.state, 1));
+    await repo.broadcast(tx, topics.room(room.code), 'state', await envelope(tx, game.seq, created.state, 1));
     return { ok: true, value: { version: 1 } };
   });
 }
@@ -173,19 +188,29 @@ export async function executeCommand(
     if (!room) return fail('no_room');
     const seat = await repo.findSeat(tx, room.id, input.userId);
     if (!seat) return fail('not_in_room');
-    const game = await repo.lockLatestGame(tx, room.id);
-    if (!game) return fail('no_game');
-
-    const result = applyCommand(game.state, actorFor(seat), command, { now: now(), random });
-    if (!result.ok) return fail(result.error);
-
-    const version = game.version + 1;
-    await repo.saveGame(tx, game.id, result.state, version);
-    await persistEvents(tx, room.code, game, result.state, result.events);
-    await repo.touchSeat(tx, seat.id);
-    await repo.broadcast(tx, topics.room(room.code), 'state', await envelope(tx, result.state, version));
-    return { ok: true, value: { version } };
+    const result = await applyInTransaction(tx, room, actorFor(seat), command, { now: now(), random });
+    if (result.ok) await repo.touchSeat(tx, seat.id);
+    return result;
   });
+}
+
+/** The core of a command, for callers that already hold a transaction (also used for late joins). */
+export async function applyInTransaction(
+  tx: SqlExecutor,
+  room: { id: string; code: string },
+  actor: Actor,
+  command: Command,
+  ctx: { now: number; random: () => number },
+): Promise<ServiceResult<{ version: number }>> {
+  const game = await repo.lockLatestGame(tx, room.id);
+  if (!game) return fail('no_game');
+  const result = applyCommand(game.state, actor, command, ctx);
+  if (!result.ok) return fail(result.error);
+  const version = game.version + 1;
+  await repo.saveGame(tx, game.id, result.state, version);
+  await persistEvents(tx, room.code, game, result.state, result.events);
+  await repo.broadcast(tx, topics.room(room.code), 'state', await envelope(tx, game.seq, result.state, version));
+  return { ok: true, value: { version } };
 }
 
 /** Everything a client needs to (re)join a game in progress: used on load and after a reconnect. */
@@ -204,7 +229,7 @@ export async function loadSnapshot(
     return {
       ok: true,
       value: {
-        ...(await envelope(tx, game.state, game.version)),
+        ...(await envelope(tx, game.seq, game.state, game.version)),
         you: seat.role === 'spectator' ? null : privateViewFor(game.state, seat.id),
         seatId: seat.id,
         role: seat.role,

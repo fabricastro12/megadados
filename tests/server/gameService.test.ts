@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import type { PGlite } from '@electric-sql/pglite';
 import { beforeEach, describe, expect, it } from 'vitest';
 import type { Database } from '@/server/db/database';
-import { type StateEnvelope, executeCommand, loadSnapshot, startGame } from '@/server/games/gameService';
+import { type StateEnvelope, cryptoRandom, executeCommand, loadSnapshot, startGame } from '@/server/games/gameService';
 import { U, freshDatabase } from '../db/harness';
 import { seeded } from '../game/helpers';
 import { pgliteDatabase } from './pgliteDatabase';
@@ -64,6 +64,13 @@ async function toFirstQuestion() {
 }
 
 describe('starting a game', () => {
+  it('works with the real CSPRNG, which stays in [0, 1)', async () => {
+    const samples = Array.from({ length: 2000 }, cryptoRandom);
+    expect(samples.every((x) => x >= 0 && x < 1)).toBe(true);
+    const result = await startGame({ db, now: deps.now }, { roomCode: CODE, userId: U.host });
+    expect(result.ok).toBe(true);
+  });
+
   it('only the host can start', async () => {
     const result = await startGame(deps, { roomCode: CODE, userId: U.player });
     expect(result).toMatchObject({ ok: false, error: 'not_host', status: 403 });
@@ -194,5 +201,7 @@ describe('reconnecting and rematches', () => {
     expect((await startGame(deps, { roomCode: CODE, userId: U.host })).ok).toBe(true);
     const seqs = (await pg.query<{ seq: number }>(`select seq from public.games order by seq`)).rows.map((r) => r.seq);
     expect(seqs).toEqual([1, 2]);
+    // Versions restart, so clients tell the rematch apart by its game number.
+    expect(await lastBroadcast()).toMatchObject({ game: 2, version: 1 });
   });
 });

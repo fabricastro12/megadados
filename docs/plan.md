@@ -337,12 +337,27 @@ Decisions made while building the engine and the database, where they refine the
 - **Not persisted yet:** team votes and audience votes live only in the game state (the `votes`
   table is ready for stage 5).
 
+## 6c. Stages 3–4 implementation notes
+
+- **Rooms:** `POST /api/rooms` creates the room, the host seat and a 4-digit PIN (stored as a
+  salted SHA-256). Joining with the same anonymous session returns the same seat, which is how a
+  reload or a dropped connection gets back in. The host can be replaced with the PIN, or by anyone
+  once the host has sent no heartbeat for 45 s.
+- **Lobby changes** (profile, rules, teams, kicks) are saved and broadcast as a `lobby` event on
+  `room:CODE`; Presence on the same channel shows who is connected.
+- **Ticks:** host and TV send `tick` right after a deadline; players wait 2–3 s as a fallback, so a
+  game keeps moving with no big screen. The server ignores early and duplicate ticks.
+- **Rematches:** each game has a number (`seq`); the envelope carries it as `game` because
+  versions restart with each game.
+- **JSON parameters** are cast `$n::text::jsonb`; postgres.js would otherwise encode a JSON string
+  twice (PGlite does not, so a test checks the convention).
+
 ## 7. Stages
 
 1. Plan, architecture, visual direction, screen designs ✓
 2. DB schema, RLS, server functions, engine + Vitest tests ✓
-3. Rooms, lobby, Presence and reconnection
-4. Full individual turn-based flow, 2D UI
+3. Rooms, lobby, Presence and reconnection ✓
+4. Full individual turn-based flow, 2D UI ✓
 5. Teams, simultaneous, voting, lifelines
 6. Synced 3D layer + postprocessing
 7. Sound

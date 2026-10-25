@@ -60,6 +60,7 @@ export async function freshDatabase(): Promise<PGlite> {
   const db = new PGlite();
   await db.exec(SUPABASE_STUB);
   await db.exec(migration('20261025000001_init.sql'));
+  await db.exec(migration('20261025000003_reactions_topic.sql'));
   await db.exec(DEFAULT_GRANTS);
   return db;
 }

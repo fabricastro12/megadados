@@ -179,7 +179,15 @@ describe('realtime channels', () => {
   it('players track presence and send reactions, but cannot fake game broadcasts', async () => {
     expect(await trySend(U.player, 'room:MXQ7K', 'presence')).toBe(true);
     expect(await trySend(U.player, 'room:MXQ7K', 'broadcast')).toBe(false);
-    expect(await trySend(U.player, 'room:MXQ7K:screens', 'broadcast')).toBe(true);
+    expect(await trySend(U.player, 'room:MXQ7K:screens', 'broadcast')).toBe(false);
+    expect(await trySend(U.player, 'room:MXQ7K:fun', 'broadcast')).toBe(true);
+    expect(await trySend(U.stranger, 'room:MXQ7K:fun', 'broadcast')).toBe(false);
     expect(await trySend(U.stranger, 'room:MXQ7K', 'presence')).toBe(false);
+  });
+
+  it('every member receives reactions', async () => {
+    await db.query(`select realtime.send('{}', 'reaction', 'room:MXQ7K:fun', true)`);
+    expect(await canReceive(U.player, 'room:MXQ7K:fun')).toBe(true);
+    expect(await canReceive(U.stranger, 'room:MXQ7K:fun')).toBe(false);
   });
 });

@@ -1,0 +1,178 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-sky-top: #3fb2ee;
+  --color-sky-bottom: #9edcf8;
+  --color-ink: #1c2a66;
+  --color-ink-soft: #4a5a96;
+  --color-panel: #ffffff;
+  --color-panel-alt: #eaf5fc;
+  --color-go: #2cc56f;
+  --color-go-shade: #1c8a4c;
+  --color-wrong: #ff4d5a;
+  --color-wrong-shade: #b8202e;
+  --color-gold: #ffd23f;
+  --color-gold-shade: #d9a400;
+  --color-cream: #fff6d6;
+  --color-cat-megafy: #9b5cff;
+  --color-cat-tech: #2e8bff;
+  --color-cat-lowcode: #2cc56f;
+  --color-cat-culture: #ffb31a;
+  --color-cat-latam: #ff6a3d;
+  --color-cat-people: #ff5daa;
+  --font-display: var(--font-lilita), 'Arial Rounded MT Bold', system-ui, sans-serif;
+  --font-sans: var(--font-baloo), system-ui, sans-serif;
+}
+
+:root {
+  --text-scale: 1;
+  color-scheme: light;
+}
+:root[data-text='large'] {
+  --text-scale: 1.12;
+}
+:root[data-text='huge'] {
+  --text-scale: 1.25;
+}
+
+html {
+  font-size: calc(16px * var(--text-scale));
+  background: var(--color-sky-top);
+}
+
+body {
+  min-height: 100dvh;
+  background: linear-gradient(180deg, var(--color-sky-top) 0%, var(--color-sky-bottom) 100%) fixed;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer components {
+  /* White display lettering with a navy stroke and a hard drop: the game's voice. */
+  .toon {
+    font-family: var(--font-display);
+    font-weight: 400;
+    color: #fff;
+    paint-order: stroke fill;
+    -webkit-text-stroke: var(--stroke, 6px) var(--color-ink);
+    text-shadow: 0 var(--drop, 4px) 0 var(--color-ink);
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+  }
+
+  /* Everything tappable or grouped looks like a sticker with a hard shadow. */
+  .sticker {
+    background: var(--color-panel);
+    border: 4px solid var(--color-ink);
+    border-radius: 1.6rem;
+    box-shadow: 0 6px 0 var(--color-ink);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3.25rem;
+    padding: 0 1.25rem;
+    border: 4px solid var(--color-ink);
+    border-radius: 1.25rem;
+    font-weight: 800;
+    color: var(--color-ink);
+    background: var(--btn-bg, var(--color-panel));
+    box-shadow: inset 0 -6px 0 var(--btn-shade, transparent), 0 5px 0 var(--color-ink);
+    transition: transform 80ms ease, box-shadow 80ms ease;
+    cursor: pointer;
+    user-select: none;
+  }
+  .btn:active:not(:disabled) {
+    transform: translateY(4px);
+    box-shadow: inset 0 -3px 0 var(--btn-shade, transparent), 0 1px 0 var(--color-ink);
+  }
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .btn-go {
+    --btn-bg: var(--color-go);
+    --btn-shade: var(--color-go-shade);
+  }
+  .btn-gold {
+    --btn-bg: var(--color-gold);
+    --btn-shade: var(--color-gold-shade);
+  }
+  .btn-danger {
+    --btn-bg: var(--color-wrong);
+    --btn-shade: var(--color-wrong-shade);
+  }
+  /* Big call-to-action buttons keep the white outlined lettering. */
+  .btn.toon {
+    color: #fff;
+    font-weight: 400;
+  }
+
+  .field {
+    width: 100%;
+    min-height: 3.25rem;
+    border: 4px solid var(--color-ink);
+    border-radius: 1rem;
+    background: var(--color-panel-alt);
+    padding: 0 1rem;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--color-ink);
+  }
+}
+
+@keyframes reaction-float {
+  0% {
+    transform: translateY(20px) scale(0.6);
+    opacity: 0;
+  }
+  15% {
+    transform: translateY(-40px) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-70vh) scale(1) rotate(-12deg);
+    opacity: 0;
+  }
+}
+
+.reaction-float {
+  animation: reaction-float 3s ease-out forwards;
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pop-in {
+  animation: pop-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+:focus-visible {
+  outline: 4px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

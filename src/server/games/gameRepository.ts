@@ -17,6 +17,8 @@ export interface SeatRow {
 export interface LockedGame {
   id: string;
   room_id: string;
+  /** 1 for the room's first game, 2 for the rematch, and so on. */
+  seq: number;
   state: GameState;
   version: number;
 }
@@ -80,7 +82,7 @@ export const gameRepository = {
   /** The latest game in the room, row-locked so concurrent commands apply one after another. */
   async lockLatestGame(tx: SqlExecutor, roomId: string): Promise<LockedGame | null> {
     const rows = await tx.query<LockedGame>(
-      `select id, room_id, state, version from public.games where room_id = $1 order by seq desc limit 1 for update`,
+      `select id, room_id, seq, state, version from public.games where room_id = $1 order by seq desc limit 1 for update`,
       [roomId],
     );
     return rows[0] ?? null;
@@ -88,26 +90,26 @@ export const gameRepository = {
 
   async latestGame(tx: SqlExecutor, roomId: string): Promise<LockedGame | null> {
     const rows = await tx.query<LockedGame>(
-      `select id, room_id, state, version from public.games where room_id = $1 order by seq desc limit 1`,
+      `select id, room_id, seq, state, version from public.games where room_id = $1 order by seq desc limit 1`,
       [roomId],
     );
     return rows[0] ?? null;
   },
 
-  async insertGame(tx: SqlExecutor, roomId: string, state: GameState): Promise<string> {
-    const rows = await tx.query<{ id: string }>(
+  async insertGame(tx: SqlExecutor, roomId: string, state: GameState): Promise<{ id: string; seq: number }> {
+    const rows = await tx.query<{ id: string; seq: number }>(
       `insert into public.games (room_id, seq, phase, state, version, phase_deadline_at)
-       values ($1, coalesce((select max(seq) from public.games where room_id = $1), 0) + 1, $2, $3::jsonb, 1, to_timestamp($4))
-       returning id`,
+       values ($1, coalesce((select max(seq) from public.games where room_id = $1), 0) + 1, $2, $3::text::jsonb, 1, to_timestamp($4))
+       returning id, seq`,
       [roomId, state.phase, JSON.stringify(state), ms(state.phaseDeadline)],
     );
-    return rows[0]!.id;
+    return rows[0]!;
   },
 
   async saveGame(tx: SqlExecutor, gameId: string, state: GameState, version: number): Promise<void> {
     await tx.query(
       `update public.games
-          set state = $2::jsonb, version = $3, phase = $4, phase_deadline_at = to_timestamp($5),
+          set state = $2::text::jsonb, version = $3, phase = $4, phase_deadline_at = to_timestamp($5),
               ended_at = case when $4 = 'finished' then coalesce(ended_at, now()) else ended_at end
         where id = $1`,
       [gameId, JSON.stringify(state), version, state.phase, ms(state.phaseDeadline)],
@@ -173,6 +175,6 @@ export const gameRepository = {
 
   /** Realtime Broadcast from inside the transaction: delivered only if the transaction commits. */
   async broadcast(tx: SqlExecutor, topic: string, event: string, payload: unknown): Promise<void> {
-    await tx.query(`select realtime.send($1::jsonb, $2, $3, true)`, [JSON.stringify(payload), event, topic]);
+    await tx.query(`select realtime.send($1::text::jsonb, $2, $3, true)`, [JSON.stringify(payload), event, topic]);
   },
 };

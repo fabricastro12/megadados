@@ -1,5 +1,5 @@
 import type { Lifeline } from './config';
-import { eligibleOwners, ownerOf } from './rules/owners';
+import { captainOf, eligibleOwners, isTeamPlay, ownerOf } from './rules/owners';
 import { type Standing, ownerStandings, teamStandings } from './rules/standings';
 import type { GameState, OwnerScore, Phase, RevealState, SpinState } from './types';
 
@@ -10,6 +10,8 @@ import type { GameState, OwnerScore, Phase, RevealState, SpinState } from './typ
 export interface PublicGameState {
   phase: Phase;
   pausedPhase: Phase | null;
+  /** While paused, clocks on screen stop at this server time. */
+  pausedAt: number | null;
   phaseDeadline: number | null;
   endsAt: number | null;
   round: number;
@@ -21,6 +23,10 @@ export interface PublicGameState {
   teams: GameState['teams'];
   spinnerId: string | null;
   turnOwnerId: string | null;
+  /** Who answers for an owner: alone, the team captain, a team vote, or the first teammate in. */
+  answerMode: 'solo' | 'captain' | 'vote' | 'first';
+  /** Classic team play with a rotating captain: the player answering this turn. */
+  captainId: string | null;
   spin: SpinState | null;
   crownPick: GameState['crownPick'];
   question: {
@@ -56,6 +62,12 @@ function percentages(votes: Record<string, number>): number[] {
   return counts.map((c) => (total ? Math.round((c / total) * 100) : 0));
 }
 
+function captain(state: GameState): string | null {
+  if (!isTeamPlay(state) || state.config.teams.answerMode !== 'captain') return null;
+  const owner = eligibleOwners(state)[0];
+  return owner ? captainOf(state, owner) : null;
+}
+
 export function toPublicState(state: GameState): PublicGameState {
   const q = state.current;
   const showQuestion = q && (state.phase === 'question' || state.phase === 'paused' || state.phase === 'reveal' || state.phase === 'roundResults');
@@ -66,6 +78,7 @@ export function toPublicState(state: GameState): PublicGameState {
   return {
     phase: state.phase,
     pausedPhase: state.paused?.phase ?? null,
+    pausedAt: state.paused?.at ?? null,
     phaseDeadline: state.phaseDeadline,
     endsAt: state.endsAt,
     round: state.round,
@@ -77,6 +90,8 @@ export function toPublicState(state: GameState): PublicGameState {
     teams: state.teams.map((t) => ({ ...t, memberIds: [...t.memberIds] })),
     spinnerId: state.spinnerId,
     turnOwnerId: state.config.mode === 'clasico' ? (eligibleOwners(state)[0] ?? null) : null,
+    answerMode: isTeamPlay(state) ? state.config.teams.answerMode : 'solo',
+    captainId: captain(state),
     spin: state.spin ? { ...state.spin } : null,
     crownPick: state.crownPick ? { ...state.crownPick, options: [...state.crownPick.options] } : null,
     question: showQuestion
