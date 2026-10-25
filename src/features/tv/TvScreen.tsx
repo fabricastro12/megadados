@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import { CROWN_LOOK, useCatalog, useOwnerName } from '@/features/game/catalog';
 import { Countdown } from '@/features/game/Countdown';
@@ -8,10 +9,13 @@ import { type OptionState, QuestionView } from '@/features/game/QuestionView';
 import { ReactionLayer } from '@/features/game/Reactions';
 import { Standings } from '@/features/game/Standings';
 import { useAutoTick } from '@/features/game/useAutoTick';
-import { Wheel } from '@/features/game/Wheel';
+import { WheelView } from '@/features/game/WheelView';
 import { rulesSummary } from '@/features/lobby/rulesSummary';
 import { StatusScreen } from '@/features/room/RoomScreen';
 import type { PublicGameState } from '@/game';
+import type { MascotPoseName } from '@/scene3d/mascot';
+import { mascotPose } from './mascotPose';
+import { useThreeD } from '@/scene3d/useThreeD';
 import { serverNow } from '@/realtime/clock';
 import { useRoomConnection } from '@/realtime/useRoomConnection';
 import { useRoom } from '@/realtime/roomStore';
@@ -22,6 +26,25 @@ import { Sky } from '@/ui/Sky';
 import { Toon } from '@/ui/Toon';
 
 const PODIUM_MS = 90_000;
+
+const MascotStage = dynamic(() => import('@/scene3d/MascotStage'), { ssr: false });
+
+/** The 3D mascot in the TV's corner, or its picture in light mode. */
+function TvMascot({ pose }: { pose: MascotPoseName }) {
+  const threeD = useThreeD();
+  const picture = pose === 'festejo' || pose === 'guino' ? 'festejo' : pose === 'sorpresa' ? 'sorpresa' : pose === 'carta' || pose === 'pensando' ? 'carta' : 'saludo';
+  return (
+    // Always mounted in the same corner: rebuilding the mascot between phases would stall the TV.
+    <div className="pointer-events-none fixed bottom-0 right-10 z-10 flex w-[380px] justify-center" style={{ height: 'min(340px, 32vh)' }}>
+      {threeD ? (
+        <MascotStage pose={pose} className="h-full" style={{ width: 'min(300px, 28vh)' }} />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={`/mascot/${picture}.png`} alt="" className="h-full w-full object-contain object-bottom" />
+      )}
+    </div>
+  );
+}
 
 /** Keeps big pieces (the wheel) inside short screens such as laptops. */
 function useViewportHeight(): number {
@@ -138,7 +161,7 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
         <Toon size="xl" as="h1">
           {phase === 'spinning' ? '¡Gira, gira!' : `Gira ${nameOf(s.spinnerId)}`}
         </Toon>
-        <Wheel segments={segments} spin={s.spin} size={Math.min(560, Math.round(viewport * 0.6))} pausedAt={s.pausedAt} />
+        <WheelView segments={segments} spin={s.spin} size={Math.min(600, Math.round(viewport * 0.62))} pausedAt={s.pausedAt} effects />
         {phase === 'awaitingSpin' && <Countdown deadline={s.phaseDeadline} total={0} size={72} />}
       </div>
     );
@@ -243,11 +266,12 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
         {main}
       </div>
       {side && (
-        <aside className="flex flex-col gap-4 self-center">
+        // The bottom of the column is left to the mascot.
+        <aside className="flex flex-col gap-4 self-start pb-[34vh] pt-4">
           <h2 className="toon text-3xl" style={{ '--stroke': '6px', '--drop': '3px' } as React.CSSProperties}>
             Ranking
           </h2>
-          <Standings state={s} limit={8} />
+          <Standings state={s} limit={s.teamStandings && s.mode === 'ronda' ? 5 : 8} />
           {s.teamStandings && s.mode === 'ronda' && (
             <>
               <h2 className="toon mt-2 text-2xl" style={{ '--stroke': '5px', '--drop': '3px' } as React.CSSProperties}>
@@ -265,6 +289,7 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
           <Toon size="xxl">Pausa</Toon>
         </div>
       )}
+      <TvMascot pose={mascotPose(s)} />
       <ReactionLayer big />
     </main>
   );

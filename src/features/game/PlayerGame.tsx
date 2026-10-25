@@ -18,7 +18,7 @@ import { type OptionState, QuestionView } from './QuestionView';
 import { ReactionBar, ReactionLayer } from './Reactions';
 import { Standings } from './Standings';
 import { useAutoTick } from './useAutoTick';
-import { Wheel } from './Wheel';
+import { WheelView } from './WheelView';
 
 type Connection = ReturnType<typeof useRoomConnection>;
 
@@ -124,7 +124,7 @@ export function PlayerGame({ connection, onLeave }: { connection: Connection; on
         <Toon size="md" as="h1" className="text-center">
           {phase === 'spinning' ? '¡Gira, gira!' : mine ? '¡Te toca girar!' : `Gira ${spinnerName}`}
         </Toon>
-        <Wheel segments={segments} spin={s.spin} size={300} pausedAt={s.pausedAt} />
+        <WheelView segments={segments} spin={s.spin} size={300} pausedAt={s.pausedAt} />
         {phase === 'awaitingSpin' && mine && (
           <button
             type="button"
