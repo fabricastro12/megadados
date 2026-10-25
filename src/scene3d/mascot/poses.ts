@@ -13,7 +13,7 @@ export interface ArmPose {
   wrist: Vec3;
   /** Direction the elbow bends toward. */
   pole: Vec3;
-  /** Direction the back of the hand (knuckles and thumb) faces. */
+  /** Direction the palm faces (the side the fingers curl toward); the thumb is on the hand's outer edge. */
   facing: Vec3;
   hand: MascotHand;
 }
@@ -27,12 +27,12 @@ export interface MascotPose {
   prop?: 'card';
 }
 
-const relaxed: ArmPose = { wrist: [0.7, 0.6, 0.1], pole: [1, 0, -0.4], facing: [0.3, 0, 1], hand: 'open' };
+const relaxed: ArmPose = { wrist: [0.7, 0.6, 0.1], pole: [1, 0, -0.4], facing: [-1, 0, 0.2], hand: 'open' };
 
 export const MASCOT_POSES: Record<MascotPoseName, MascotPose> = {
   idle: { right: relaxed, left: relaxed, lean: [0, 0], expression: 'happy' },
   saludo: {
-    right: { wrist: [0.84, 1.08, 0.4], pole: [1, -1, -0.3], facing: [0, 1, 0], hand: 'thumbsUp' },
+    right: { wrist: [0.84, 1.08, 0.4], pole: [1, -1, -0.3], facing: [-0.2, 0.5, 1], hand: 'thumbsUp' },
     left: { wrist: [0.6, 0.64, 0.12], pole: [1, 0.3, -0.5], facing: [1, 0, 0], hand: 'fist' },
     lean: [0, 0.04],
     expression: 'happy',
@@ -50,19 +50,19 @@ export const MASCOT_POSES: Record<MascotPoseName, MascotPose> = {
     expression: 'wink',
   },
   sorpresa: {
-    right: { wrist: [0.46, 1.04, 0.55], pole: [1, -1, 0], facing: [1, 0, 0.6], hand: 'open' },
-    left: { wrist: [0.46, 1.04, 0.55], pole: [1, -1, 0], facing: [1, 0, 0.6], hand: 'open' },
+    right: { wrist: [0.54, 0.94, 0.5], pole: [1, -1, 0], facing: [-1, 0, -0.2], hand: 'open' },
+    left: { wrist: [0.54, 0.94, 0.5], pole: [1, -1, 0], facing: [-1, 0, -0.2], hand: 'open' },
     lean: [-0.05, 0],
     expression: 'surprised',
   },
   pensando: {
     right: { wrist: [0.12, 0.98, 0.7], pole: [1, -1, 0.3], facing: [0, 0, 1], hand: 'point' },
-    left: { wrist: [-0.16, 0.56, 0.64], pole: [1, -0.6, 0.3], facing: [0, 0, 1], hand: 'fist' },
+    left: { wrist: [-0.16, 0.56, 0.64], pole: [1, -0.6, 0.3], facing: [0, 1, 0], hand: 'fist' },
     lean: [0.03, 0.05],
     expression: 'thinking',
   },
   carta: {
-    right: { wrist: [0.28, 0.96, 0.66], pole: [1, -1, 0.2], facing: [0, 1, 0.3], hand: 'point' },
+    right: { wrist: [0.4, 0.9, 0.5], pole: [1, -1, 0], facing: [-1, 0, 0.3], hand: 'point' },
     left: { wrist: [0.74, 1.34, 0.34], pole: [1, -1, 0], facing: [0, 0, 1], hand: 'open' },
     lean: [0, -0.03],
     expression: 'happy',

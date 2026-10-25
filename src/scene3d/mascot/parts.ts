@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 import { BODY, bodyProfile, bodyRadius, wrapOntoBody } from './bodySurface';
 import { MASCOT_COLORS as C } from './palette';
 import type { MascotHand } from './poses';
@@ -72,24 +73,40 @@ export function createBody(mat: MascotMaterials, q: MascotQuality): THREE.Mesh {
 
 // --- Face -------------------------------------------------------------------------------------
 
-/** Flattened ellipsoid authored in face space, wrapped onto the body. */
+/**
+ * Shares the seam and pole vertices that built-in shapes duplicate, so the normals the wrap
+ * recomputes stay continuous instead of showing a crease in the highlights.
+ */
+function weld(g: THREE.BufferGeometry): THREE.BufferGeometry {
+  g.deleteAttribute('normal');
+  g.deleteAttribute('uv');
+  const welded = BufferGeometryUtils.mergeVertices(g);
+  g.dispose();
+  return welded;
+}
+
+/**
+ * Flattened ellipsoid authored in face space, wrapped onto the body. Its poles point out of the
+ * skin, so the outline seen from the front is the finely divided equator rather than a meridian.
+ */
 function blob(rx: number, ry: number, depth: number, x: number, y: number, z: number, q: MascotQuality): THREE.BufferGeometry {
-  const g = new THREE.SphereGeometry(1, seg(28, q), seg(16, q));
+  const g = new THREE.SphereGeometry(1, seg(64, q), seg(14, q));
+  g.rotateX(Math.PI / 2);
   g.scale(rx, ry, depth);
   g.translate(x, y, z);
-  return wrapOntoBody(g, 0);
+  return wrapOntoBody(weld(g), 0);
 }
 
 function stroke(points: THREE.Vector3[], radius: number, q: MascotQuality): THREE.BufferGeometry {
   const curve = new THREE.CatmullRomCurve3(points);
-  const g = new THREE.TubeGeometry(curve, seg(24, q), radius, seg(8, q), false);
-  return wrapOntoBody(g, 0);
+  const g = new THREE.TubeGeometry(curve, seg(40, q), radius, seg(16, q), false);
+  return wrapOntoBody(weld(g), 0);
 }
 
 function roundCap(position: THREE.Vector3, radius: number, q: MascotQuality): THREE.BufferGeometry {
-  const g = new THREE.SphereGeometry(radius, seg(10, q), seg(8, q));
+  const g = new THREE.SphereGeometry(radius, seg(16, q), seg(12, q));
   g.translate(position.x, position.y, position.z);
-  return wrapOntoBody(g, 0);
+  return wrapOntoBody(weld(g), 0);
 }
 
 function strokeWithCaps(group: THREE.Group, points: THREE.Vector3[], radius: number, material: THREE.Material, q: MascotQuality): void {
@@ -229,6 +246,60 @@ function crownProfile(steps: number): THREE.Vector2[] {
   return points;
 }
 
+const BRIM = { reach: 0.84, flare: 0.045, thickness: 0.07 } as const;
+
+/**
+ * One face of the brim (face = 1 top, -1 underside) as a dense grid over a crescent in front of
+ * the crown: angle θ runs side to side, v from just inside the crown wall to the bill's edge.
+ * A grid lets the bend follow every point; an extruded shape triangulates into long triangles
+ * that cut straight through the curve.
+ */
+function brimSurface(rim: number, face: 1 | -1, q: MascotQuality): THREE.BufferGeometry {
+  const inner = rim - 0.02;
+  const side = rim + BRIM.flare;
+  const cols = seg(56, q);
+  const rows = seg(18, q);
+  const positions: number[] = [];
+  for (let i = 0; i <= cols; i++) {
+    const theta = Math.PI * (i / cols - 0.5);
+    const sin = Math.sin(theta);
+    const cos = Math.cos(theta);
+    const edge = 1 / Math.hypot(sin / side, cos / BRIM.reach);
+    for (let j = 0; j <= rows; j++) {
+      const v = j / rows;
+      const r = inner + v * (edge - inner);
+      const x = r * sin;
+      const z = r * cos;
+      // t grows with the distance past the crown wall (1 at the front edge): the bend grows with
+      // it, so the brim is flush with the crown where they meet and only the bill curves down.
+      // Absolute distance keeps the narrow side tips nearly flat instead of plunging into the head.
+      const t = THREE.MathUtils.clamp((r - rim) / (BRIM.reach - rim), 0, 1);
+      const mid = -BRIM.thickness / 2 - t * (0.7 * x * x + 0.1 * t);
+      // Half thickness closes to zero at the outer edge (a rounded lip) and at both tips.
+      // Clamped: at the edges rounding pushes these a hair past 1, and the square roots go NaN.
+      const lip = THREE.MathUtils.clamp((v - 0.82) / 0.18, 0, 1);
+      const tip = THREE.MathUtils.clamp((Math.abs(theta) / (Math.PI / 2) - 0.9) / 0.1, 0, 1);
+      const half = (BRIM.thickness / 2) * Math.sqrt(1 - lip * lip) * Math.sqrt(1 - tip * tip);
+      positions.push(x, mid + face * half, z);
+    }
+  }
+  const index: number[] = [];
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      const a = i * (rows + 1) + j;
+      const b = a + rows + 1;
+      // Winding so the top faces up and the underside faces down.
+      if (face === 1) index.push(a, a + 1, b, b, a + 1, b + 1);
+      else index.push(a, b, a + 1, b, b + 1, a + 1);
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  g.setIndex(index);
+  g.computeVertexNormals();
+  return g;
+}
+
 export function createCap(mat: MascotMaterials, q: MascotQuality): THREE.Group {
   const cap = new THREE.Group();
   const rim = bodyRadius(CAP.rimY) + CAP.ease;
@@ -241,38 +312,9 @@ export function createCap(mat: MascotMaterials, q: MascotQuality): THREE.Group {
   button.translate(0, CAP.height - 0.004, 0);
   cap.add(mesh(button, mat.canvas));
 
-  // Brim: a thick crescent in front of the crown, pre-curved down at the sides.
-  const inner = rim - 0.02;
-  const brim = new THREE.Shape();
-  brim.moveTo(inner + 0.05, 0);
-  brim.absellipse(0, 0, inner + 0.05, 0.86, 0, Math.PI, false, 0);
-  brim.lineTo(-inner, 0);
-  brim.absarc(0, 0, inner, Math.PI, 0, true);
-  const brimGeo = new THREE.ExtrudeGeometry(brim, {
-    depth: 0.045,
-    curveSegments: seg(48, q),
-    bevelEnabled: true,
-    bevelThickness: 0.02,
-    bevelSize: 0.02,
-    bevelSegments: 4,
-  });
-  brimGeo.rotateX(Math.PI / 2);
-  const p = brimGeo.getAttribute('position');
-  for (let i = 0; i < p.count; i++) {
-    const x = p.getX(i);
-    const z = p.getZ(i);
-    // Down at the sides, and the bill tips down toward its edge.
-    p.setY(i, p.getY(i) - 0.5 * x * x - 0.14 * Math.max(0, z - 0.45));
-  }
-  brimGeo.computeVertexNormals();
-  const brimMesh = mesh(brimGeo, mat.red);
-  brimMesh.position.y = -0.012;
-  cap.add(brimMesh);
-  // A darker copy a hair lower reads as the brim's underside.
-  const under = mesh(brimGeo, mat.redShade, false);
-  under.position.y = -0.02;
-  under.scale.set(0.99, 1, 0.99);
-  cap.add(under);
+  // Brim: the top in red, the underside a shade darker, meeting at a rounded edge.
+  cap.add(mesh(brimSurface(rim, 1, q), mat.red));
+  cap.add(mesh(brimSurface(rim, -1, q), mat.redShade));
 
   cap.position.set(0, CAP.rimY, -0.01);
   cap.rotation.set(-0.06, 0.06, 0);
@@ -285,62 +327,71 @@ function capsule(radius: number, length: number, q: MascotQuality): THREE.Capsul
   return new THREE.CapsuleGeometry(radius, length, seg(6, q), seg(16, q));
 }
 
-function createHand(kind: MascotHand, mat: MascotMaterials, q: MascotQuality): THREE.Group {
-  const hand = new THREE.Group();
-  const add = (g: THREE.BufferGeometry) => hand.add(mesh(g, mat.limb));
-  const closed = kind !== 'open';
-  // Puffy glove: a big rounded palm with chunky fingers.
-  const palm = new THREE.SphereGeometry(0.15, seg(24, q), seg(16, q));
-  palm.scale(closed ? 1.05 : 1, closed ? 0.95 : 1.05, closed ? 0.88 : 0.72);
-  palm.translate(0, -0.13, 0);
-  add(palm);
+const Y_AXIS = new THREE.Vector3(0, 1, 0);
+const v3 = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);
+
+/** Capsule running from a to b: one finger segment. Chained segments of one radius bend smoothly. */
+function bone(a: THREE.Vector3, b: THREE.Vector3, radius: number, q: MascotQuality): THREE.BufferGeometry {
+  const dir = new THREE.Vector3().subVectors(b, a);
+  const g = new THREE.CapsuleGeometry(radius, dir.length(), seg(6, q), seg(18, q));
+  g.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(Y_AXIS, dir.normalize()));
+  g.translate((a.x + b.x) / 2, (a.y + b.y) / 2, (a.z + b.z) / 2);
+  return g;
+}
+
+function ellipsoid(rx: number, ry: number, rz: number, center: THREE.Vector3, q: MascotQuality): THREE.BufferGeometry {
+  const g = new THREE.SphereGeometry(1, seg(32, q), seg(20, q));
+  g.scale(rx, ry, rz);
+  g.translate(center.x, center.y, center.z);
+  return g;
+}
+
+/**
+ * Cartoon glove in wrist space: the hand hangs along -Y, the palm (where fingers curl) faces +Z
+ * and the thumb sits on the side·X edge, so the left and right hands mirror each other.
+ * Fingers run index → pinky away from the thumb. Each hand is merged into one mesh.
+ */
+function createHand(kind: MascotHand, side: 1 | -1, mat: MascotMaterials, q: MascotQuality): THREE.Group {
+  const parts: THREE.BufferGeometry[] = [];
+  const fingerX = [0.096, 0.032, -0.032, -0.096].map((x) => side * x);
+  const radius = [0.043, 0.044, 0.042, 0.038];
+  const curled = (i: number) => {
+    // Knuckle → around the bottom of the fist → fingertip tucked against the palm.
+    const x = fingerX[i]!;
+    const r = radius[i]!;
+    parts.push(bone(v3(x, -0.19, -0.02), v3(x, -0.255, 0.035), r, q));
+    parts.push(bone(v3(x, -0.255, 0.035), v3(x * 0.95, -0.205, 0.1), r, q));
+  };
+  const straight = (i: number, length: number, spread: number, curl: number) => {
+    const x = fingerX[i]!;
+    const base = v3(x, -0.2, 0);
+    const mid = v3(x * (1 + spread * 0.5), -0.2 - length * 0.55, curl * 0.4);
+    const tip = v3(x * (1 + spread), -0.2 - length, curl);
+    parts.push(bone(base, mid, radius[i]!, q), bone(mid, tip, radius[i]! * 0.96, q));
+  };
 
   if (kind === 'open') {
-    [-0.085, -0.03, 0.03, 0.085].forEach((x, i) => {
-      const f = capsule(0.05, 0.08, q);
-      f.rotateZ((i - 1.5) * 0.13);
-      f.rotateX(0.15);
-      f.translate(x, -0.3, 0.01);
-      add(f);
-    });
-    const thumb = capsule(0.055, 0.08, q);
-    thumb.rotateX(-0.9);
-    thumb.translate(0, -0.11, 0.13);
-    add(thumb);
-    return hand;
+    parts.push(ellipsoid(0.135, 0.125, 0.072, v3(0, -0.13, 0), q));
+    [0.11, 0.125, 0.115, 0.09].forEach((length, i) => straight(i, length, 0.4, 0.035));
+    parts.push(bone(v3(side * 0.09, -0.09, 0.02), v3(side * 0.205, -0.165, 0.075), 0.046, q));
+  } else {
+    parts.push(ellipsoid(0.13, 0.115, 0.098, v3(0, -0.12, 0), q));
+    if (kind === 'point') straight(0, 0.17, 0, 0.01);
+    else curled(0);
+    for (let i = 1; i < 4; i++) curled(i);
+    if (kind === 'thumbsUp') {
+      // Out of the top of the fist along side·X, square to the forearm.
+      parts.push(bone(v3(side * 0.09, -0.1, 0.03), v3(side * 0.25, -0.075, 0.03), 0.05, q));
+    } else {
+      // Wrapped across the front of the curled fingers.
+      parts.push(bone(v3(side * 0.12, -0.12, 0.06), v3(side * 0.015, -0.165, 0.14), 0.046, q));
+    }
   }
 
-  // Closed hands: knuckles on top, curled fingers rolling down the front.
-  [-0.08, -0.027, 0.027, 0.08].forEach((x) => {
-    const knuckle = new THREE.SphereGeometry(0.055, seg(12, q), seg(10, q));
-    knuckle.translate(x, -0.235, 0.05);
-    add(knuckle);
-    const curl = new THREE.SphereGeometry(0.05, seg(12, q), seg(10, q));
-    curl.translate(x, -0.18, 0.115);
-    add(curl);
-  });
-  if (kind === 'fist') {
-    const thumb = capsule(0.05, 0.08, q);
-    thumb.rotateZ(Math.PI / 2);
-    thumb.translate(0.02, -0.11, 0.135);
-    add(thumb);
-  }
-  if (kind === 'thumbsUp') {
-    // Sticks out of the knuckle side (+Z), so the pose's `facing` aims it.
-    const thumb = capsule(0.062, 0.1, q);
-    thumb.rotateX(Math.PI / 2);
-    thumb.translate(0.0, -0.21, 0.2);
-    add(thumb);
-  }
-  if (kind === 'point') {
-    const index = capsule(0.05, 0.15, q);
-    index.translate(0.0, -0.35, 0.03);
-    add(index);
-    const thumb = capsule(0.05, 0.07, q);
-    thumb.rotateZ(Math.PI / 2);
-    thumb.translate(0.02, -0.12, 0.135);
-    add(thumb);
-  }
+  const geometry = BufferGeometryUtils.mergeGeometries(parts);
+  for (const p of parts) p.dispose();
+  const hand = new THREE.Group();
+  hand.add(mesh(geometry, mat.limb));
   return hand;
 }
 
@@ -385,10 +436,10 @@ export function createArm(side: 1 | -1, mat: MascotMaterials, q: MascotQuality):
   elbow.add(wrist);
   wrist.add(joint(ARM_RADII[2]));
   const hands = {
-    open: createHand('open', mat, q),
-    fist: createHand('fist', mat, q),
-    thumbsUp: createHand('thumbsUp', mat, q),
-    point: createHand('point', mat, q),
+    open: createHand('open', side, mat, q),
+    fist: createHand('fist', side, mat, q),
+    thumbsUp: createHand('thumbsUp', side, mat, q),
+    point: createHand('point', side, mat, q),
   };
   wrist.add(hands.open, hands.fist, hands.thumbsUp, hands.point);
   return { shoulder, elbow, wrist, hands, side };
