@@ -358,10 +358,10 @@ Decisions made while building the engine and the database, where they refine the
 2. DB schema, RLS, server functions, engine + Vitest tests ✓
 3. Rooms, lobby, Presence and reconnection ✓
 4. Full individual turn-based flow, 2D UI ✓
-5. Teams, simultaneous, voting, lifelines
-6. Synced 3D layer + postprocessing
-7. Sound
-8. Admin panel
+5. Teams, simultaneous, voting, lifelines ✓
+6. Synced 3D layer + postprocessing ✓
+7. Sound ✓ (all synthesized with Web Audio; no Howler, no files)
+8. Admin panel ✓
 9. Polish: motion, accessibility, multi-client tests, README
 
 ## 8. Open questions

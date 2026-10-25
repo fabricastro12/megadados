@@ -14,7 +14,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "seed:build": "node scripts/build-seed.ts"
+    "seed:build": "node scripts/build-seed.ts",
+    "admin:local": "bash scripts/create-local-admin.sh"
   },
   "dependencies": {
     "@react-three/drei": "10.7.9",

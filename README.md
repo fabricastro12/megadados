@@ -3,8 +3,9 @@
 Real-time multiplayer trivia for the Megafy team building: everyone plays from their own phone,
 a TV shows the wheel and the ranking. See [docs/plan.md](docs/plan.md) for the full plan.
 
-**Status:** stage 4 of 9 — rooms, lobby, reconnection and the full individual game (2D wheel,
-questions, reveal, round results, podium) on phones and on the TV.
+**Status:** stage 8 of 9 — the full game (individual or teams, all at once or by turns, lifelines,
+votes, audience) on phones and on the TV, with the 3D wheel and mascot, sound, and the `/admin`
+question bank.
 
 ## Layout
 
@@ -13,10 +14,11 @@ src/game/          Pure game engine: config, commands, state machine, rules, pub
 src/questions/     Question bank validation (shared with the admin import)
 src/server/        Server functions: Database port, Postgres adapter, repository, game and room services
 src/app/           Next.js routes: home, /s/CODE (phone), /s/CODE/tv (big screen), /api/*
-src/features/      Screens by feature: home, lobby, game, tv, settings
+src/features/      Screens by feature: home, lobby, game, tv, admin, settings
+src/audio/         Synthesized sound effects and the TV music (Web Audio, no files)
 src/realtime/      Browser side of the room: Zustand store, Supabase channels, server clock
 src/ui/            Shared pieces: outlined type, die avatars, category icons, QR
-src/scene3d/       Megafy mascot built in Three.js
+src/scene3d/       Three.js: the Megafy mascot and the 3D wheel (React Three Fiber)
 supabase/          Migrations, seed data (seed/questions.json) and the generated seed.sql
 tests/             Vitest: engine, database (PGlite) and server service
 ```
@@ -103,6 +105,22 @@ To play as several people from one browser, add `?perfil=<name>` to the first UR
 `20261025000002_cleanup_cron.sql` enables `pg_cron` and schedules an hourly cleanup of rooms idle
 for 6 hours.
 
+## Admin panel
+
+`/admin` edits categories and questions, and imports or exports them as JSON (the seed format) or
+CSV (one row per question, the correct option as a letter). It needs a permanent Supabase account
+(email and password, never an anonymous one) listed in `public.admins`.
+
+Create one on the local stack (the address and password below are only an example):
+
+```bash
+npm run admin:local -- admin@megadados.test megadados-local-admin
+```
+
+In production, run `scripts/create-admin.ts` with `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
+and `DATABASE_URL` set, or create the user in the dashboard (Authentication › Users) and add its
+id to `public.admins`.
+
 ## Editing the question bank
 
 Questions live in `supabase/seed/questions.json`. After editing it:
@@ -114,4 +132,4 @@ npm run seed:build
 The script validates every question (four distinct options, a correct index from 0 to 3, a known
 category) and rewrites `supabase/seed.sql`. Megafy and Quién es quién ship as placeholders marked
 `[COMPLETAR]`; they stay off the wheel until their category is turned on and the placeholders are
-replaced. The admin panel (stage 8) will edit the same data in the database.
+replaced. The admin panel edits the same data in the database; export it as JSON to update the seed file.

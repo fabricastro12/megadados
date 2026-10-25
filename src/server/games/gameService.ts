@@ -38,7 +38,12 @@ export type ServiceError =
   | 'room_closed'
   | 'wrong_pin'
   | 'host_present'
-  | 'unauthenticated';
+  | 'unauthenticated'
+  | 'not_admin'
+  | 'not_found'
+  | 'slug_taken'
+  | 'category_not_empty'
+  | 'unknown_category';
 
 export type ServiceResult<T> = { ok: true; value: T } | { ok: false; error: ServiceError; status: number };
 
@@ -52,6 +57,8 @@ const STATUS: Partial<Record<ServiceError, number>> = {
   not_host: 403,
   not_participant: 403,
   not_your_turn: 403,
+  not_admin: 403,
+  not_found: 404,
 };
 
 export function fail<T>(error: ServiceError): ServiceResult<T> {

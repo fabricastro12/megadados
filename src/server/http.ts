@@ -14,14 +14,28 @@ function supabaseVerifier(): SupabaseClient {
   return verifier;
 }
 
-/** The Supabase user behind `Authorization: Bearer <access token>`, verified with getClaims(). */
-export async function authenticatedUser(request: Request): Promise<string | null> {
+async function verifiedClaims(request: Request): Promise<{ sub: string; is_anonymous?: boolean } | null> {
   const header = request.headers.get('authorization') ?? '';
   const token = header.startsWith('Bearer ') ? header.slice(7) : null;
   if (!token) return null;
   const { data, error } = await supabaseVerifier().auth.getClaims(token);
   if (error || !data?.claims?.sub) return null;
-  return data.claims.sub;
+  return data.claims as { sub: string; is_anonymous?: boolean };
+}
+
+/** The Supabase user behind `Authorization: Bearer <access token>`, verified with getClaims(). */
+export async function authenticatedUser(request: Request): Promise<string | null> {
+  return (await verifiedClaims(request))?.sub ?? null;
+}
+
+/** Like withUser, for the admin panel: anonymous sessions are turned away before any query. */
+export function withPermanentUser<C>(handler: (request: Request, userId: string, context: C) => Promise<NextResponse>) {
+  return async (request: Request, context: C) => {
+    const claims = await verifiedClaims(request);
+    if (!claims) return error(401, 'unauthenticated');
+    if (claims.is_anonymous !== false) return error(403, 'not_admin');
+    return handler(request, claims.sub, context);
+  };
 }
 
 export function deps(): ServiceDeps {
