@@ -12,6 +12,8 @@ import { useAutoTick } from '@/features/game/useAutoTick';
 import { WheelView } from '@/features/game/WheelView';
 import { rulesSummary } from '@/features/lobby/rulesSummary';
 import { StatusScreen } from '@/features/room/RoomScreen';
+import { isUnlocked, unlock } from '@/audio/engine';
+import { useGameSounds } from '@/audio/useGameSounds';
 import type { PublicGameState } from '@/game';
 import type { MascotPoseName } from '@/scene3d/mascot';
 import { mascotPose } from './mascotPose';
@@ -295,9 +297,30 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
   );
 }
 
+/** Browsers start the TV muted until someone touches it; this is that touch. */
+function SoundGate() {
+  const [locked, setLocked] = useState(false);
+  useEffect(() => {
+    setLocked(!isUnlocked());
+    const id = setInterval(() => setLocked(!isUnlocked()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  if (!locked) return null;
+  return (
+    <button type="button" className="btn btn-gold fixed left-6 top-6 z-40" onClick={() => void unlock().then((ok) => setLocked(!ok))}>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M4 9v6h4l5 4V5L8 9z" />
+        <path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" />
+      </svg>
+      Activar sonido
+    </button>
+  );
+}
+
 /** The shared big screen: join instructions in the lobby, then the game for everyone to watch. */
 export function TvScreen({ code }: { code: string }) {
   const connection = useRoomConnection(code, { asSpectator: true });
+  useGameSounds('tv');
   const lobby = useRoom((s) => s.lobby);
   const game = useRoom((s) => s.game);
   // The podium stays up for a while, then the screen goes back to inviting people in.
@@ -318,5 +341,10 @@ export function TvScreen({ code }: { code: string }) {
   else if (!lobby) screen = <StatusScreen title="Conectando la pantalla…" action={false} />;
   else if (game && (game.state.phase !== 'finished' || podiumFresh)) screen = <TvGame command={connection.command} />;
   else screen = <TvLobby code={code} />;
-  return <Sky>{screen}</Sky>;
+  return (
+    <Sky>
+      {screen}
+      <SoundGate />
+    </Sky>
+  );
 }

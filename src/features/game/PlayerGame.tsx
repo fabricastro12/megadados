@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { Lifeline } from '@/game/config';
 import { LIFELINES } from '@/game/config';
+import { sfx } from '@/audio/sfx';
 import { ERROR_COPY } from '@/lib/api';
 import type { useRoomConnection } from '@/realtime/useRoomConnection';
 import { useRoom } from '@/realtime/roomStore';
@@ -216,6 +217,7 @@ export function PlayerGame({ connection, onLeave }: { connection: Connection; on
           onPick={
             canAnswerNow
               ? (i) => {
+                  sfx.select();
                   setPicked({ questionId: q.id, choice: i });
                   void send({
                     type: answerType,

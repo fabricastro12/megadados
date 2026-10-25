@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { ERROR_COPY } from '@/lib/api';
+import { useGameSounds } from '@/audio/useGameSounds';
 import { useRoomConnection } from '@/realtime/useRoomConnection';
 import { useRoom } from '@/realtime/roomStore';
 import { JoinForm } from '@/features/lobby/JoinForm';
@@ -28,6 +29,7 @@ export function StatusScreen({ title, detail, action = true }: { title: string; 
 /** A phone in the room: joins, then follows the room from lobby to podium. */
 export function RoomScreen({ code }: { code: string }) {
   const connection = useRoomConnection(code);
+  useGameSounds('phone');
   const lobby = useRoom((s) => s.lobby);
   const game = useRoom((s) => s.game);
   // After the podium, a phone goes back to the lobby; the next game brings it back in.
