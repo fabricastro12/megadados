@@ -21,13 +21,13 @@ const REASON_COPY: Record<string, string> = {
 };
 
 /** Top three on steps, then everyone else. Teams get their own podium when they played. */
-export function Podium({ state, big }: { state: PublicGameState; big?: boolean }) {
+export function Podium({ state, big, scale: size }: { state: PublicGameState; big?: boolean; scale?: number }) {
   const lobby = useRoom((s) => s.lobby);
   const standings = state.teamStandings ?? state.standings;
   const avatarOf = (id: string) => lobby?.players.find((p) => p.id === id)?.avatar;
   const colorOf = (id: string) => lobby?.teams.find((t) => t.id === id)?.color ?? '#9B5CFF';
   const winners = state.finished?.winnerIds ?? [];
-  const scale = big ? 1.6 : 1;
+  const scale = size ?? (big ? 1.6 : 1);
 
   return (
     <section className="flex flex-col items-center gap-4" aria-label="Podio">

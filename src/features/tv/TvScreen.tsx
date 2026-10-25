@@ -37,7 +37,7 @@ function TvMascot({ pose }: { pose: MascotPoseName }) {
   const picture = pose === 'festejo' || pose === 'guino' ? 'festejo' : pose === 'sorpresa' ? 'sorpresa' : pose === 'carta' || pose === 'pensando' ? 'carta' : 'saludo';
   return (
     // Always mounted in the same corner: rebuilding the mascot between phases would stall the TV.
-    <div className="pointer-events-none fixed bottom-0 right-10 z-10 flex w-[380px] justify-center" style={{ height: 'min(340px, 32vh)' }}>
+    <div className="pointer-events-none fixed bottom-0 right-10 z-10 flex w-[max(380px,28vw)] justify-center" style={{ height: 'min(340px, 32vh)' }}>
       {threeD ? (
         <MascotStage pose={pose} className="h-full" style={{ width: 'min(300px, 28vh)' }} />
       ) : (
@@ -70,14 +70,17 @@ function TvLobby({ code }: { code: string }) {
   const lobby = useRoom((s) => s.lobby)!;
   const online = useRoom((s) => s.online);
   const url = useJoinUrl(code);
+  const viewport = useViewportHeight();
   const players = lobby.players.filter((p) => p.role !== 'spectator');
+  // Dice shrink as the room fills up, so twelve still fit on one screen.
+  const die = Math.round(Math.min(160, viewport * (players.length > 8 ? 0.1 : 0.13)));
   return (
     <main className="grid min-h-dvh grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-10 p-12">
       <section className="flex flex-col items-center justify-center gap-6 text-center">
         <Toon size="xl" as="h1">
           ¡Sumate!
         </Toon>
-        {url && <Qr value={url} size={300} />}
+        {url && <Qr value={url} size={Math.round(Math.min(420, viewport * 0.36))} />}
         <p className="text-2xl font-extrabold">Escaneá el QR o entrá en</p>
         <p className="rounded-2xl border-4 border-ink bg-white px-5 py-2 text-2xl font-extrabold">{url.replace(/^https?:\/\//, '').replace(/\/s\/.*$/, '')}</p>
         <div className="flex items-baseline gap-3">
@@ -93,8 +96,8 @@ function TvLobby({ code }: { code: string }) {
           <ul className="grid grid-cols-4 gap-x-4 gap-y-8 xl:grid-cols-6">
             {players.map((p) => (
               <li key={p.id} className="pop-in flex flex-col items-center gap-2 text-center">
-                <DieAvatar avatar={p.avatar} size={96} dim={!online.has(p.id)} />
-                <span className="max-w-full truncate text-xl font-extrabold">{p.name}</span>
+                <DieAvatar avatar={p.avatar} size={die} dim={!online.has(p.id)} />
+                <span className="max-w-full truncate text-2xl font-extrabold">{p.name}</span>
               </li>
             ))}
           </ul>
@@ -102,7 +105,7 @@ function TvLobby({ code }: { code: string }) {
         </div>
         <div className="flex items-center gap-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/mascot/saludo.png" alt="" width={170} height={170} className="object-contain" />
+          <img src="/mascot/saludo.png" alt="" width={Math.round(viewport * 0.22)} height={Math.round(viewport * 0.22)} className="object-contain" />
           <p className="sticker flex-1 p-5 text-2xl font-bold">{rulesSummary(lobby.room.config)}</p>
         </div>
       </section>
@@ -153,8 +156,11 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
     side = false;
     main = (
       <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,2fr)] items-end gap-10">
-        <Podium state={s} big />
-        <Standings state={s} limit={8} />
+        <Podium state={s} big scale={Math.min(2.4, Math.max(1.4, viewport / 560))} />
+        {/* Above the mascot's corner. */}
+        <div className="self-start pb-[34vh] pt-[6vh]">
+          <Standings state={s} limit={8} big={viewport >= 900} />
+        </div>
       </div>
     );
   } else if (phase === 'awaitingSpin' || phase === 'spinning') {
@@ -257,7 +263,7 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
   }
 
   return (
-    <main className={`grid min-h-dvh gap-10 p-10 ${side ? 'grid-cols-[minmax(0,1fr)_380px]' : ''}`}>
+    <main className={`grid min-h-dvh gap-10 p-10 ${side ? 'grid-cols-[minmax(0,1fr)_minmax(380px,28vw)]' : ''}`}>
       <div className="flex flex-col justify-center">
         <div className="mb-6 flex items-center gap-4">
           <span className="rounded-full border-4 border-ink bg-white px-5 py-1.5 text-2xl font-extrabold">
@@ -273,13 +279,13 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
           <h2 className="toon text-3xl" style={{ '--stroke': '6px', '--drop': '3px' } as React.CSSProperties}>
             Ranking
           </h2>
-          <Standings state={s} limit={s.teamStandings && s.mode === 'ronda' ? 5 : 8} />
+          <Standings state={s} limit={s.teamStandings && s.mode === 'ronda' ? 5 : 8} big={viewport >= 900} />
           {s.teamStandings && s.mode === 'ronda' && (
             <>
               <h2 className="toon mt-2 text-2xl" style={{ '--stroke': '5px', '--drop': '3px' } as React.CSSProperties}>
                 Equipos
               </h2>
-              <Standings state={{ ...s, standings: s.teamStandings }} />
+              <Standings state={{ ...s, standings: s.teamStandings }} big={viewport >= 900} />
             </>
           )}
         </aside>

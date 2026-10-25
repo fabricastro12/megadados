@@ -84,13 +84,51 @@ export function PlayerGame({ connection, onLeave }: { connection: Connection; on
     picked?.questionId !== q.id &&
     s.phase === 'question';
 
+  const answerType = s.answerMode === 'vote' ? 'vote' : 'answer';
+  const answer = (i: number) => {
+    if (!q || !canAnswerNow || (you?.removedOptions ?? []).includes(i)) return;
+    sfx.select();
+    setPicked({ questionId: q.id, choice: i });
+    void send({ type: answerType, questionId: q.id, choice: i }).then((r) => {
+      if (!r.ok) setPicked(null);
+    });
+  };
+
+  // On a laptop, 1–4 or A–D answer too.
+  useEffect(() => {
+    if (!canAnswerNow) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.metaKey || e.ctrlKey) return;
+      const i = '1234'.indexOf(e.key) >= 0 ? '1234'.indexOf(e.key) : 'abcd'.indexOf(e.key.toLowerCase());
+      if (i >= 0 && e.key.length === 1) answer(i);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  });
+
+  /** What a screen reader hears when the phase changes. */
+  const mineResult = ownerId && s.phase === 'reveal' ? s.reveal?.results[ownerId] : undefined;
+  const announcement =
+    s.phase === 'question' && q && game.question
+      ? `Pregunta de ${look(q.categoryId).name}. ${game.question.prompt}`
+      : s.phase === 'reveal' && mineResult
+        ? mineResult.correct
+          ? `Correcto, ${mineResult.points} puntos.`
+          : `Incorrecto. La respuesta era ${game.question?.options[s.reveal!.correct] ?? ''}.`
+        : s.phase === 'awaitingSpin' && s.spinnerId === seatId
+          ? 'Te toca girar la ruleta.'
+          : s.phase === 'finished'
+            ? `Terminó la partida. Quedaste en el puesto ${myRank ?? ''}.`
+            : '';
+
   const header = (
     <header className="flex items-center gap-2 pr-14">
-      <span className="rounded-full border-[3px] border-ink bg-white px-3 py-1 text-sm font-extrabold">
-        Ronda {Math.min(s.round + 1, s.totalRounds)} de {s.totalRounds}
+      <span className="whitespace-nowrap rounded-full border-[3px] border-ink bg-white px-3 py-1 text-sm font-extrabold">
+        <span className="sr-only">Ronda </span>
+        <span aria-hidden="true">R</span> {Math.min(s.round + 1, s.totalRounds)}/{s.totalRounds}
       </span>
       {myScore && (
-        <span className="flex items-center gap-1 rounded-full border-[3px] border-ink bg-white px-3 py-1 text-sm font-extrabold">
+        <span className="flex items-center gap-1 whitespace-nowrap rounded-full border-[3px] border-ink bg-white px-3 py-1 text-sm font-extrabold">
           {myScore.points} pts
           {myScore.crowns.length > 0 && (
             <>
@@ -198,7 +236,6 @@ export function PlayerGame({ connection, onLeave }: { connection: Connection; on
     });
     const audienceOpen = !!q.audience && !!ownerId && !q.eligible.includes(ownerId) && s.phase === 'question';
     const watching = !!ownerId && !q.eligible.includes(ownerId);
-    const answerType = s.answerMode === 'vote' ? 'vote' : 'answer';
     const done = q.answeredBy.length;
     const total = q.eligible.length;
     const teammates = s.teams.find((t) => t.id === ownerId)?.memberIds.filter((id) => s.players.some((p) => p.id === id && p.active)) ?? [];
@@ -216,17 +253,7 @@ export function PlayerGame({ connection, onLeave }: { connection: Connection; on
           states={states}
           onPick={
             canAnswerNow
-              ? (i) => {
-                  sfx.select();
-                  setPicked({ questionId: q.id, choice: i });
-                  void send({
-                    type: answerType,
-                    questionId: q.id,
-                    choice: i,
-                  }).then((r) => {
-                    if (!r.ok) setPicked(null);
-                  });
-                }
+              ? answer
               : audienceOpen
                 ? (i) =>
                     void send({
@@ -344,6 +371,9 @@ export function PlayerGame({ connection, onLeave }: { connection: Connection; on
           {toast}
         </p>
       )}
+      <p className="sr-only" aria-live="assertive">
+        {announcement}
+      </p>
       <ReactionLayer />
     </main>
   );

@@ -3,9 +3,9 @@
 Real-time multiplayer trivia for the Megafy team building: everyone plays from their own phone,
 a TV shows the wheel and the ranking. See [docs/plan.md](docs/plan.md) for the full plan.
 
-**Status:** stage 8 of 9 — the full game (individual or teams, all at once or by turns, lifelines,
-votes, audience) on phones and on the TV, with the 3D wheel and mascot, sound, and the `/admin`
-question bank.
+**Status:** all nine stages built — the full game (individual or teams, all at once or by turns,
+lifelines, votes, audience) on phones and on the TV, the 3D wheel and mascot (with a light 2D
+mode), synthesized sound, and the `/admin` question bank.
 
 ## Layout
 
@@ -32,6 +32,10 @@ npm install
 ```bash
 npm test
 ```
+
+`tests/server/multiClient.test.ts` plays whole games with twelve phones and a TV sending their
+answers and ticks at the same instant, and checks that every phase advances once, versions only
+grow, no state leaks the answer before the reveal, and the board matches the recorded answers.
 
 The database tests run the real migrations on [PGlite](https://pglite.dev) (Postgres compiled to
 WebAssembly) with a small stand-in for Supabase's `auth` and `realtime` schemas, so they need no
@@ -61,6 +65,9 @@ needed, and listens on every interface so phones on the same Wi-Fi can join.
    with, so open it with the computer's LAN address (for example `http://192.168.0.10:3000/s/CODE/tv`),
    or set `NEXT_PUBLIC_SITE_URL`.
 3. Join from phones with the QR or the code.
+
+On a phone, the wheel and the TV mascot fall back to 2D in **Ajustes › Modo liviano** (it turns on
+by itself on weak devices). On a laptop, players can answer with the keys 1–4 or A–D.
 
 To play as several people from one browser, add `?perfil=<name>` to the first URL of each tab
 (`/s/CODE?perfil=caro`): every profile gets its own anonymous session, kept for that tab.

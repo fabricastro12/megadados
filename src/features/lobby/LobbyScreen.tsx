@@ -19,9 +19,10 @@ export function ConnectionPill() {
   const connection = useRoom((s) => s.connection);
   const live = connection === 'live';
   return (
-    <span role="status" className="flex items-center gap-2 rounded-full border-[3px] border-ink bg-white px-3 py-1 text-sm font-extrabold">
+    <span role="status" className="flex items-center gap-2 whitespace-nowrap rounded-full border-[3px] border-ink bg-white px-3 py-1 text-sm font-extrabold">
       <span className={`h-2.5 w-2.5 rounded-full border-2 border-ink ${live ? 'bg-go' : 'animate-pulse bg-gold'}`} />
-      {live ? 'Conectado' : 'Reconectando…'}
+      {/* On narrow phones only the dot shows while connected; reconnecting always says so. */}
+      <span className={live ? 'sr-only sm:not-sr-only' : ''}>{live ? 'Conectado' : 'Reconectando…'}</span>
     </span>
   );
 }

@@ -362,7 +362,7 @@ Decisions made while building the engine and the database, where they refine the
 6. Synced 3D layer + postprocessing ✓
 7. Sound ✓ (all synthesized with Web Audio; no Howler, no files)
 8. Admin panel ✓
-9. Polish: motion, accessibility, multi-client tests, README
+9. Polish: motion, accessibility, multi-client tests, README ✓
 
 ## 8. Open questions
 
