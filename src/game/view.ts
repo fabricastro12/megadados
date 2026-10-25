@@ -37,6 +37,8 @@ export interface PublicGameState {
     deadline: number;
     /** Owners who answered or passed; not what they chose. */
     answeredBy: string[];
+    /** Team vote mode: players who already voted; not what. */
+    votedBy: string[];
     eligible: string[];
     audience: { openUntil: number; percentages: number[] } | null;
   } | null;
@@ -102,6 +104,7 @@ export function toPublicState(state: GameState): PublicGameState {
           startedAt: q.startedAt,
           deadline: q.deadline,
           answeredBy: [...Object.keys(q.answers), ...q.passed],
+          votedBy: Object.keys(q.votes),
           eligible: eligibleOwners(state),
           audience: q.audience ? { openUntil: q.audience.openUntil, percentages: percentages(q.audience.votes) } : null,
         }

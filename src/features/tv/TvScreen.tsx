@@ -11,6 +11,7 @@ import { useAutoTick } from '@/features/game/useAutoTick';
 import { Wheel } from '@/features/game/Wheel';
 import { rulesSummary } from '@/features/lobby/rulesSummary';
 import { StatusScreen } from '@/features/room/RoomScreen';
+import type { PublicGameState } from '@/game';
 import { serverNow } from '@/realtime/clock';
 import { useRoomConnection } from '@/realtime/useRoomConnection';
 import { useRoom } from '@/realtime/roomStore';
@@ -84,6 +85,19 @@ function TvLobby({ code }: { code: string }) {
   );
 }
 
+function turnCopy(s: PublicGameState, nameOf: (id: string | null | undefined) => string): string {
+  const q = s.question!;
+  if (s.mode === 'ronda') return `Respondieron ${q.answeredBy.length} de ${q.eligible.length}`;
+  const owner = q.eligible[0];
+  if (s.answerMode === 'vote') {
+    const members = s.teams.find((t) => t.id === owner)?.memberIds.filter((id) => s.players.some((p) => p.id === id && p.active)) ?? [];
+    return `Vota ${nameOf(owner)}: ${members.filter((id) => q.votedBy.includes(id)).length} de ${members.length}`;
+  }
+  if (s.answerMode === 'captain') return `Responde ${nameOf(s.captainId)} por ${nameOf(owner)}`;
+  if (s.answerMode === 'first') return `Responde ${nameOf(owner)}: el primero que toque`;
+  return `Responde ${nameOf(owner)}`;
+}
+
 function AnsweredStrip({ ids }: { ids: string[] }) {
   const lobby = useRoom((s) => s.lobby);
   return (
@@ -139,7 +153,11 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
           {s.crownPick.options.map((id) => {
             const c = look(id);
             return (
-              <div key={id} className="flex min-w-48 flex-col items-center gap-2 rounded-3xl border-4 border-ink p-5 text-white shadow-[0_6px_0_#1C2A66]" style={{ background: c.color }}>
+              <div
+                key={id}
+                className="flex min-w-48 flex-col items-center gap-2 rounded-3xl border-4 border-ink p-5 text-white shadow-[0_6px_0_#1C2A66]"
+                style={{ background: c.color }}
+              >
                 <CategoryIcon icon={c.icon} size={56} />
                 <Toon size="sm">{c.name}</Toon>
               </div>
@@ -180,9 +198,7 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
             game.question.explanation && <p className="sticker px-8 py-5 text-2xl font-bold">{game.question.explanation}</p>
           ) : (
             <div className="flex flex-col items-center gap-3">
-              <p className="text-2xl font-extrabold">
-                {s.mode === 'ronda' ? `Respondieron ${q.answeredBy.length} de ${q.eligible.length}` : `Responde ${s.captainId ? nameOf(s.captainId) : nameOf(q.eligible[0])}`}
-              </p>
+              <p className="text-2xl font-extrabold">{turnCopy(s, nameOf)}</p>
               {s.mode === 'ronda' && <AnsweredStrip ids={q.answeredBy} />}
               {q.audience && (
                 <div className="sticker grid w-full max-w-3xl grid-cols-4 gap-4 p-5">
@@ -232,7 +248,7 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
             Ranking
           </h2>
           <Standings state={s} limit={8} />
-          {s.teamStandings && (
+          {s.teamStandings && s.mode === 'ronda' && (
             <>
               <h2 className="toon mt-2 text-2xl" style={{ '--stroke': '5px', '--drop': '3px' } as React.CSSProperties}>
                 Equipos

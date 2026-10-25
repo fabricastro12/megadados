@@ -200,6 +200,8 @@ export function PlayerGame({ connection, onLeave }: { connection: Connection; on
     const answerType = s.answerMode === 'vote' ? 'vote' : 'answer';
     const done = q.answeredBy.length;
     const total = q.eligible.length;
+    const teammates = s.teams.find((t) => t.id === ownerId)?.memberIds.filter((id) => s.players.some((p) => p.id === id && p.active)) ?? [];
+    const teamVotes = teammates.filter((id) => q.votedBy.includes(id)).length;
     const enabledLifelines = LIFELINES.filter((l) => s.mode === 'clasico' || l !== 'audience').filter((l) => lobby?.room.config.lifelines[l]);
 
     body = (
@@ -244,12 +246,16 @@ export function PlayerGame({ connection, onLeave }: { connection: Connection; on
                     : choice !== null
                       ? s.mode === 'ronda'
                         ? `Respuesta enviada. Ya respondieron ${done} de ${total}.`
-                        : 'Respuesta enviada.'
+                        : s.answerMode === 'vote'
+                          ? `Votaste. Tu equipo lleva ${teamVotes} de ${teammates.length} votos.`
+                          : 'Respuesta enviada.'
                       : s.answerMode === 'captain' && s.captainId !== seatId
                         ? `Responde ${nameOf(s.captainId)}, tu capitán.`
                         : s.mode === 'ronda'
                           ? `Ya respondieron ${done} de ${total}`
-                          : '¡Te toca!'}
+                          : s.answerMode === 'vote'
+                            ? '¡Les toca! Votá la respuesta con tu equipo.'
+                            : '¡Te toca!'}
               </p>
             )
           }

@@ -205,3 +205,53 @@ describe('reconnecting and rematches', () => {
     expect(await lastBroadcast()).toMatchObject({ game: 2, version: 1 });
   });
 });
+
+describe('classic team play', () => {
+  /** Nico alone against Caro and Vale, who vote on their answers. */
+  async function teamVoteGame() {
+    const room = (await pg.query<{ id: string; config: Record<string, unknown> }>(`select id, config from public.rooms`)).rows[0]!;
+    const teams = (
+      await pg.query<{ id: string }>(`insert into public.teams (room_id, name, sort_order) values ($1, 'Cóndores', 0), ($1, 'Llamas', 1) returning id`, [room.id])
+    ).rows;
+    await pg.query(`update public.players set team_id = $2 where id = $1`, [seats[U.host], teams[0]!.id]);
+    await pg.query(`update public.players set team_id = $2 where id = any($1)`, [[seats[U.player], seats[VALE]], teams[1]!.id]);
+    const config = { ...room.config, mode: 'clasico', teams: { enabled: true, count: 2, assignment: 'manual', answerMode: 'vote' } };
+    await pg.query(`update public.rooms set config = $2::text::jsonb where id = $1`, [room.id, JSON.stringify(config)]);
+    expect((await startGame(deps, { roomCode: CODE, userId: U.host })).ok).toBe(true);
+    return teams;
+  }
+
+  it('records team votes and settles the answer once the whole team voted', async () => {
+    const teams = await teamVoteGame();
+    deps.random = () => 0; // land on the first category every time
+    const owner = () => gameState().then((g) => g.state);
+    let state = await owner();
+    expect(state.spinnerId).toBe(seats[U.host]);
+    await run(U.host, { type: 'spin' });
+    clock.t = (await gameState()).state.phaseDeadline;
+    await run(U.spectator, { type: 'tick' });
+    const q = (await gameState()).state.current!;
+    // Cóndores (Nico alone) vote wrong, which settles their answer and ends the turn.
+    expect(await run(U.host, { type: 'answer', questionId: q.questionId, choice: 0 })).toMatchObject({ ok: false, error: 'use_vote' });
+    expect((await run(U.host, { type: 'vote', questionId: q.questionId, choice: (q.answer + 1) % 4 })).ok).toBe(true);
+    clock.t = (await gameState()).state.phaseDeadline;
+    await run(U.spectator, { type: 'tick' });
+    state = await owner();
+    expect(state.spinnerId).toBe(seats[U.player]);
+
+    await run(U.player, { type: 'spin' });
+    clock.t = (await gameState()).state.phaseDeadline;
+    await run(U.spectator, { type: 'tick' });
+    const q2 = (await gameState()).state.current!;
+    expect((await run(U.player, { type: 'vote', questionId: q2.questionId, choice: q2.answer })).ok).toBe(true);
+    expect(await lastBroadcast()).toMatchObject({ state: { phase: 'question', question: { votedBy: [seats[U.player]] } } });
+    expect((await run(VALE, { type: 'vote', questionId: q2.questionId, choice: q2.answer })).ok).toBe(true);
+    const reveal = (await lastBroadcast()).state;
+    expect(reveal.phase).toBe('reveal');
+    expect(reveal.reveal!.results[teams[1]!.id]).toMatchObject({ correct: true });
+
+    const votes = (await pg.query<{ kind: string; choice: number }>(`select kind, choice from public.votes order by received_at, player_id`)).rows;
+    expect(votes).toHaveLength(3);
+    expect(votes.every((v) => v.kind === 'team')).toBe(true);
+  });
+});

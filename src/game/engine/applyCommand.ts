@@ -237,7 +237,7 @@ function vote(run: Run, actor: Actor, questionId: string, choice: number): Outco
   if (s.current.votes[actor.playerId!]) return 'already_answered';
   if (ctx.now > closesAt(s, ownerId) + ANSWER_GRACE_MS) return 'late';
   s.current.votes[actor.playerId!] = { choice, at: ctx.now, byPlayerId: actor.playerId! };
-  run.events.push({ type: 'voted', playerId: actor.playerId! });
+  run.events.push({ type: 'voted', kind: 'team', playerId: actor.playerId!, choice, at: ctx.now });
   const members = activeMembers(s, ownerId);
   if (members.every((m) => s.current!.votes[m])) {
     settleTeamVote(run, ownerId);
@@ -314,6 +314,7 @@ function audienceVote(run: Run, actor: Actor, questionId: string, choice: number
   if (eligibleOwners(s).includes(voterOwner)) return 'not_your_turn';
   if (audience.votes[actor.playerId!] !== undefined) return 'already_answered';
   audience.votes[actor.playerId!] = choice;
+  run.events.push({ type: 'voted', kind: 'audience', playerId: actor.playerId!, choice, at: ctx.now });
 }
 
 // --- Reveal and progression -------------------------------------------------------------------

@@ -79,8 +79,14 @@ export function QuestionView({
         <CategoryBanner look={look} crown={crown} big={big} />
         {deadline !== null && <Countdown deadline={deadline} total={totalSeconds} size={big ? 96 : 64} />}
       </div>
-      <div className={`sticker flex items-center ${big ? 'min-h-48 px-10 py-8' : 'min-h-36 px-5 py-5'}`}>
-        <h1 className={`font-extrabold leading-tight ${big ? 'text-5xl' : 'text-[1.55rem]'}`}>{content.prompt}</h1>
+      <div className={`sticker flex items-center ${big ? 'min-h-[20vh] px-10 py-6' : 'min-h-36 px-5 py-5'}`}>
+        <h1
+          className={`font-extrabold leading-tight ${big ? '' : 'text-[1.55rem]'}`}
+          // On the TV, long prompts shrink with the screen height so the options stay in view.
+          style={big ? { fontSize: `clamp(1.75rem, ${content.prompt.length > 80 ? 4.4 : 5.6}vh, 3.25rem)` } : undefined}
+        >
+          {content.prompt}
+        </h1>
       </div>
       {content.imageUrl && (
         // eslint-disable-next-line @next/next/no-img-element
@@ -97,7 +103,7 @@ export function QuestionView({
               disabled={!interactive}
               aria-pressed={state === 'picked'}
               onClick={() => onPick?.(i)}
-              className={`flex items-center gap-3 rounded-[20px] border-4 border-ink px-3.5 text-left font-extrabold transition-transform ${big ? 'min-h-24 text-3xl' : 'min-h-16 text-xl'} ${optionStyle(state)} ${interactive ? 'active:translate-y-[3px]' : ''}`}
+              className={`flex items-center gap-3 rounded-[20px] border-4 border-ink px-3.5 text-left font-extrabold transition-transform ${big ? 'min-h-[11vh] text-[clamp(1.25rem,3.6vh,2rem)]' : 'min-h-16 text-xl'} ${optionStyle(state)} ${interactive ? 'active:translate-y-[3px]' : ''}`}
             >
               <span
                 className={`flex flex-none items-center justify-center rounded-full border-[3px] border-ink font-[family-name:var(--font-display)] text-ink ${state === 'picked' ? 'bg-gold' : 'bg-panel-alt'} ${big ? 'h-14 w-14 text-2xl' : 'h-9 w-9 text-[17px]'}`}

@@ -111,6 +111,10 @@ async function persistEvents(tx: SqlExecutor, code: string, game: LockedGame, ne
         await repo.broadcast(tx, topics.screens(code), 'answered', { ownerId: e.ownerId, playerId: e.playerId });
         break;
       }
+      case 'voted':
+        // A team vote that settles the question also reveals it, so read the id from before.
+        await repo.recordVote(tx, { gameId: game.id, questionId: game.state.current!.questionId, playerId: e.playerId, kind: e.kind, choice: e.choice, at: e.at });
+        break;
       case 'revealed':
         await repo.settleAnswers(tx, game.id, e.reveal);
         break;

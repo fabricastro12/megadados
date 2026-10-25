@@ -146,7 +146,7 @@ export type GameEvent =
   | { type: 'crownPickStarted'; ownerId: string; options: string[] }
   | { type: 'questionShown'; questionId: string; categoryId: string; isCrown: boolean }
   | { type: 'answered'; ownerId: string; playerId: string; choice: number; at: number }
-  | { type: 'voted'; playerId: string }
+  | { type: 'voted'; kind: 'team' | 'audience'; playerId: string; choice: number; at: number }
   | { type: 'lifelineUsed'; ownerId: string; lifeline: Lifeline }
   | { type: 'revealed'; reveal: RevealState }
   | { type: 'crownWon'; ownerId: string; categoryId: string }

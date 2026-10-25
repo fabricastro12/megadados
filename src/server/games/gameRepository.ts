@@ -141,6 +141,16 @@ export const gameRepository = {
     );
   },
 
+  async recordVote(tx: SqlExecutor, input: { gameId: string; questionId: string; playerId: string; kind: 'team' | 'audience'; choice: number; at: number }): Promise<void> {
+    await tx.query(
+      `insert into public.votes (game_question_id, player_id, kind, choice, received_at)
+       select gq.id, $3, $4::public.vote_kind, $5, to_timestamp($6) from public.game_questions gq
+        where gq.game_id = $1 and gq.question_id = $2
+       on conflict (game_question_id, player_id, kind) do nothing`,
+      [input.gameId, input.questionId, input.playerId, input.kind, input.choice, input.at / 1000],
+    );
+  },
+
   async settleAnswers(tx: SqlExecutor, gameId: string, reveal: RevealState): Promise<void> {
     for (const [ownerId, result] of Object.entries(reveal.results)) {
       if (result.choice === null) continue;
