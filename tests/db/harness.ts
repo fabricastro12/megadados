@@ -61,6 +61,7 @@ export async function freshDatabase(): Promise<PGlite> {
   await db.exec(SUPABASE_STUB);
   await db.exec(migration('20261025000001_init.sql'));
   await db.exec(migration('20261025000003_reactions_topic.sql'));
+  await db.exec(migration('20261025000004_harden_functions.sql'));
   await db.exec(DEFAULT_GRANTS);
   return db;
 }
