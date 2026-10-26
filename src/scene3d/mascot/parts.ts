@@ -13,11 +13,13 @@ export interface MascotQuality {
 }
 
 export function createMaterials(quality: MascotQuality) {
-  // Soft vinyl: a low sheen lifts the silhouette's edges, a thin clearcoat adds the toy gloss.
-  const vinyl = { roughness: 0.5, clearcoat: 0.25, clearcoatRoughness: 0.45, sheen: 0.35, sheenRoughness: 0.6, sheenColor: '#FFFFFF' };
-  // Cap twill and sneaker canvas: sheen is the fabric term of the physical material.
+  // The pose sheet's swatches: soft plastic (body, limbs), matte plastic (brim, trims), cap twill
+  // and sneaker canvas, and glossy eyes. Clearcoat is the toy gloss; sheen is the fabric nap.
+  const softPlastic = { roughness: 0.38, clearcoat: 0.6, clearcoatRoughness: 0.28 };
+  const mattePlastic = (color: string) => new THREE.MeshPhysicalMaterial({ color, roughness: 0.58, clearcoat: 0.12, clearcoatRoughness: 0.6 });
   const fabric = (color: string, sheenColor: string) =>
-    new THREE.MeshPhysicalMaterial({ color, roughness: 0.85, sheen: 1, sheenRoughness: 0.5, sheenColor });
+    // Satin twill: rough enough to stay cloth, smooth enough for the broad highlight on the crown.
+    new THREE.MeshPhysicalMaterial({ color, roughness: 0.72, sheen: 1, sheenRoughness: 0.45, sheenColor });
   const decal = (kind: MouthDecal) =>
     new THREE.MeshStandardMaterial({
       map: createMouthTexture(kind, quality.anisotropy),
@@ -32,20 +34,21 @@ export function createMaterials(quality: MascotQuality) {
   cap.map = createCapTexture(quality.anisotropy);
   cap.side = THREE.DoubleSide;
   return {
-    skin: new THREE.MeshPhysicalMaterial({ color: '#FFFFFF', map: createBodyTexture(quality.anisotropy), ...vinyl }),
-    limb: new THREE.MeshPhysicalMaterial({ color: C.body, ...vinyl }),
+    skin: new THREE.MeshPhysicalMaterial({ color: '#FFFFFF', map: createBodyTexture(quality.anisotropy), ...softPlastic }),
+    limb: new THREE.MeshPhysicalMaterial({ color: C.body, ...softPlastic }),
     cap,
-    navy: new THREE.MeshStandardMaterial({ color: C.navy, roughness: 0.75 }),
+    navy: mattePlastic(C.navy),
     canvas: fabric(C.navy, '#5D62A0'),
-    red: fabric(C.red, '#FF9A90'),
-    redShade: fabric(C.redShade, '#E0625C'),
-    sole: new THREE.MeshStandardMaterial({ color: C.sole, roughness: 0.7 }),
+    red: mattePlastic(C.red),
+    redShade: mattePlastic(C.redShade),
+    sole: mattePlastic(C.sole),
     mouthSmile: decal('smile'),
     mouthGrin: decal('grin'),
     mouthO: decal('o'),
-    sclera: new THREE.MeshPhysicalMaterial({ color: '#FFFFFF', roughness: 0.25, clearcoat: 0.6 }),
-    pupil: new THREE.MeshPhysicalMaterial({ color: C.pupil, roughness: 0.2, clearcoat: 1 }),
-    shine: new THREE.MeshBasicMaterial({ color: '#FFFFFF' }),
+    sclera: new THREE.MeshPhysicalMaterial({ color: '#FFFFFF', roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.06 }),
+    pupil: new THREE.MeshPhysicalMaterial({ color: C.pupil, roughness: 0.08, clearcoat: 1, clearcoatRoughness: 0.04 }),
+    // Catchlights stay pure white under tone mapping.
+    shine: new THREE.MeshBasicMaterial({ color: '#FFFFFF', toneMapped: false }),
     card: new THREE.MeshStandardMaterial({ map: createCardTexture(quality.anisotropy), roughness: 0.6 }),
   };
 }
