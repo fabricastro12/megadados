@@ -52,18 +52,29 @@ export function HomeScreen() {
 
   return (
     <Sky>
-      <main className="mx-auto flex min-h-dvh max-w-md flex-col px-6 pb-8" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 4.5rem)' }}>
-        <div className="flex flex-1 flex-col items-center justify-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/mascot/saludo.png" alt="La mascota de Megafy saludando" width={200} height={263} className="h-auto w-48" />
-          <Toon as="h1" size="xl" className="-rotate-3">
-            Megadados
-          </Toon>
-          <p className="mt-3 text-center text-lg font-extrabold">La trivia de la Team Building de Megafy</p>
-        </div>
+      {/* One screen tall: the title takes the spare height, and only a very short screen ever scrolls. */}
+      <main
+        className="mx-auto flex h-dvh max-w-md flex-col overflow-y-auto px-6"
+        style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 1rem)', paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 1.25rem)' }}
+      >
+        {mode === 'join' ? (
+          <div className="flex flex-1 flex-col items-center justify-center">
+            <Toon as="h1" size="xl" className="-rotate-3">
+              Megadados
+            </Toon>
+            <p className="mt-2 text-center text-lg font-extrabold">La trivia de Megafy</p>
+          </div>
+        ) : (
+          // The avatar die is the star here: the title steps back so the taller form still fits.
+          <div className="flex flex-1 flex-col items-center justify-end">
+            <Toon as="h1" size="lg" className="-rotate-3">
+              Megadados
+            </Toon>
+          </div>
+        )}
 
         {mode === 'join' ? (
-          <form onSubmit={join} className="sticker mt-6 flex flex-col gap-3 p-5">
+          <form onSubmit={join} className="sticker mt-4 flex shrink-0 flex-col gap-3 p-5">
             <label htmlFor="code" className="text-lg font-extrabold">
               Código de la sala
             </label>
@@ -78,15 +89,15 @@ export function HomeScreen() {
               autoCapitalize="characters"
               inputMode="text"
               placeholder="MXQ7K"
-              className="field h-16 text-center font-[family-name:var(--font-display)] !text-4xl tracking-[0.4em]"
+              className="field h-14 text-center font-[family-name:var(--font-display)] !text-4xl tracking-[0.4em]"
             />
-            <button type="submit" className="btn btn-go h-16 toon !text-3xl" style={{ '--stroke': '6px', '--drop': '3px' } as React.CSSProperties}>
+            <button type="submit" className="btn btn-go h-14 toon !text-3xl" style={{ '--stroke': '6px', '--drop': '3px' } as React.CSSProperties}>
               ¡Entrar!
             </button>
             <p className="text-center text-sm font-bold text-ink-soft">También podés escanear el QR de la pantalla grande.</p>
           </form>
         ) : (
-          <form onSubmit={create} className="sticker mt-6 flex flex-col gap-4 p-5">
+          <form onSubmit={create} className="sticker mt-4 flex shrink-0 flex-col gap-3 p-4">
             <h2 className="text-xl font-extrabold">Vas a conducir la partida</h2>
             <label htmlFor="host-name" className="sr-only">
               Tu nombre
@@ -100,14 +111,14 @@ export function HomeScreen() {
         )}
 
         {error && (
-          <p role="alert" className="mt-3 rounded-2xl border-4 border-ink bg-white px-4 py-2 text-center font-extrabold">
+          <p role="alert" className="mt-3 shrink-0 rounded-2xl border-4 border-ink bg-white px-4 py-2 text-center font-extrabold">
             {error}
           </p>
         )}
 
         <button
           type="button"
-          className="btn btn-gold mt-5 h-14 text-lg"
+          className="btn btn-gold mt-4 h-14 shrink-0 text-lg"
           onClick={() => {
             setMode(mode === 'join' ? 'create' : 'join');
             setError(null);
