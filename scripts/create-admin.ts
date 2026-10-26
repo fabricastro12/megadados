@@ -21,7 +21,11 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY || !DATABASE_URL) {
 }
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
-const sql = postgres(DATABASE_URL, { prepare: false });
+// Same rule as sslOption() in src/server/db/postgresDatabase.ts: Supabase requires SSL, the local
+// stack has none, and an explicit ?sslmode= wins. Kept inline because node runs this file directly.
+const dbHost = new URL(DATABASE_URL).hostname;
+const local = ['localhost', '127.0.0.1', '[::1]'].includes(dbHost) || DATABASE_URL.includes('sslmode=');
+const sql = postgres(DATABASE_URL, { prepare: false, ...(local ? {} : { ssl: 'require' as const }) });
 
 const created = await supabase.auth.admin.createUser({ email, password, email_confirm: true });
 let userId = created.data.user?.id;
