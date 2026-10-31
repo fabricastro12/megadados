@@ -6,6 +6,7 @@ import { CategoryIcon } from '@/ui/CategoryIcon';
 import { Toon } from '@/ui/Toon';
 import { OPTION_LETTERS, type CategoryLook } from './catalog';
 import { Countdown } from './Countdown';
+import { QuestionPhoto } from './QuestionPhoto';
 
 type Content = NonNullable<StateEnvelope['question']>;
 
@@ -79,18 +80,21 @@ export function QuestionView({
         <CategoryBanner look={look} crown={crown} big={big} />
         {deadline !== null && <Countdown deadline={deadline} total={totalSeconds} size={big ? 96 : 64} />}
       </div>
-      <div className={`sticker flex items-center ${big ? 'min-h-[20vh] px-10 py-6' : 'min-h-36 px-5 py-5'}`}>
+      <div className={`sticker flex items-center ${big ? (content.imageUrl ? 'px-6 py-3' : 'min-h-[20vh] px-10 py-6') : (content.imageUrl ? 'px-5 py-3' : 'min-h-36 px-5 py-5')}`}>
         <h1
           className={`font-extrabold leading-tight ${big ? '' : 'text-[1.55rem]'}`}
           // On the TV, long prompts shrink with the screen height so the options stay in view.
-          style={big ? { fontSize: `clamp(1.75rem, ${content.prompt.length > 80 ? 4.4 : 5.6}vh, 3.25rem)` } : undefined}
+          style={big ? { fontSize: `clamp(1.5rem, ${content.imageUrl ? 3.2 : content.prompt.length > 80 ? 4.4 : 5.6}vh, 3.25rem)` } : undefined}
         >
           {content.prompt}
         </h1>
       </div>
-      {content.imageUrl && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={content.imageUrl} alt="" className="mx-auto max-h-48 rounded-2xl border-4 border-ink object-contain" />
+      {content.imageUrl && <QuestionPhoto path={content.imageUrl} big={big} />}
+      {content.imageCredit && (
+        <p className="text-center text-xs font-semibold text-ink-soft">
+          {content.imageCredit}{' '}
+          {content.imageSource && <a href={content.imageSource} target="_blank" rel="noreferrer" className="underline">Fuente y licencia</a>}
+        </p>
       )}
       <div role="group" aria-label="Opciones" className={`grid gap-3 ${big ? 'grid-cols-2 gap-5' : ''}`}>
         {content.options.map((text, i) => {

@@ -1,3 +1,5 @@
+> Historical implementation plan. The current six-category catalogue, image mode and available features are documented in README.md.
+
 # Megadados — Stage 1 plan
 
 Online, real-time multiplayer trivia for the Megafy team building. Every person plays from their own

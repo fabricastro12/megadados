@@ -1,6 +1,6 @@
 import type { Lifeline } from './config';
 import { captainOf, eligibleOwners, isTeamPlay, ownerOf } from './rules/owners';
-import { type Standing, ownerStandings, teamStandings } from './rules/standings';
+import { type GameStats, type Standing, gameStats, ownerStandings, teamStandings } from './rules/standings';
 import type { GameState, OwnerScore, Phase, RevealState, SpinState } from './types';
 
 /**
@@ -47,6 +47,7 @@ export interface PublicGameState {
   standings: Standing[];
   teamStandings: Standing[] | null;
   finished: GameState['finished'];
+  stats: GameStats | null;
 }
 
 export interface PrivateView {
@@ -113,6 +114,7 @@ export function toPublicState(state: GameState): PublicGameState {
     scores,
     standings: ownerStandings(state),
     teamStandings: teamStandings(state),
+    stats: state.phase === 'finished' ? gameStats(state) : null,
     finished: state.finished ? { ...state.finished, winnerIds: [...state.finished.winnerIds] } : null,
   };
 }
@@ -126,9 +128,9 @@ export function privateViewFor(state: GameState, playerId: string): PrivateView 
     ownerId,
     myChoice: ownerId && q ? (q.answers[ownerId]?.choice ?? q.votes[playerId]?.choice ?? null) : null,
     removedOptions: ownerId && q ? [...(q.removed[ownerId] ?? [])] : [],
-    myDeadline: ownerId && q ? q.deadline + (q.extraMs[ownerId] ?? 0) : null,
-    lifelinesLeft: (['fiftyFifty', 'pass', 'extraTime', 'audience'] as const).filter(
-      (l) => state.config.lifelines[l] && !used.includes(l) && !(l === 'audience' && state.config.mode === 'ronda'),
+    myDeadline: ownerId && q ? q.deadline : null,
+    lifelinesLeft: (['fiftyFifty', 'pass', 'audience'] as const).filter(
+      (l) => state.config.lifelines[l] && !used.includes(l) && !(l === 'audience' && state.config.mode !== 'clasico'),
     ),
   };
 }

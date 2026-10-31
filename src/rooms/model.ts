@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { GameConfigSchema } from '@/game/config';
 
-export const AVATAR_COLORS = ['violet', 'blue', 'green', 'yellow', 'orange', 'pink'] as const;
-export const AVATAR_FACES = ['happy', 'cool', 'wink', 'surprised', 'tongue'] as const;
+export const AVATAR_COLORS = ['violet', 'blue', 'green', 'yellow', 'orange', 'pink', 'red', 'cyan', 'teal', 'lime', 'mint', 'coral', 'lavender', 'cream', 'pearl', 'caramel'] as const;
+export const AVATAR_FACES = ['happy', 'cool', 'wink', 'surprised', 'tongue', 'laugh', 'hearts', 'stars', 'sleepy', 'angry', 'sad', 'nerd', 'robot', 'cat', 'mustache', 'dizzy'] as const;
 
 export const AvatarSchema = z.object({
   color: z.enum(AVATAR_COLORS),
@@ -38,7 +38,6 @@ export const LobbyActionSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('assignTeam'), playerId: z.uuid(), teamId: z.uuid().nullable() }),
   z.object({ type: z.literal('shuffleTeams') }),
   z.object({ type: z.literal('renameTeam'), teamId: z.uuid(), name: z.string().trim().min(1).max(24) }),
-  z.object({ type: z.literal('kick'), playerId: z.uuid() }),
   z.object({ type: z.literal('claimHost'), pin: z.string().regex(/^\d{4}$/).optional() }),
   z.object({ type: z.literal('heartbeat') }),
 ]);

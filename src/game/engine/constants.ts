@@ -4,6 +4,5 @@ export const CROWN_PICK_MS = 12_000;
 export const REVEAL_MS = 4500;
 export const ROUND_RESULTS_MS = 5000;
 export const AUDIENCE_MS = 8000;
-export const EXTRA_TIME_MS = 10_000;
 /** Answers that arrive this late after the deadline still count, to absorb network latency. */
 export const ANSWER_GRACE_MS = 250;

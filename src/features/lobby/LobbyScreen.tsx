@@ -151,18 +151,6 @@ export function LobbyScreen({ lobbyAction, start }: { lobbyAction: Action; start
           {players.map((p) => (
             <li key={p.id} className="relative">
               <PlayerChip player={p} online={online.has(p.id)} you={p.id === seatId} />
-              {isHost && p.id !== seatId && (
-                <button
-                  type="button"
-                  aria-label={`Sacar a ${p.name} de la sala`}
-                  onClick={() => void run({ type: 'kick', playerId: p.id })}
-                  className="absolute -right-1 -top-2 flex h-7 w-7 items-center justify-center rounded-full border-[3px] border-ink bg-wrong text-white"
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4" strokeLinecap="round" aria-hidden="true">
-                    <path d="M6 6l12 12M18 6L6 18" />
-                  </svg>
-                </button>
-              )}
             </li>
           ))}
         </ul>

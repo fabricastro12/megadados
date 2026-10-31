@@ -14,12 +14,12 @@
   --color-gold: #ffd23f;
   --color-gold-shade: #d9a400;
   --color-cream: #fff6d6;
-  --color-cat-megafy: #9b5cff;
-  --color-cat-tech: #2e8bff;
-  --color-cat-lowcode: #2cc56f;
-  --color-cat-culture: #ffb31a;
-  --color-cat-latam: #ff6a3d;
-  --color-cat-people: #ff5daa;
+  --color-cat-art: #9b5cff;
+  --color-cat-sports: #ffb31a;
+  --color-cat-history: #ff6a3d;
+  --color-cat-geography: #2e8bff;
+  --color-cat-science: #2cc56f;
+  --color-cat-entertainment: #ff5daa;
   --font-display: var(--font-lilita), 'Arial Rounded MT Bold', system-ui, sans-serif;
   --font-sans: var(--font-baloo), system-ui, sans-serif;
 }

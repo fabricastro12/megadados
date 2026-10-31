@@ -44,7 +44,7 @@ export function captainOf(state: GameState, teamId: string): string | null {
 
 /** Who spins now: the rotating player in ronda mode, the owner (or its captain) in classic. */
 export function spinnerFor(state: GameState): string | null {
-  if (state.config.mode === 'ronda') {
+  if (state.config.mode !== 'clasico') {
     const players = activePlayers(state);
     if (players.length === 0) return null;
     return players[state.round % players.length]?.id ?? null;
@@ -56,7 +56,7 @@ export function spinnerFor(state: GameState): string | null {
 
 /** Owners expected to answer the current question. */
 export function eligibleOwners(state: GameState): string[] {
-  if (state.config.mode === 'ronda') return activePlayers(state).map((p) => p.id);
+  if (state.config.mode !== 'clasico') return activePlayers(state).map((p) => p.id);
   const owner = currentOwnerId(state);
   return owner ? [owner] : [];
 }

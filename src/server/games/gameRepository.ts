@@ -29,6 +29,8 @@ export interface QuestionContent {
   options: string[];
   explanation: string | null;
   image_url: string | null;
+  image_credit: string | null;
+  image_source: string | null;
 }
 
 const ms = (value: number | null) => (value === null ? null : value / 1000);
@@ -45,7 +47,7 @@ export const gameRepository = {
 
   async findSeat(tx: SqlExecutor, roomId: string, userId: string): Promise<SeatRow | null> {
     const rows = await tx.query<SeatRow>(
-      `select id, role, team_id from public.players where room_id = $1 and user_id = $2 and kicked_at is null`,
+      `select id, role, team_id from public.players where room_id = $1 and user_id = $2`,
       [roomId, userId],
     );
     return rows[0] ?? null;
@@ -58,7 +60,7 @@ export const gameRepository = {
   async lobbyPlayers(tx: SqlExecutor, roomId: string) {
     return tx.query<{ id: string; name: string; team_id: string | null }>(
       `select id, name, team_id from public.players
-        where room_id = $1 and kicked_at is null and role in ('host', 'player')
+        where room_id = $1 and role in ('host', 'player')
         order by joined_at, id`,
       [roomId],
     );
@@ -71,11 +73,12 @@ export const gameRepository = {
   },
 
   /** Playable questions with their answer key, for building the decks. */
-  async questionPool(tx: SqlExecutor, categoryIds: string[], difficulty: string) {
+  async questionPool(tx: SqlExecutor, categoryIds: string[], difficulty: string, kind: 'text' | 'image') {
     return tx.query<{ id: string; category_id: string; correct_index: number }>(
       `select id, category_id, correct_index from public.questions
-        where is_active and category_id = any($1::uuid[]) and ($2 = 'mixed' or difficulty::text = $2)`,
-      [categoryIds, difficulty],
+        where is_active and category_id = any($1::uuid[]) and ($2 = 'mixed' or difficulty::text = $2)
+          and kind = $3 and (kind <> 'image' or image_url is not null)`,
+      [categoryIds, difficulty, kind],
     );
   },
 
@@ -171,13 +174,9 @@ export const gameRepository = {
     );
   },
 
-  async kickSeat(tx: SqlExecutor, seatId: string): Promise<void> {
-    await tx.query(`update public.players set kicked_at = now() where id = $1`, [seatId]);
-  },
-
   async questionContent(tx: SqlExecutor, questionId: string): Promise<QuestionContent | null> {
     const rows = await tx.query<QuestionContent>(
-      `select id, prompt, options, explanation, image_url from public.questions where id = $1`,
+      `select id, prompt, options, explanation, image_url, image_credit, image_source from public.questions where id = $1`,
       [questionId],
     );
     return rows[0] ?? null;

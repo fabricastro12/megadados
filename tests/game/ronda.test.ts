@@ -22,7 +22,7 @@ describe('config', () => {
     const config = GameConfigSchema.parse({ categories: ['a', 'b'] });
     expect(config.mode).toBe('ronda');
     expect(config.teams.enabled).toBe(false);
-    expect(config.lifelines).toEqual({ fiftyFifty: true, pass: true, extraTime: true, audience: true });
+    expect(config.lifelines).toEqual({ fiftyFifty: true, pass: true, audience: true });
     expect(config.crownStreak).toBe(3);
   });
 

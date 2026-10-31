@@ -21,7 +21,7 @@ let seats: Record<string, string>;
 beforeEach(async () => {
   pg = await freshDatabase();
   await pg.exec(readFileSync(`${root}supabase/seed.sql`, 'utf8'));
-  const cats = (await pg.query<{ id: string }>(`select id from public.categories where slug in ('tecnologia-ia', 'latinoamerica') order by sort_order`)).rows;
+  const cats = (await pg.query<{ id: string }>(`select id from public.categories where slug in ('ciencia', 'geografia') order by sort_order`)).rows;
   const room = await pg.query<{ id: string }>(`insert into public.rooms (code, config) values ($1, $2::jsonb) returning id`, [
     CODE,
     JSON.stringify({ categories: cats.map((c) => c.id) }),
@@ -170,13 +170,6 @@ describe('commands', () => {
     expect(screens).toEqual({ ownerId: seats[U.player], playerId: seats[U.player] });
   });
 
-  it('host kicks reach the players table', async () => {
-    await startGame(deps, { roomCode: CODE, userId: U.host });
-    expect((await run(U.host, { type: 'kick', playerId: seats[VALE] })).ok).toBe(true);
-    const kicked = (await pg.query<{ kicked_at: string | null }>(`select kicked_at from public.players where id = $1`, [seats[VALE]])).rows[0]!;
-    expect(kicked.kicked_at).not.toBeNull();
-    expect(await run(VALE, { type: 'tick' })).toMatchObject({ ok: false, error: 'not_in_room' });
-  });
 });
 
 describe('reconnecting and rematches', () => {

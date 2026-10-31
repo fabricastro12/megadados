@@ -19,7 +19,6 @@ export const CommandSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('end') }),
   z.object({ type: z.literal('skip') }),
   z.object({ type: z.literal('adjustPoints'), ownerId: id, delta: z.number().int().min(-10_000).max(10_000) }),
-  z.object({ type: z.literal('kick'), playerId: id }),
   // Server only: a player joined a game in progress.
   z.object({
     type: z.literal('addPlayer'),
@@ -32,4 +31,4 @@ export type CommandType = Command['type'];
 
 /** Commands a browser may send; the rest are host-only or server-only. */
 export const CLIENT_COMMANDS = ['spin', 'pickCategory', 'answer', 'vote', 'useLifeline', 'audienceVote', 'tick'] as const;
-export const HOST_COMMANDS = ['pause', 'resume', 'end', 'skip', 'adjustPoints', 'kick'] as const;
+export const HOST_COMMANDS = ['pause', 'resume', 'end', 'skip', 'adjustPoints'] as const;

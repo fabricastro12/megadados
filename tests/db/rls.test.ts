@@ -30,13 +30,6 @@ describe('room data', () => {
     });
   });
 
-  it('a kicked player loses access', async () => {
-    await db.query('update public.players set kicked_at = now() where id = $1', [ids.playerId]);
-    await asUser(db, { sub: U.player, is_anonymous: true }, async (tx) => {
-      expect(await count(tx, 'select * from public.rooms')).toBe(0);
-    });
-  });
-
   it('browsers cannot write game data directly', async () => {
     await asUser(db, { sub: U.host, is_anonymous: true }, async (tx) => {
       const updated = await tx.query(`update public.rooms set status = 'finished' returning id`);
@@ -85,9 +78,9 @@ describe('secrets', () => {
   });
 
   it('only active categories are public', async () => {
-    await db.query(`insert into public.categories (slug, name, color, is_active) values ('megafy', 'Megafy', '#9B5CFF', false)`);
+    await db.query(`update public.categories set is_active = false where slug = 'ciencia'`);
     await asUser(db, null, async (tx) => {
-      expect(await count(tx, 'select * from public.categories')).toBe(1);
+      expect(await count(tx, 'select * from public.categories')).toBe(5);
     });
   });
 });

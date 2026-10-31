@@ -3,9 +3,15 @@
 Real-time multiplayer trivia for the Megafy team building: everyone plays from their own phone,
 a TV shows the wheel and the ranking. See [docs/plan.md](docs/plan.md) for the full plan.
 
-**Status:** all nine stages built — the full game (individual or teams, all at once or by turns,
-lifelines, votes, audience) on phones and on the TV, the 3D wheel and mascot (with a light 2D
-mode), synthesized sound, and the `/admin` question bank.
+Three modes: simultaneous **Ronda**, turn-based **Clásico**, and simultaneous **Con imágenes**.
+There are exactly six supported categories: **Arte y literatura, Deportes, Historia, Geografía,
+Ciencia and Entretenimiento**. The seed contains 240 text questions and 60 image questions (40 text and 10 visual per category).
+Lifelines are 50/50, pass and (in classic mode) audience voting. Extra time and player expulsion
+are no longer supported. Time-limited games finish the current question when time expires and
+ignore the round cap; they can still end if the bank runs out of questions or the host ends them.
+
+The lobby offers ready-made configurations. The closing screen on phones and TV includes the
+MVP, longest streak, fastest correct answer and best category, when those statistics exist.
 
 ## Layout
 
@@ -114,7 +120,7 @@ for 6 hours.
 
 ## Admin panel
 
-`/admin` edits categories and questions, and imports or exports them as JSON (the seed format) or
+`/admin` edits questions within the six fixed categories, and imports or exports them as JSON (the seed format) or
 CSV (one row per question, the correct option as a letter). It needs a permanent Supabase account
 (email and password, never an anonymous one) listed in `public.admins`.
 
@@ -136,7 +142,55 @@ Questions live in `supabase/seed/questions.json`. After editing it:
 npm run seed:build
 ```
 
-The script validates every question (four distinct options, a correct index from 0 to 3, a known
-category) and rewrites `supabase/seed.sql`. Megafy and Quién es quién ship as placeholders marked
-`[COMPLETAR]`; they stay off the wheel until their category is turned on and the placeholders are
-replaced. The admin panel edits the same data in the database; export it as JSON to update the seed file.
+The script validates four distinct options, the correct index, a supported category, and image
+metadata. The generated SQL uses stable IDs so rerunning it does not duplicate questions.
+Category names and slugs are fixed; the admin panel cannot add or delete categories.
+
+Open `docs/revision-preguntas.html` in a browser to review the 300-question snapshot, including
+photos, correct answers and filters. Review marks and notes stay in the browser and can be
+exported as CSV. This document does not update the live bank and must be refreshed after bank edits.
+
+## Image mode and image bank
+
+Select **Con imágenes** in the lobby, or the **Trivia con imágenes** preset. Everyone identifies
+what is shown in the photo. Only questions marked `kind: "image"` enter that mode; text questions
+are used in Ronda and Clásico. If no questions match the mode, categories and difficulty, starting
+the match returns a clear error. Questions are never repeated inside a match.
+
+In `/admin`, choose **Identificar una imagen**, search Wikimedia Commons, select and visually
+verify the photo, write the prompt and four options, and mark the correct answer. Save to add it
+to the visual bank. The integration uses the public Commons API and requires no API key. Image
+search is available only to admins, cached for 24 hours, and limited to JPEG/PNG/WebP images with
+public-domain or Creative Commons attribution licenses. The provider can be temporarily unavailable;
+the form shows a retry message. The starter bank includes singers, athletes, paintings, scientists,
+monuments and an ancient wonder. More images can be added through the same workflow.
+
+Photo filenames and source credits can reveal the answer. Players therefore fetch the current
+photo through a room-authorized endpoint and receive an opaque blob URL. Credits and the source
+page appear at reveal, on phones and TV. The photo endpoint only fetches the Commons upload and
+thumbnail hosts, blocks redirects and unexpected content types, and limits images to 8 MiB.
+If a photo fails to load, the screen offers **Volver a cargar**.
+
+JSON/CSV exports preserve `kind`, `image`, `imageCredit` / `image_credit` and `imageSource` /
+`image_source`, so a visual question can be exported and imported without losing its attribution.
+
+## Updating an existing database
+
+Apply `supabase/migrations/20261030000001_six_categories_and_images.sql` with `supabase db push`
+(or your usual migration runner) before deploying this version. It replaces the old categories and
+their questions, removes the retired lifeline and expulsion column, installs the new bank, and
+updates room settings. Running games are closed with the reason **Banco actualizado**, retaining
+recorded results; the room can start a rematch. Finished games keep their recorded scores. Reload
+open clients after the upgrade. The migration includes the starter bank; running `seed.sql` again
+is optional and idempotent.
+
+The automated tests run migrations and game services against PGlite. They do not substitute for
+a live Supabase/WebSocket check on actual phones and a TV.
+
+### Expanding an existing six-category installation
+
+`20261030000002_expand_question_bank.sql` adds 192 questions (150 text and 42 visual), bringing
+the starter bank to 300. Apply it after the six-category migration. It only inserts missing
+stable IDs: it preserves admin edits, custom questions, category settings and games in progress.
+The expanded bank is used by newly started matches. Every category has both formats at all three
+difficulties; each visual question uses a distinct Commons file with plain-text attribution.

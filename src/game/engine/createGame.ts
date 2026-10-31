@@ -68,7 +68,7 @@ export function createGame(input: NewGameInput, ctx: EngineContext): EngineResul
   if (owners.length < minimum) return { ok: false, error: 'not_enough_players' };
 
   state.scores = Object.fromEntries(owners.map((id) => [id, emptyScore()]));
-  state.totalRounds = config.mode === 'ronda' && config.roundsMode === 'perPlayer' ? config.rounds * owners.length : config.rounds;
+  state.totalRounds = config.mode !== 'clasico' && config.roundsMode === 'perPlayer' ? config.rounds * owners.length : config.rounds;
   state.spinnerId = spinnerFor(state);
   return { ok: true, state, events: [{ type: 'roundStarted', round: 0, spinnerId: state.spinnerId }] };
 }

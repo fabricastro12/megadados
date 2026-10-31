@@ -22,7 +22,7 @@ interface SeatFull {
 
 async function seatOf(tx: SqlExecutor, roomId: string, userId: string): Promise<SeatFull | null> {
   const rows = await tx.query<SeatFull>(
-    `select id, role, team_id, last_seen_at from public.players where room_id = $1 and user_id = $2 and kicked_at is null`,
+    `select id, role, team_id, last_seen_at from public.players where room_id = $1 and user_id = $2`,
     [roomId, userId],
   );
   return rows[0] ?? null;
@@ -42,7 +42,7 @@ export async function lobbySnapshot(tx: SqlExecutor, roomId: string): Promise<Lo
     )
   )[0]!;
   const players = await tx.query<{ id: string; name: string; avatar: Avatar; role: SeatFull['role']; team_id: string | null }>(
-    `select id, name, avatar, role, team_id from public.players where room_id = $1 and kicked_at is null order by joined_at, id`,
+    `select id, name, avatar, role, team_id from public.players where room_id = $1 order by joined_at, id`,
     [roomId],
   );
   const teams = await tx.query<{ id: string; name: string; color: string }>(
@@ -83,7 +83,7 @@ async function fillTeams(tx: SqlExecutor, roomId: string, reshuffle: boolean): P
   const teams = await tx.query<{ id: string }>(`select id from public.teams where room_id = $1 order by sort_order`, [roomId]);
   if (teams.length === 0) return;
   const players = await tx.query<{ id: string; team_id: string | null }>(
-    `select id, team_id from public.players where room_id = $1 and kicked_at is null and role <> 'spectator' order by joined_at, id`,
+    `select id, team_id from public.players where room_id = $1 and role <> 'spectator' order by joined_at, id`,
     [roomId],
   );
   const sizes = new Map(teams.map((t) => [t.id, 0]));
@@ -114,7 +114,7 @@ export async function createRoom(
 ): Promise<ServiceResult<{ code: string; pin: string; seatId: string }>> {
   return deps.db.transaction(async (tx) => {
     const categories = await activeCategories(tx);
-    const config = GameConfigSchema.parse({ categories: categories.slice(0, 8).map((c) => c.id) });
+    const config = GameConfigSchema.parse({ categories: categories.slice(0, 6).map((c) => c.id) });
     const code = (await tx.query<{ code: string }>(`select public.generate_room_code() as code`))[0]!.code;
     const room = (await tx.query<{ id: string }>(`insert into public.rooms (code, config) values ($1, $2::text::jsonb) returning id`, [code, JSON.stringify(config)]))[0]!;
     const pin = String(randomInt(0, 10_000)).padStart(4, '0');
@@ -139,9 +139,6 @@ export async function joinRoom(
     if (!room) return fail('no_room');
     const existing = await seatOf(tx, room.id, input.userId);
     if (existing) return { ok: true, value: { seatId: existing.id, role: existing.role } };
-    const kicked = await tx.query(`select 1 from public.players where room_id = $1 and user_id = $2 and kicked_at is not null`, [room.id, input.userId]);
-    if (kicked.length > 0) return fail('not_in_room');
-
     const config = GameConfigSchema.parse(room.config);
     if (input.join.as === 'player' && room.status === 'playing' && !config.allowLateJoin) return fail('room_closed');
 
@@ -183,7 +180,7 @@ export async function getLobby(deps: ServiceDeps, input: { code: string; userId:
   });
 }
 
-const HOST_ONLY = new Set<LobbyAction['type']>(['updateConfig', 'shuffleTeams', 'renameTeam', 'kick']);
+const HOST_ONLY = new Set<LobbyAction['type']>(['updateConfig', 'shuffleTeams', 'renameTeam']);
 
 export async function lobbyAction(
   deps: ServiceDeps,
@@ -239,25 +236,13 @@ export async function lobbyAction(
       case 'renameTeam':
         await tx.query(`update public.teams set name = $2 where id = $1 and room_id = $3`, [action.teamId, action.name, room.id]);
         break;
-      case 'kick': {
-        if (action.playerId === seat.id) return fail('invalid_command');
-        if (room.status === 'playing') {
-          const result = await applyInTransaction(tx, room, { playerId: seat.id, role: 'host' }, { type: 'kick', playerId: action.playerId }, {
-            now: now(),
-            random: deps.random ?? cryptoRandom,
-          });
-          if (!result.ok && result.error !== 'unknown_player') return result;
-        }
-        await tx.query(`update public.players set kicked_at = now() where id = $1 and room_id = $2`, [action.playerId, room.id]);
-        break;
-      }
       case 'claimHost': {
         if (isHost) return { ok: true, value: await lobbySnapshot(tx, room.id) };
         if (seat.role === 'spectator') return fail('not_participant');
         const host = (
           await tx.query<{ host_pin_hash: string | null; host_player_id: string | null; last_seen_at: Date | string | null }>(
             `select r.host_pin_hash, r.host_player_id, p.last_seen_at
-               from public.rooms r left join public.players p on p.id = r.host_player_id and p.kicked_at is null
+               from public.rooms r left join public.players p on p.id = r.host_player_id
               where r.id = $1`,
             [room.id],
           )

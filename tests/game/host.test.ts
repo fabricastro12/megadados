@@ -4,7 +4,7 @@ import { act, advanceTo, as, host, newGame, reject, spinToQuestion, system, tick
 describe('host controls', () => {
   it('players cannot use host commands', () => {
     const t = newGame();
-    for (const command of [{ type: 'pause' }, { type: 'end' }, { type: 'skip' }, { type: 'kick', playerId: 'p3' }] as const) {
+    for (const command of [{ type: 'pause' }, { type: 'end' }, { type: 'skip' }] as const) {
       reject(t, as('p2'), command, 'not_host');
     }
     reject(t, as('p2'), { type: 'addPlayer', player: { id: 'x', name: 'X', teamId: null } }, 'not_host');
@@ -37,31 +37,6 @@ describe('host controls', () => {
     act(t, host, { type: 'adjustPoints', ownerId: 'p2', delta: -1000 });
     expect(t.state.scores.p2!.points).toBe(0);
     reject(t, host, { type: 'adjustPoints', ownerId: 'nobody', delta: 1 }, 'unknown_player');
-  });
-
-  it('kicking the spinner hands the wheel to the next player', () => {
-    const t = newGame();
-    act(t, host, { type: 'kick', playerId: 'p1' });
-    expect(t.state.spinnerId).toBe('p2');
-    reject(t, as('p1'), { type: 'spin' }, 'not_your_turn');
-  });
-
-  it('kicking the last pending player reveals the question', () => {
-    const t = newGame();
-    const q = spinToQuestion(t);
-    act(t, as('p1'), { type: 'answer', questionId: q.questionId, choice: 0 });
-    act(t, as('p2'), { type: 'answer', questionId: q.questionId, choice: 0 });
-    act(t, host, { type: 'kick', playerId: 'p3' });
-    expect(t.state.phase).toBe('reveal');
-    expect(Object.keys(t.state.reveal!.results)).toEqual(['p1', 'p2']);
-  });
-
-  it('kicking the player in turn passes the turn in classic mode', () => {
-    const t = newGame({ mode: 'clasico' });
-    spinToQuestion(t);
-    act(t, host, { type: 'kick', playerId: 'p1' });
-    expect(t.state.phase).toBe('awaitingSpin');
-    expect(t.state.spinnerId).toBe('p2');
   });
 
   it('late joiners enter the rotation when allowed', () => {

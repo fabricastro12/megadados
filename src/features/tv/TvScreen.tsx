@@ -115,7 +115,7 @@ function TvLobby({ code }: { code: string }) {
 
 function turnCopy(s: PublicGameState, nameOf: (id: string | null | undefined) => string): string {
   const q = s.question!;
-  if (s.mode === 'ronda') return `Respondieron ${q.answeredBy.length} de ${q.eligible.length}`;
+  if (s.mode !== 'clasico') return `Respondieron ${q.answeredBy.length} de ${q.eligible.length}`;
   const owner = q.eligible[0];
   if (s.answerMode === 'vote') {
     const members = s.teams.find((t) => t.id === owner)?.memberIds.filter((id) => s.players.some((p) => p.id === id && p.active)) ?? [];
@@ -230,7 +230,7 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
           ) : (
             <div className="flex flex-col items-center gap-3">
               <p className="text-2xl font-extrabold">{turnCopy(s, nameOf)}</p>
-              {s.mode === 'ronda' && <AnsweredStrip ids={q.answeredBy} />}
+              {s.mode !== 'clasico' && <AnsweredStrip ids={q.answeredBy} />}
               {q.audience && (
                 <div className="sticker grid w-full max-w-3xl grid-cols-4 gap-4 p-5">
                   {q.audience.percentages.map((p, i) => (
@@ -267,7 +267,7 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
       <div className="flex flex-col justify-center">
         <div className="mb-6 flex items-center gap-4">
           <span className="rounded-full border-4 border-ink bg-white px-5 py-1.5 text-2xl font-extrabold">
-            Ronda {Math.min(s.round + 1, s.totalRounds)} de {s.totalRounds}
+            Ronda {s.round + 1}{!s.endsAt && ` de ${s.totalRounds}`}
           </span>
           {s.endsAt && <Countdown deadline={s.endsAt} total={0} size={56} />}
         </div>
@@ -279,8 +279,8 @@ function TvGame({ command }: { command: ReturnType<typeof useRoomConnection>['co
           <h2 className="toon text-3xl" style={{ '--stroke': '6px', '--drop': '3px' } as React.CSSProperties}>
             Ranking
           </h2>
-          <Standings state={s} limit={s.teamStandings && s.mode === 'ronda' ? 5 : 8} big={viewport >= 900} />
-          {s.teamStandings && s.mode === 'ronda' && (
+          <Standings state={s} limit={s.teamStandings && s.mode !== 'clasico' ? 5 : 8} big={viewport >= 900} />
+          {s.teamStandings && s.mode !== 'clasico' && (
             <>
               <h2 className="toon mt-2 text-2xl" style={{ '--stroke': '5px', '--drop': '3px' } as React.CSSProperties}>
                 Equipos

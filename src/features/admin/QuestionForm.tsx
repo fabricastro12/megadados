@@ -4,6 +4,7 @@ import { type FormEvent, useState } from 'react';
 import { type QuestionEdit, QuestionEditSchema } from '@/questions/schema';
 import type { AdminCategory } from '@/questions/adminBank';
 import { OPTION_LETTERS } from '@/features/game/catalog';
+import { ImagePicker } from './ImagePicker';
 
 const DIFFICULTY = [
   { value: 'easy', label: 'Fácil' },
@@ -46,6 +47,13 @@ export function QuestionForm({
   return (
     <form onSubmit={submit} className="flex flex-col gap-4" aria-label={initial.id ? 'Editar pregunta' : 'Nueva pregunta'}>
       <h2 className="text-xl font-extrabold">{initial.id ? 'Editar pregunta' : 'Nueva pregunta'}</h2>
+      <label className="flex flex-col gap-1 font-extrabold">
+        Tipo de pregunta
+        <select className="field" value={q.kind} onChange={(e) => setQ({ ...q, kind: e.target.value as QuestionEdit['kind'] })}>
+          <option value="text">Trivia de texto</option>
+          <option value="image">Identificar una imagen</option>
+        </select>
+      </label>
       <label className="flex flex-col gap-1 font-extrabold">
         Categoría
         <select value={q.categoryId} onChange={(e) => setQ({ ...q, categoryId: e.target.value })} className="field">
@@ -103,10 +111,16 @@ export function QuestionForm({
         Dato curioso (se muestra después de responder)
         <textarea value={q.explanation ?? ''} maxLength={500} rows={2} onChange={(e) => setQ({ ...q, explanation: e.target.value })} className="field py-2" />
       </label>
-      <label className="flex flex-col gap-1 font-extrabold">
-        Imagen (URL, opcional)
-        <input value={q.image ?? ''} onChange={(e) => setQ({ ...q, image: e.target.value })} placeholder="https://…" className="field" inputMode="url" />
-      </label>
+      <ImagePicker onSelect={(image) => setQ({ ...q, image: image.url, imageCredit: image.credit, imageSource: image.source })} />
+      {q.image && (
+        <div className="flex flex-col items-center gap-2 rounded-2xl border-[3px] border-ink p-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={q.image} alt="Vista previa de la pregunta" className="max-h-56 object-contain" />
+          <p className="text-sm font-semibold">{q.imageCredit}</p>
+          {q.imageSource && <a className="font-bold underline" href={q.imageSource} target="_blank" rel="noreferrer">Fuente y licencia</a>}
+          <button type="button" className="btn !min-h-10 text-sm" onClick={() => setQ({ ...q, image: null, imageCredit: null, imageSource: null })}>Quitar foto</button>
+        </div>
+      )}
       {errors.length > 0 && (
         <ul role="alert" className="rounded-2xl border-[3px] border-wrong bg-[#FFE3E6] p-3 text-sm font-bold">
           {errors.map((e) => (

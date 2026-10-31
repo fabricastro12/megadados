@@ -70,14 +70,6 @@ describe('creating and joining a room', () => {
     expect(await getLobby(deps, { code, userId: U.player })).toMatchObject({ ok: false, error: 'not_in_room' });
   });
 
-  it('a kicked player cannot come back', async () => {
-    const { code } = await hostRoom();
-    const caro = await join(code, U.player, 'Caro');
-    expect(caro.ok).toBe(true);
-    if (!caro.ok) return;
-    expect((await act(code, U.host, { type: 'kick', playerId: caro.value.seatId })).ok).toBe(true);
-    expect(await join(code, U.player, 'Caro')).toMatchObject({ ok: false, error: 'not_in_room' });
-  });
 });
 
 describe('lobby settings', () => {

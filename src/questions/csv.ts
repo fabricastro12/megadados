@@ -4,7 +4,7 @@ import type { QuestionInput } from './schema';
  * CSV for spreadsheets: one question per row. The correct option is a letter (A–D), so a
  * person can fill it in without counting from zero.
  */
-export const CSV_COLUMNS = ['category', 'prompt', 'option_a', 'option_b', 'option_c', 'option_d', 'correct', 'difficulty', 'explanation', 'image'] as const;
+export const CSV_COLUMNS = ['category', 'prompt', 'option_a', 'option_b', 'option_c', 'option_d', 'correct', 'difficulty', 'explanation', 'image', 'kind', 'image_credit', 'image_source'] as const;
 
 const LETTERS = ['A', 'B', 'C', 'D'] as const;
 
@@ -48,7 +48,7 @@ export function questionsToCsv(questions: QuestionInput[]): string {
   const lines = [CSV_COLUMNS.join(',')];
   for (const q of questions) {
     lines.push(
-      [q.category, q.prompt, ...q.options, LETTERS[q.correct] ?? 'A', q.difficulty, q.explanation ?? '', q.image ?? ''].map(quote).join(','),
+      [q.category, q.prompt, ...q.options, LETTERS[q.correct] ?? 'A', q.difficulty, q.explanation ?? '', q.image ?? '', q.kind, q.imageCredit ?? '', q.imageSource ?? ''].map(quote).join(','),
     );
   }
   return `${lines.join('\r\n')}\r\n`;
@@ -78,6 +78,9 @@ export function csvToQuestions(text: string): { rows: unknown[]; error: string |
       ...(difficulty ? { difficulty } : {}),
       ...(explanation ? { explanation } : {}),
       ...(image ? { image } : {}),
+      kind: cell(row, 'kind') || 'text',
+      ...(cell(row, 'image_credit') ? { imageCredit: cell(row, 'image_credit') } : {}),
+      ...(cell(row, 'image_source') ? { imageSource: cell(row, 'image_source') } : {}),
     };
   });
   return { rows, error: null };

@@ -16,7 +16,7 @@ describe('CSV', () => {
 
   it('round-trips questions through CSV', () => {
     const question = QuestionInputSchema.parse({
-      category: 'latinoamerica',
+      category: 'geografia',
       prompt: '¿Qué lago comparten Perú y Bolivia? (el "más alto")',
       options: ['Titicaca', 'Poopó', 'Maracaibo', 'General Carrera'],
       correct: 0,

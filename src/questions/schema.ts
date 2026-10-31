@@ -1,8 +1,21 @@
 import { z } from 'zod';
+import { CATEGORIES, CATEGORY_SLUGS } from './categories.ts';
+
+export const ImageSourceSchema = z.url().refine((value) => {
+  const url = new URL(value);
+  return url.protocol === 'https:' && url.hostname === 'commons.wikimedia.org' && !url.username && !url.password && !url.port;
+}, 'La fuente debe ser la página de la imagen en Wikimedia Commons.');
+
+export const QuestionKindSchema = z.enum(['text', 'image']);
+// Only the integrated image bank is fetched by the game server.
+export const ImageUrlSchema = z.url().refine((value) => {
+  const url = new URL(value);
+  return url.protocol === 'https:' && ['upload.wikimedia.org', 'thumb.wikimedia.org'].includes(url.hostname) && !url.username && !url.password && !url.port;
+}, 'Seleccioná una imagen de Wikimedia Commons.');
 
 export const DifficultySchema = z.enum(['easy', 'medium', 'hard']);
 
-const slug = z.string().regex(/^[a-z0-9-]{2,40}$/, 'Usá minúsculas, números y guiones.');
+const slug = z.enum(CATEGORY_SLUGS);
 
 export const CategoryInputSchema = z.object({
   slug,
@@ -11,7 +24,7 @@ export const CategoryInputSchema = z.object({
   icon: z.string().min(1).max(40),
   sortOrder: z.number().int().default(0),
   isActive: z.boolean().default(true),
-});
+}).refine((c) => CATEGORIES.find((item) => item.slug === c.slug)?.name === c.name, { message: 'El nombre debe corresponder a una de las seis categorías del juego.', path: ['name'] });
 
 /** One question as admins write it, in JSON or CSV import. */
 export const QuestionInputSchema = z
@@ -22,9 +35,13 @@ export const QuestionInputSchema = z
     correct: z.number().int().min(0).max(3),
     difficulty: DifficultySchema.default('medium'),
     explanation: z.string().trim().max(500).optional(),
-    image: z.url().optional(),
+    image: ImageUrlSchema.optional(),
+    kind: QuestionKindSchema.default('text'),
+    imageCredit: z.string().trim().max(300).optional(),
+    imageSource: ImageSourceSchema.optional(),
     placeholder: z.boolean().default(false),
   })
+  .refine((q) => q.kind !== 'image' || !!(q.image && q.imageCredit && q.imageSource), { message: 'Seleccioná una imagen con autor y fuente para esta pregunta.', path: ['image'] })
   .refine((q) => new Set(q.options.map((o) => o.toLowerCase())).size === 4, {
     message: 'Las cuatro opciones tienen que ser distintas.',
     path: ['options'],
@@ -32,9 +49,10 @@ export const QuestionInputSchema = z
 
 export const QuestionBankSchema = z
   .object({
-    categories: z.array(CategoryInputSchema).min(1),
+    categories: z.array(CategoryInputSchema).length(6),
     questions: z.array(QuestionInputSchema),
   })
+  .refine((bank) => new Set(bank.categories.map((c) => c.slug)).size === 6, { message: 'Se necesitan las seis categorías distintas.', path: ['categories'] })
   .refine((bank) => bank.questions.every((q) => bank.categories.some((c) => c.slug === q.category)), {
     message: 'Hay preguntas de una categoría que no existe.',
     path: ['questions'],
@@ -54,19 +72,19 @@ export const QuestionEditSchema = z
     correct: z.number().int().min(0).max(3),
     difficulty: DifficultySchema,
     explanation: z.string().trim().max(500).nullable(),
-    image: z.url().nullable(),
+    image: ImageUrlSchema.nullable(),
+    kind: QuestionKindSchema.default('text'),
+    imageCredit: z.string().trim().max(300).nullable().default(null),
+    imageSource: ImageSourceSchema.nullable().default(null),
     isActive: z.boolean(),
   })
+  .refine((q) => q.kind !== 'image' || !!(q.image && q.imageCredit && q.imageSource), { message: 'Seleccioná una imagen con autor y fuente para esta pregunta.', path: ['image'] })
   .refine((q) => new Set(q.options.map((o) => o.toLowerCase())).size === 4, {
     message: 'Las cuatro opciones tienen que ser distintas.',
     path: ['options'],
   });
 
-export const CategoryEditSchema = CategoryInputSchema.extend({ id: z.uuid().optional() });
-
 export const AdminActionSchema = z.discriminatedUnion('type', [
-  z.object({ type: z.literal('saveCategory'), category: CategoryEditSchema }),
-  z.object({ type: z.literal('deleteCategory'), id: z.uuid() }),
   z.object({ type: z.literal('saveQuestion'), question: QuestionEditSchema }),
   z.object({ type: z.literal('deleteQuestion'), id: z.uuid() }),
   z.object({
@@ -77,5 +95,4 @@ export const AdminActionSchema = z.discriminatedUnion('type', [
 ]);
 
 export type QuestionEdit = z.infer<typeof QuestionEditSchema>;
-export type CategoryEdit = z.infer<typeof CategoryEditSchema>;
 export type AdminAction = z.infer<typeof AdminActionSchema>;

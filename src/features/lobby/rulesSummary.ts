@@ -3,7 +3,7 @@ import type { GameConfig } from '@/game/config';
 /** One plain sentence describing the rules, for the lobby and the TV. */
 export function rulesSummary(config: GameConfig): string {
   const how =
-    config.mode === 'ronda'
+    config.mode !== 'clasico'
       ? 'Cada ronda gira uno distinto y responden todos a la vez'
       : 'Por turnos: cada uno gira y responde en su turno';
   const teams = config.teams.enabled ? `, en ${config.teams.count} equipos` : '';
@@ -21,5 +21,6 @@ export function rulesSummary(config: GameConfig): string {
     allCrowns: 'Gana el primero en juntar todas las coronas',
     timeLimit: 'Gana quien sume más puntos',
   }[config.winCondition];
-  return `${how}${teams}, ${rounds}. ${config.questionSeconds} s por pregunta. ${win}.`;
+  const pictures = config.mode === 'imagenes' ? ' con preguntas basadas en fotos' : '';
+  return `${how}${pictures}${teams}, ${rounds}. ${config.questionSeconds} s por pregunta. ${win}.`;
 }

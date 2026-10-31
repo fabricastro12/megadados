@@ -2,7 +2,6 @@ import type { Command } from '../commands';
 import type { Lifeline } from '../config';
 import {
   activeMembers,
-  activePlayers,
   captainOf,
   currentOwnerId,
   eligibleOwners,
@@ -28,7 +27,6 @@ import {
   ANSWER_GRACE_MS,
   AUDIENCE_MS,
   CROWN_PICK_MS,
-  EXTRA_TIME_MS,
   REVEAL_MS,
   ROUND_RESULTS_MS,
   SPIN_EXTRA_MS,
@@ -44,7 +42,7 @@ interface Run {
   events: GameEvent[];
 }
 
-const HOST_ONLY = new Set<Command['type']>(['pause', 'resume', 'end', 'skip', 'adjustPoints', 'kick']);
+const HOST_ONLY = new Set<Command['type']>(['pause', 'resume', 'end', 'skip', 'adjustPoints']);
 
 /**
  * The game's single entry point: validates `command` for `actor` against the current phase and
@@ -54,7 +52,7 @@ export function applyCommand(state: GameState, actor: Actor, command: Command, c
   if (state.phase === 'finished') return { ok: false, error: 'game_over' };
   if (HOST_ONLY.has(command.type) && actor.role !== 'host' && actor.role !== 'system') return { ok: false, error: 'not_host' };
   if (command.type === 'addPlayer' && actor.role !== 'system') return { ok: false, error: 'not_host' };
-  if (state.phase === 'paused' && !['resume', 'end', 'kick', 'adjustPoints', 'addPlayer'].includes(command.type)) {
+  if (state.phase === 'paused' && !['resume', 'end', 'adjustPoints', 'addPlayer'].includes(command.type)) {
     return { ok: false, error: 'paused' };
   }
 
@@ -91,8 +89,6 @@ function dispatch(run: Run, actor: Actor, command: Command): Outcome {
       return;
     case 'adjustPoints':
       return adjustPoints(run, command.ownerId, command.delta);
-    case 'kick':
-      return kick(run, command.playerId);
     case 'addPlayer':
       return addPlayer(run, command.player);
   }
@@ -168,7 +164,6 @@ function drawQuestion(run: Run, categoryId: string, isCrown: boolean): void {
     isCrown,
     startedAt: ctx.now,
     deadline,
-    extraMs: {},
     removed: {},
     answers: {},
     passed: [],
@@ -184,8 +179,8 @@ function drawQuestion(run: Run, categoryId: string, isCrown: boolean): void {
 
 // --- Answering --------------------------------------------------------------------------------
 
-function closesAt(s: GameState, ownerId: string): number {
-  return (s.current?.deadline ?? 0) + (s.current?.extraMs[ownerId] ?? 0);
+function closesAt(s: GameState, _ownerId: string): number {
+  return s.current?.deadline ?? 0;
 }
 
 /** The question closes when the last owner still allowed to answer runs out of time. */
@@ -264,6 +259,7 @@ function useLifeline(run: Run, actor: Actor, lifeline: Lifeline): Outcome {
   const { s, ctx } = run;
   if (s.phase !== 'question' || !s.current) return 'wrong_phase';
   if (!s.config.lifelines[lifeline]) return 'lifeline_disabled';
+  if (ctx.now > s.current.deadline + ANSWER_GRACE_MS) return 'late';
   const ownerId = ownerOf(s, actor.playerId);
   if (!ownerId) return 'not_participant';
   if (!eligibleOwners(s).includes(ownerId)) return 'not_your_turn';
@@ -277,16 +273,12 @@ function useLifeline(run: Run, actor: Actor, lifeline: Lifeline): Outcome {
       s.current.removed[ownerId] = shuffle(wrong, ctx.random).slice(0, 2).sort();
       break;
     }
-    case 'extraTime':
-      s.current.extraMs[ownerId] = (s.current.extraMs[ownerId] ?? 0) + EXTRA_TIME_MS;
-      s.phaseDeadline = questionClosesAt(s);
-      break;
     case 'audience':
-      if (s.config.mode === 'ronda') return 'lifeline_unavailable';
+      if (s.config.mode !== 'clasico') return 'lifeline_unavailable';
       s.current.audience = { openUntil: ctx.now + AUDIENCE_MS, votes: {} };
       break;
     case 'pass':
-      if (s.config.mode === 'ronda') {
+      if (s.config.mode !== 'clasico') {
         s.current.passed.push(ownerId);
       } else {
         // Classic: swap in another question of the same category, same turn.
@@ -355,7 +347,7 @@ function enterReveal(run: Run): void {
           at: record.at,
           startedAt: q.startedAt,
           closesAt: closesAt(s, ownerId),
-          double: q.isCrown && s.config.mode === 'ronda',
+          double: q.isCrown && s.config.mode !== 'clasico',
         });
       }
     }
@@ -363,7 +355,7 @@ function enterReveal(run: Run): void {
     if (!passed) score.streak = correct ? score.streak + 1 : 0;
     score.bestStreak = Math.max(score.bestStreak, score.streak);
 
-    if (s.config.mode === 'ronda' && correct && score.streak >= s.config.crownStreak) {
+    if (s.config.mode !== 'clasico' && correct && score.streak >= s.config.crownStreak) {
       score.streak = 0;
       if (!score.crowns.includes(q.categoryId)) {
         score.crowns.push(q.categoryId);
@@ -416,7 +408,7 @@ function startSpinFor(run: Run): void {
 function nextRound(run: Run): void {
   const { s } = run;
   s.round += 1;
-  if (s.round >= s.totalRounds) return finish(run, 'rounds');
+  if (s.config.winCondition !== 'timeLimit' && s.round >= s.totalRounds) return finish(run, 'rounds');
   startSpinFor(run);
   run.events.push({ type: 'roundStarted', round: s.round, spinnerId: s.spinnerId });
 }
@@ -433,7 +425,7 @@ function nextTurn(run: Run, rotateCaptain = true): void {
   if (s.turn.ownerIndex >= owners.length) {
     s.turn.ownerIndex = 0;
     s.round += 1;
-    if (s.round >= s.totalRounds) return finish(run, 'rounds');
+    if (s.config.winCondition !== 'timeLimit' && s.round >= s.totalRounds) return finish(run, 'rounds');
   }
   startSpinFor(run);
   run.events.push({ type: 'turnChanged', ownerId: currentOwnerId(s)!, spinnerId: s.spinnerId });
@@ -470,7 +462,7 @@ function tick(run: Run, force: boolean): Outcome {
     case 'spinning': {
       const landed = s.spin?.categoryId ?? null;
       if (landed) return drawQuestion(run, landed, false);
-      const owner = s.config.mode === 'ronda' ? s.spinnerId! : currentOwnerId(s)!;
+      const owner = s.config.mode !== 'clasico' ? s.spinnerId! : currentOwnerId(s)!;
       return openCrownPick(run, owner);
     }
     case 'crownPick': {
@@ -482,7 +474,7 @@ function tick(run: Run, force: boolean): Outcome {
     case 'reveal':
       if (crownWinner(s)) return finish(run, 'allCrowns');
       if (timeIsUp(run)) return finish(run, 'timeLimit');
-      if (s.config.mode === 'ronda') {
+      if (s.config.mode !== 'clasico') {
         s.phase = 'roundResults';
         s.phaseDeadline = ctx.now + ROUND_RESULTS_MS;
         return;
@@ -539,41 +531,6 @@ function adjustPoints(run: Run, ownerId: string, delta: number): Outcome {
   if (!score) return 'unknown_player';
   score.points = Math.max(0, score.points + delta);
   run.events.push({ type: 'pointsAdjusted', ownerId, delta });
-}
-
-function kick(run: Run, playerId: string): Outcome {
-  const { s } = run;
-  const player = s.players.find((p) => p.id === playerId && p.active);
-  if (!player) return 'unknown_player';
-  // Remember whose turn it is before the owner list shrinks.
-  const ownersBefore = ownerIds(s);
-  const ownerBefore = s.config.mode === 'clasico' ? currentOwnerId(s) : null;
-  player.active = false;
-  run.events.push({ type: 'playerKicked', playerId });
-  if (activePlayers(s).length === 0) return finish(run, 'noPlayers');
-
-  const wasPaused = s.phase === 'paused';
-  const phase = wasPaused ? s.paused!.phase : s.phase;
-
-  if (s.config.mode === 'clasico' && ownerBefore) {
-    const owners = ownerIds(s);
-    const index = owners.indexOf(ownerBefore);
-    if (index >= 0) {
-      s.turn.ownerIndex = index;
-    } else {
-      // The owner whose turn it was is gone: the turn passes to whoever now sits in that slot.
-      s.turn.ownerIndex = ownersBefore.indexOf(ownerBefore) - 1;
-      nextTurn(run, false);
-      if (wasPaused && s.phase !== 'finished') {
-        s.paused = { phase: s.phase, at: run.ctx.now };
-        s.phase = 'paused';
-      }
-      return;
-    }
-  }
-
-  if (phase === 'awaitingSpin' && s.spinnerId === playerId) s.spinnerId = spinnerFor(s);
-  if (phase === 'question' && !wasPaused && s.current && everyoneDone(s)) enterReveal(run);
 }
 
 function addPlayer(run: Run, player: { id: string; name: string; teamId: string | null }): Outcome {

@@ -14,7 +14,7 @@ export interface PlayerRef {
   id: string;
   name: string;
   teamId: string | null;
-  /** False once the host kicks the player; their scores stay for the record. */
+  /** Whether this participant is active in the game. */
   active: boolean;
 }
 
@@ -73,8 +73,6 @@ export interface CurrentQuestion {
   isCrown: boolean;
   startedAt: number;
   deadline: number;
-  /** Keyed by owner (player, or team in classic team mode). */
-  extraMs: Record<string, number>;
   removed: Record<string, number[]>;
   answers: Record<string, AnswerRecord>;
   passed: string[];
@@ -98,7 +96,7 @@ export interface RevealState {
   results: Record<string, OwnerResult>;
 }
 
-export type FinishReason = 'rounds' | 'allCrowns' | 'timeLimit' | 'host' | 'outOfQuestions' | 'noPlayers';
+export type FinishReason = 'rounds' | 'allCrowns' | 'timeLimit' | 'host' | 'outOfQuestions' | 'noPlayers' | 'catalogUpdated';
 
 export interface GameState {
   config: GameConfig;
@@ -155,7 +153,6 @@ export type GameEvent =
   | { type: 'paused' }
   | { type: 'resumed' }
   | { type: 'pointsAdjusted'; ownerId: string; delta: number }
-  | { type: 'playerKicked'; playerId: string }
   | { type: 'playerJoined'; playerId: string }
   | { type: 'gameOver'; reason: FinishReason; winnerIds: string[] };
 

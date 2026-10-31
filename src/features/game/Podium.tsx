@@ -4,6 +4,7 @@ import type { PublicGameState } from '@/game';
 import { useRoom } from '@/realtime/roomStore';
 import { DieAvatar } from '@/ui/DieAvatar';
 import { Toon } from '@/ui/Toon';
+import { useOwnerName } from './catalog';
 
 const STEPS = [
   { place: 2, height: 110, color: '#8CC2FF' },
@@ -18,6 +19,7 @@ const REASON_COPY: Record<string, string> = {
   host: 'El host terminó la partida.',
   outOfQuestions: 'Se acabaron las preguntas.',
   noPlayers: 'No quedaron jugadores.',
+  catalogUpdated: 'Se actualizó el banco de preguntas. La sala está lista para una revancha.',
 };
 
 /** Top three on steps, then everyone else. Teams get their own podium when they played. */
@@ -28,11 +30,20 @@ export function Podium({ state, big, scale: size }: { state: PublicGameState; bi
   const colorOf = (id: string) => lobby?.teams.find((t) => t.id === id)?.color ?? '#9B5CFF';
   const winners = state.finished?.winnerIds ?? [];
   const scale = size ?? (big ? 1.6 : 1);
+  const nameOf = useOwnerName();
+  const stats = state.stats;
+  const category = lobby?.categories.find((c) => c.id === stats?.bestCategory?.categoryId);
+  const highlights = stats ? [
+    stats.mvp && stats.mvp.points > 0 ? { label: 'Jugador destacado', name: nameOf(stats.mvp.playerId), detail: `${stats.mvp.points} ${state.mode === 'clasico' && state.answerMode !== 'solo' ? 'aciertos' : 'puntos'}` } : null,
+    stats.longestStreak ? { label: 'Mejor racha', name: nameOf(stats.longestStreak.ownerId), detail: `${stats.longestStreak.value} aciertos seguidos` } : null,
+    stats.fastestAnswer ? { label: 'Respuesta más rápida', name: nameOf(stats.fastestAnswer.playerId), detail: `${(stats.fastestAnswer.ms / 1000).toFixed(2)} s` } : null,
+    stats.bestCategory ? { label: 'Categoría estrella', name: category?.name ?? 'Categoría', detail: `${Math.round(stats.bestCategory.rate * 100)} % de aciertos` } : null,
+  ].filter((item) => item !== null) : [];
 
   return (
     <section className="flex flex-col items-center gap-4" aria-label="Podio">
       <Toon size={big ? 'xl' : 'lg'} as="h1" className="text-center">
-        {winners.length > 1 ? '¡Empate!' : `¡Ganó ${standings[0]?.name ?? ''}!`}
+        {state.finished?.reason === 'catalogUpdated' ? 'Banco actualizado' : winners.length > 1 ? '¡Empate!' : `¡Ganó ${standings[0]?.name ?? ''}!`}
       </Toon>
       {state.finished && <p className="font-extrabold">{REASON_COPY[state.finished.reason]}</p>}
       <div className="flex items-end justify-center gap-3" style={{ minHeight: 230 * scale }}>
@@ -59,6 +70,17 @@ export function Podium({ state, big, scale: size }: { state: PublicGameState; bi
           );
         })}
       </div>
+      {highlights.length > 0 && (
+        <div className={`grid w-full grid-cols-2 gap-3 ${big ? 'max-w-4xl' : ''}`} aria-label="Lo mejor de la partida">
+          {highlights.map((item) => (
+            <div key={item.label} className="sticker px-3 py-2 text-center">
+              <p className="text-sm font-bold text-ink-soft">{item.label}</p>
+              <p className={`font-extrabold ${big ? 'text-xl' : ''}`}>{item.name}</p>
+              <p className="text-sm font-semibold">{item.detail}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

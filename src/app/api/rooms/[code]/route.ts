@@ -10,7 +10,7 @@ export const GET = withUser<Context>(async (_request, userId, { params }) => {
   return respond(await getLobby(deps(), { code: normalizeCode(code), userId }));
 });
 
-/** Lobby actions: profile, settings, teams, kick, host claim, heartbeat. */
+/** Lobby actions: profile, settings, teams, host claim, heartbeat. */
 export const POST = withUser<Context>(async (request, userId, { params }) => {
   const { code } = await params;
   const action = await body(request, LobbyActionSchema);

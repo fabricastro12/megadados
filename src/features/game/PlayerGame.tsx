@@ -125,7 +125,7 @@ export function PlayerGame({ connection, onLeave }: { connection: Connection; on
     <header className="flex items-center gap-2 pr-14">
       <span className="whitespace-nowrap rounded-full border-[3px] border-ink bg-white px-3 py-1 text-sm font-extrabold">
         <span className="sr-only">Ronda </span>
-        <span aria-hidden="true">R</span> {Math.min(s.round + 1, s.totalRounds)}/{s.totalRounds}
+        <span aria-hidden="true">R</span> {s.round + 1}{!s.endsAt && `/${s.totalRounds}`}
       </span>
       {myScore && (
         <span className="flex items-center gap-1 whitespace-nowrap rounded-full border-[3px] border-ink bg-white px-3 py-1 text-sm font-extrabold">
@@ -273,14 +273,14 @@ export function PlayerGame({ connection, onLeave }: { connection: Connection; on
                   : choice === null && ownerId && q.answeredBy.includes(ownerId)
                     ? `Pasaste esta. Ya respondieron ${done} de ${total}.`
                     : choice !== null
-                      ? s.mode === 'ronda'
+                      ? s.mode !== 'clasico'
                         ? `Respuesta enviada. Ya respondieron ${done} de ${total}.`
                         : s.answerMode === 'vote'
                           ? `Votaste. Tu equipo lleva ${teamVotes} de ${teammates.length} votos.`
                           : 'Respuesta enviada.'
                       : s.answerMode === 'captain' && s.captainId !== seatId
                         ? `Responde ${nameOf(s.captainId)}, tu capitán.`
-                        : s.mode === 'ronda'
+                        : s.mode !== 'clasico'
                           ? `Ya respondieron ${done} de ${total}`
                           : s.answerMode === 'vote'
                             ? '¡Les toca! Votá la respuesta con tu equipo.'

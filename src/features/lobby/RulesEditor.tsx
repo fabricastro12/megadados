@@ -1,6 +1,6 @@
 'use client';
 
-import type { GameConfig } from '@/game/config';
+import { GameConfigSchema, PRESETS, type GameConfig } from '@/game/config';
 import type { LobbySnapshot } from '@/rooms/model';
 
 function Segmented<T extends string | number>({
@@ -52,24 +52,35 @@ export function RulesEditor({ config, categories, onChange }: { config: GameConf
   const toggleCategory = (id: string) => {
     const has = config.categories.includes(id);
     const next = has ? config.categories.filter((c) => c !== id) : [...config.categories, id];
-    if (next.length >= 2 && next.length <= 8) set({ categories: categories.map((c) => c.id).filter((c) => next.includes(c)) });
+    if (next.length >= 2 && next.length <= 6) set({ categories: categories.map((c) => c.id).filter((c) => next.includes(c)) });
   };
 
   return (
     <div className="flex flex-col gap-5">
+      <label className="flex flex-col gap-2 font-extrabold">
+        Partida preconfigurada
+        <select className="field" value="" onChange={(e) => {
+          const preset = PRESETS[e.target.value as keyof typeof PRESETS];
+          if (preset) onChange(GameConfigSchema.parse({ categories: config.categories, ...preset.config }));
+        }}>
+          <option value="" disabled>Elegí una configuración</option>
+          {Object.entries(PRESETS).map(([id, preset]) => <option key={id} value={id}>{preset.name}</option>)}
+        </select>
+      </label>
       <Segmented
         label="Cómo se juega"
         value={config.mode}
         options={[
           { value: 'ronda', label: 'Todos a la vez' },
           { value: 'clasico', label: 'Por turnos' },
+          { value: 'imagenes', label: 'Con imágenes' },
         ]}
         onChange={(mode) => set({ mode })}
       />
       <Toggle
         id="teams"
         label="Por equipos"
-        hint={config.mode === 'ronda' ? 'Cada uno responde; el equipo suma el promedio.' : 'El equipo juega su turno junto.'}
+        hint={config.mode !== 'clasico' ? 'Cada uno responde; el equipo suma el promedio.' : 'El equipo juega su turno junto.'}
         checked={config.teams.enabled}
         onChange={(enabled) => set({ teams: { ...config.teams, enabled } })}
       />
@@ -121,7 +132,7 @@ export function RulesEditor({ config, categories, onChange }: { config: GameConf
           label="Minutos"
           value={config.timeLimitMinutes}
           options={[10, 15, 20, 30, 45].map((n) => ({ value: n, label: `${n} min` }))}
-          onChange={(timeLimitMinutes) => set({ timeLimitMinutes, roundsMode: 'fixed', rounds: 50 })}
+          onChange={(timeLimitMinutes) => set({ timeLimitMinutes })}
         />
       ) : (
         <Segmented
@@ -185,7 +196,6 @@ export function RulesEditor({ config, categories, onChange }: { config: GameConf
       <div className="flex flex-col gap-3 border-t-[3px] border-dashed border-[#D4E3F2] pt-4">
         <Toggle id="ll-5050" label="Comodín 50/50" checked={config.lifelines.fiftyFifty} onChange={(fiftyFifty) => set({ lifelines: { ...config.lifelines, fiftyFifty } })} />
         <Toggle id="ll-pass" label="Comodín pase" checked={config.lifelines.pass} onChange={(pass) => set({ lifelines: { ...config.lifelines, pass } })} />
-        <Toggle id="ll-time" label="Comodín +10 s" checked={config.lifelines.extraTime} onChange={(extraTime) => set({ lifelines: { ...config.lifelines, extraTime } })} />
         <Toggle
           id="ll-audience"
           label="Consulta al público"

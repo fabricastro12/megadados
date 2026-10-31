@@ -1,107 +1,4437 @@
 {
   "categories": [
-    { "slug": "megafy", "name": "Megafy", "color": "#9B5CFF", "icon": "dice-stack", "sortOrder": 1, "isActive": false },
-    { "slug": "tecnologia-ia", "name": "Tecnología & IA", "color": "#2E8BFF", "icon": "chip", "sortOrder": 2, "isActive": true },
-    { "slug": "mendix-low-code", "name": "Mendix y low-code", "color": "#2CC56F", "icon": "blocks", "sortOrder": 3, "isActive": true },
-    { "slug": "cultura-general", "name": "Cultura general", "color": "#FFB31A", "icon": "book", "sortOrder": 4, "isActive": true },
-    { "slug": "latinoamerica", "name": "Latinoamérica", "color": "#FF6A3D", "icon": "mountain-sun", "sortOrder": 5, "isActive": true },
-    { "slug": "quien-es-quien", "name": "Quién es quién", "color": "#FF5DAA", "icon": "faces", "sortOrder": 6, "isActive": false }
+    {
+      "slug": "arte-literatura",
+      "name": "Arte y literatura",
+      "color": "#9B5CFF",
+      "icon": "palette",
+      "sortOrder": 1,
+      "isActive": true
+    },
+    {
+      "slug": "deportes",
+      "name": "Deportes",
+      "color": "#FFB31A",
+      "icon": "ball",
+      "sortOrder": 2,
+      "isActive": true
+    },
+    {
+      "slug": "historia",
+      "name": "Historia",
+      "color": "#FF6A3D",
+      "icon": "history",
+      "sortOrder": 3,
+      "isActive": true
+    },
+    {
+      "slug": "geografia",
+      "name": "Geografía",
+      "color": "#2E8BFF",
+      "icon": "globe",
+      "sortOrder": 4,
+      "isActive": true
+    },
+    {
+      "slug": "ciencia",
+      "name": "Ciencia",
+      "color": "#2CC56F",
+      "icon": "atom",
+      "sortOrder": 5,
+      "isActive": true
+    },
+    {
+      "slug": "entretenimiento",
+      "name": "Entretenimiento",
+      "color": "#FF5DAA",
+      "icon": "film",
+      "sortOrder": 6,
+      "isActive": true
+    }
   ],
   "questions": [
-    { "category": "tecnologia-ia", "difficulty": "easy", "prompt": "¿Qué significa la sigla LLM?", "options": ["Linear Logic Machine", "Large Language Model", "Low Latency Memory", "Layered Learning Matrix"], "correct": 1, "explanation": "Son los modelos de lenguaje detrás de los asistentes de IA que generan texto." },
-    { "category": "tecnologia-ia", "difficulty": "medium", "prompt": "¿Cómo se llama el paper de 2017 que presentó la arquitectura Transformer?", "options": ["Attention Is All You Need", "Deep Residual Learning", "Generative Adversarial Nets", "ImageNet Classification with Deep CNNs"], "correct": 0 },
-    { "category": "tecnologia-ia", "difficulty": "easy", "prompt": "¿Qué significa la sigla GPU?", "options": ["General Purpose Unit", "Global Processing Unit", "Graphics Processing Unit", "Graphical Program Utility"], "correct": 2 },
-    { "category": "tecnologia-ia", "difficulty": "easy", "prompt": "¿Quién creó el lenguaje Python?", "options": ["James Gosling", "Brendan Eich", "Bjarne Stroustrup", "Guido van Rossum"], "correct": 3, "explanation": "Gosling creó Java, Eich JavaScript y Stroustrup C++." },
-    { "category": "tecnologia-ia", "difficulty": "easy", "prompt": "¿Qué indica el código de respuesta HTTP 404?", "options": ["El recurso no se encontró", "El servidor falló", "Falta autenticarse", "La petición fue redirigida"], "correct": 0 },
-    { "category": "tecnologia-ia", "difficulty": "medium", "prompt": "¿Quién creó Git?", "options": ["Tim Berners-Lee", "Linus Torvalds", "Richard Stallman", "Ken Thompson"], "correct": 1, "explanation": "Lo escribió en 2005 para desarrollar el kernel de Linux." },
-    { "category": "tecnologia-ia", "difficulty": "easy", "prompt": "¿Qué significa la sigla JSON?", "options": ["Java Serialized Object Network", "JavaScript Online Node", "JavaScript Object Notation", "Joint Syntax Object Notation"], "correct": 2 },
-    { "category": "tecnologia-ia", "difficulty": "medium", "prompt": "Un modelo que aprende a partir de ejemplos etiquetados usa aprendizaje...", "options": ["no supervisado", "por refuerzo", "federado", "supervisado"], "correct": 3 },
-    { "category": "tecnologia-ia", "difficulty": "medium", "prompt": "¿Qué empresa compró Android Inc. en 2005?", "options": ["Google", "Samsung", "Motorola", "Microsoft"], "correct": 0 },
-    { "category": "tecnologia-ia", "difficulty": "easy", "prompt": "¿Cuánto vale el número binario 1010 en decimal?", "options": ["8", "10", "12", "5"], "correct": 1 },
-    { "category": "tecnologia-ia", "difficulty": "easy", "prompt": "En IA generativa, ¿qué es una \"alucinación\"?", "options": ["Un error de hardware", "Una imagen distorsionada a propósito", "Una respuesta inventada presentada como cierta", "Un ataque informático"], "correct": 2 },
-    { "category": "tecnologia-ia", "difficulty": "easy", "prompt": "¿Quién propuso en 1950 una prueba para saber si una máquina puede pensar?", "options": ["John von Neumann", "Ada Lovelace", "Claude Shannon", "Alan Turing"], "correct": 3 },
-    { "category": "tecnologia-ia", "difficulty": "easy", "prompt": "¿Qué significa la sigla SQL?", "options": ["Structured Query Language", "Simple Query Logic", "Sequential Query List", "Server Question Language"], "correct": 0 },
-    { "category": "tecnologia-ia", "difficulty": "medium", "prompt": "En un modelo de lenguaje, ¿qué es un token?", "options": ["Una clave de acceso a la API", "Un fragmento de texto que el modelo procesa", "Un parámetro entrenable", "Una GPU virtual"], "correct": 1 },
-    { "category": "tecnologia-ia", "difficulty": "medium", "prompt": "¿Qué programa de DeepMind le ganó al campeón de Go Lee Sedol en 2016?", "options": ["Deep Blue", "Watson", "AlphaGo", "AlphaFold"], "correct": 2, "explanation": "Deep Blue y Watson son de IBM; AlphaFold predice estructuras de proteínas." },
-
-    { "category": "mendix-low-code", "difficulty": "medium", "prompt": "¿En qué país se fundó Mendix?", "options": ["Alemania", "Estados Unidos", "Suecia", "Países Bajos"], "correct": 3, "explanation": "Nació en Róterdam en 2005." },
-    { "category": "mendix-low-code", "difficulty": "easy", "prompt": "¿Qué empresa compró Mendix en 2018?", "options": ["Siemens", "SAP", "Microsoft", "Oracle"], "correct": 0 },
-    { "category": "mendix-low-code", "difficulty": "easy", "prompt": "En Mendix, ¿cómo se llama la lógica visual que se ejecuta en el servidor?", "options": ["Nanoflow", "Microflow", "Workflow", "Dataflow"], "correct": 1 },
-    { "category": "mendix-low-code", "difficulty": "medium", "prompt": "¿Y la lógica visual que se ejecuta en el dispositivo, incluso sin conexión?", "options": ["Microflow", "Snippet", "Nanoflow", "Rule"], "correct": 2 },
-    { "category": "mendix-low-code", "difficulty": "easy", "prompt": "¿Cómo se llama el entorno de desarrollo de escritorio de Mendix?", "options": ["Visual Studio", "Mendix Builder", "App Studio", "Studio Pro"], "correct": 3 },
-    { "category": "mendix-low-code", "difficulty": "easy", "prompt": "¿Qué se define en el Domain Model de un módulo de Mendix?", "options": ["Entidades, atributos y asociaciones", "Las páginas de la app", "Los estilos visuales", "La navegación"], "correct": 0 },
-    { "category": "mendix-low-code", "difficulty": "medium", "prompt": "¿Con qué biblioteca se construyen los pluggable widgets de Mendix?", "options": ["Angular", "React", "Vue", "jQuery"], "correct": 1 },
-    { "category": "mendix-low-code", "difficulty": "medium", "prompt": "Si necesitás código propio del lado del servidor en Mendix, escribís una...", "options": ["Python action", "PHP action", "Java action", "Go action"], "correct": 2 },
-    { "category": "mendix-low-code", "difficulty": "medium", "prompt": "¿Qué pasa con los objetos de una entidad no persistible en Mendix?", "options": ["Se guardan cifrados", "Solo existen en producción", "Se replican en todos los nodos", "Viven en memoria y no se guardan en la base de datos"], "correct": 3 },
-    { "category": "mendix-low-code", "difficulty": "medium", "prompt": "¿Qué lenguaje usan las restricciones de una acción Retrieve en Mendix?", "options": ["XPath", "GraphQL", "LINQ", "Cypher"], "correct": 0 },
-    { "category": "mendix-low-code", "difficulty": "hard", "prompt": "En la seguridad de Mendix, ¿qué se le asigna a un rol de usuario para darle permisos en cada módulo?", "options": ["Grupos de LDAP", "Roles de módulo", "Tokens de API", "Perfiles de navegación"], "correct": 1 },
-    { "category": "mendix-low-code", "difficulty": "hard", "prompt": "¿Cómo llama Gartner a la categoría de plataformas como Mendix?", "options": ["Robotic Process Automation", "Integration Platform as a Service", "Enterprise Low-Code Application Platforms", "Digital Experience Platforms"], "correct": 2 },
-    { "category": "mendix-low-code", "difficulty": "medium", "prompt": "¿Cómo se llama el framework de diseño de interfaces de Mendix?", "options": ["Material UI", "Fluent UI", "Carbon", "Atlas UI"], "correct": 3 },
-    { "category": "mendix-low-code", "difficulty": "hard", "prompt": "¿Sobre qué plataforma corre el runtime de Mendix en el servidor?", "options": ["Java (JVM)", ".NET", "Node.js", "Python"], "correct": 0 },
-    { "category": "mendix-low-code", "difficulty": "medium", "prompt": "¿Qué editor de Studio Pro modela procesos con tareas de usuarios y aprobaciones?", "options": ["Microflows", "Workflows", "Nanoflows", "Snippets"], "correct": 1 },
-
-    { "category": "cultura-general", "difficulty": "easy", "prompt": "¿Cuál es el océano más grande del planeta?", "options": ["Atlántico", "Índico", "Pacífico", "Ártico"], "correct": 2 },
-    { "category": "cultura-general", "difficulty": "easy", "prompt": "¿Cuál es el símbolo químico del oro?", "options": ["Ag", "Or", "Go", "Au"], "correct": 3, "explanation": "Viene del latín aurum." },
-    { "category": "cultura-general", "difficulty": "easy", "prompt": "¿Qué planeta es conocido como el planeta rojo?", "options": ["Marte", "Venus", "Júpiter", "Mercurio"], "correct": 0 },
-    { "category": "cultura-general", "difficulty": "easy", "prompt": "¿Quién pintó la Mona Lisa?", "options": ["Miguel Ángel", "Leonardo da Vinci", "Rafael", "Sandro Botticelli"], "correct": 1 },
-    { "category": "cultura-general", "difficulty": "easy", "prompt": "¿Quién escribió \"Cien años de soledad\"?", "options": ["Julio Cortázar", "Mario Vargas Llosa", "Gabriel García Márquez", "Isabel Allende"], "correct": 2 },
-    { "category": "cultura-general", "difficulty": "medium", "prompt": "¿A qué velocidad aproximada viaja la luz en el vacío?", "options": ["30.000 km/s", "3.000 km/s", "3.000.000 km/s", "300.000 km/s"], "correct": 3 },
-    { "category": "cultura-general", "difficulty": "easy", "prompt": "¿Cuál es el número primo más pequeño?", "options": ["2", "1", "3", "0"], "correct": 0, "explanation": "El 1 no se considera primo." },
-    { "category": "cultura-general", "difficulty": "medium", "prompt": "¿Qué continente tiene más países?", "options": ["Asia", "África", "Europa", "América"], "correct": 1 },
-    { "category": "cultura-general", "difficulty": "easy", "prompt": "¿Qué gas absorben las plantas para hacer la fotosíntesis?", "options": ["Oxígeno", "Nitrógeno", "Dióxido de carbono", "Hidrógeno"], "correct": 2 },
-    { "category": "cultura-general", "difficulty": "easy", "prompt": "¿Quién escribió \"Don Quijote de la Mancha\"?", "options": ["Lope de Vega", "Francisco de Quevedo", "Garcilaso de la Vega", "Miguel de Cervantes"], "correct": 3 },
-    { "category": "cultura-general", "difficulty": "easy", "prompt": "¿Cuál es el material natural más duro?", "options": ["Diamante", "Cuarzo", "Granito", "Topacio"], "correct": 0 },
-    { "category": "cultura-general", "difficulty": "easy", "prompt": "¿En qué año llegó el ser humano a la Luna por primera vez?", "options": ["1965", "1969", "1972", "1959"], "correct": 1 },
-    { "category": "cultura-general", "difficulty": "easy", "prompt": "¿Cuál es la moneda de Japón?", "options": ["Won", "Yuan", "Yen", "Rupia"], "correct": 2 },
-    { "category": "cultura-general", "difficulty": "medium", "prompt": "¿Cuántos huesos tiene el cuerpo humano adulto?", "options": ["186", "226", "256", "206"], "correct": 3 },
-    { "category": "cultura-general", "difficulty": "hard", "prompt": "¿Cuántos elementos químicos tiene hoy la tabla periódica?", "options": ["118", "108", "112", "124"], "correct": 0 },
-
-    { "category": "latinoamerica", "difficulty": "easy", "prompt": "¿Qué lago, compartido por Perú y Bolivia, suele presentarse como el lago navegable más alto del mundo?", "options": ["Lago Poopó", "Lago Titicaca", "Lago de Maracaibo", "Lago General Carrera"], "correct": 1, "explanation": "Está a unos 3.800 m sobre el nivel del mar." },
-    { "category": "latinoamerica", "difficulty": "easy", "prompt": "¿En qué país está Machu Picchu?", "options": ["Bolivia", "Chile", "Perú", "Ecuador"], "correct": 2 },
-    { "category": "latinoamerica", "difficulty": "easy", "prompt": "¿En qué país están las líneas de Nazca, figuras gigantes trazadas en el desierto?", "options": ["Chile", "Argentina", "Bolivia", "Perú"], "correct": 3 },
-    { "category": "latinoamerica", "difficulty": "medium", "prompt": "¿Qué escritor peruano ganó el Premio Nobel de Literatura en 2010?", "options": ["Mario Vargas Llosa", "César Vallejo", "José María Arguedas", "Ciro Alegría"], "correct": 0 },
-    { "category": "latinoamerica", "difficulty": "easy", "prompt": "¿En qué país está el Aconcagua, la montaña más alta de América?", "options": ["Chile", "Argentina", "Perú", "Bolivia"], "correct": 1 },
-    { "category": "latinoamerica", "difficulty": "medium", "prompt": "¿Entre qué dos países están las Cataratas del Iguazú?", "options": ["Argentina y Paraguay", "Brasil y Paraguay", "Argentina y Brasil", "Bolivia y Brasil"], "correct": 2 },
-    { "category": "latinoamerica", "difficulty": "easy", "prompt": "¿En qué país está la mayor parte del desierto de Atacama?", "options": ["Perú", "Bolivia", "Argentina", "Chile"], "correct": 3 },
-    { "category": "latinoamerica", "difficulty": "easy", "prompt": "¿A qué país pertenece la Isla de Pascua (Rapa Nui)?", "options": ["Chile", "Perú", "Ecuador", "Francia"], "correct": 0 },
-    { "category": "latinoamerica", "difficulty": "medium", "prompt": "¿Qué poeta chileno ganó el Premio Nobel de Literatura en 1971?", "options": ["Vicente Huidobro", "Pablo Neruda", "Nicanor Parra", "Gabriela Mistral"], "correct": 1, "explanation": "Gabriela Mistral lo había ganado en 1945." },
-    { "category": "latinoamerica", "difficulty": "medium", "prompt": "¿En qué ciudad funciona la sede del gobierno de Bolivia?", "options": ["Sucre", "Santa Cruz de la Sierra", "La Paz", "Cochabamba"], "correct": 2, "explanation": "Sucre es la capital constitucional; el Ejecutivo y el Legislativo funcionan en La Paz." },
-    { "category": "latinoamerica", "difficulty": "easy", "prompt": "¿En qué país está el Salar de Uyuni, el salar más grande del mundo?", "options": ["Chile", "Argentina", "Perú", "Bolivia"], "correct": 3 },
-    { "category": "latinoamerica", "difficulty": "easy", "prompt": "¿Cuál es la capital de Venezuela?", "options": ["Caracas", "Maracaibo", "Valencia", "Mérida"], "correct": 0 },
-    { "category": "latinoamerica", "difficulty": "medium", "prompt": "¿En qué país está el Salto Ángel, la cascada más alta del mundo?", "options": ["Colombia", "Venezuela", "Brasil", "Guyana"], "correct": 1 },
-    { "category": "latinoamerica", "difficulty": "medium", "prompt": "¿En qué ciudad nació Simón Bolívar?", "options": ["Bogotá", "Quito", "Caracas", "Lima"], "correct": 2 },
-    { "category": "latinoamerica", "difficulty": "easy", "prompt": "¿Qué cordillera atraviesa Perú, Argentina, Chile, Bolivia y Venezuela?", "options": ["Sierra Madre", "Los Apalaches", "Las Montañas Rocosas", "Los Andes"], "correct": 3 },
-
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿En qué año se fundó Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿En qué ciudad abrió Megafy su primera oficina?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿En cuántos países trabaja hoy el equipo de Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿Cuál fue el primer cliente de Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿Cuál de estos es uno de los valores de Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿Qué significa o de dónde viene el nombre Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿Cuántas personas trabajan hoy en Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿Cuál fue el proyecto más grande de Megafy hasta ahora?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿Qué certificación o partnership tiene Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿En qué industria trabaja la mayoría de los clientes de Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿Cómo se llama el canal o ritual interno más famoso de Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿Qué tecnología usó Megafy en su primer proyecto?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿Cuál es el lema o eslogan de Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿Dónde fue la última Team Building de Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "megafy", "placeholder": true, "prompt": "[COMPLETAR] ¿Cuál es el color principal de la marca Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo es el que llegó primero a Megafy?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo vivió en más países?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo toca un instrumento?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo corrió una maratón?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo tiene más mascotas?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo cocina el mejor plato típico de su país?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo habla más idiomas?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo nació más cerca de la cordillera?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo tiene el hobby más raro?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo escribió la primera línea de código del proyecto más viejo?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo viajó más lejos de vacaciones?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo es fan de un equipo de fútbol de otro país?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo tiene la colección más grande de algo?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo fue alguna vez a un mundial?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 },
-    { "category": "quien-es-quien", "placeholder": true, "prompt": "[COMPLETAR] ¿Quién del equipo madruga más para trabajar?", "options": ["[RESPUESTA CORRECTA]", "[OPCIÓN B]", "[OPCIÓN C]", "[OPCIÓN D]"], "correct": 0 }
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió Don Quijote de la Mancha?",
+      "options": [
+        "Miguel de Cervantes",
+        "Lope de Vega",
+        "Federico García Lorca",
+        "Jorge Luis Borges"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién pintó la Mona Lisa?",
+      "options": [
+        "Sandro Botticelli",
+        "Leonardo da Vinci",
+        "Miguel Ángel",
+        "Rafael"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió Cien años de soledad?",
+      "options": [
+        "Mario Vargas Llosa",
+        "Carlos Fuentes",
+        "Gabriel García Márquez",
+        "Julio Cortázar"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿A qué movimiento artístico se asocia a Salvador Dalí?",
+      "options": [
+        "Impresionismo",
+        "Cubismo",
+        "Realismo",
+        "Surrealismo"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién pintó La noche estrellada?",
+      "options": [
+        "Vincent van Gogh",
+        "Claude Monet",
+        "Paul Cézanne",
+        "Henri Matisse"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió Romeo y Julieta?",
+      "options": [
+        "Oscar Wilde",
+        "William Shakespeare",
+        "Charles Dickens",
+        "Jane Austen"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién esculpió el David que se conserva en Florencia?",
+      "options": [
+        "Bernini",
+        "Rodin",
+        "Miguel Ángel",
+        "Donatello"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué escritor argentino creó el cuento El Aleph?",
+      "options": [
+        "Roberto Arlt",
+        "Ernesto Sabato",
+        "Adolfo Bioy Casares",
+        "Jorge Luis Borges"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién pintó Guernica?",
+      "options": [
+        "Pablo Picasso",
+        "Joan Miró",
+        "Diego Rivera",
+        "Francisco de Goya"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué poeta chilena recibió el Nobel de Literatura en 1945?",
+      "options": [
+        "Juana de Ibarbourou",
+        "Gabriela Mistral",
+        "Violeta Parra",
+        "Alfonsina Storni"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Cuál de estos instrumentos tiene cuerdas frotadas con un arco?",
+      "options": [
+        "Trompeta",
+        "Clarinete",
+        "Violín",
+        "Flauta"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió La metamorfosis?",
+      "options": [
+        "Hermann Hesse",
+        "Thomas Mann",
+        "Bertolt Brecht",
+        "Franz Kafka"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué pintora mexicana es conocida por sus autorretratos?",
+      "options": [
+        "Frida Kahlo",
+        "Remedios Varo",
+        "Leonora Carrington",
+        "María Izquierdo"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió El principito?",
+      "options": [
+        "Albert Camus",
+        "Antoine de Saint-Exupéry",
+        "Jules Verne",
+        "Victor Hugo"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué técnica pictórica usa pequeños puntos de color?",
+      "options": [
+        "Grabado",
+        "Collage",
+        "Puntillismo",
+        "Fresco"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Cuántos jugadores por equipo comienzan un partido de fútbol en cancha?",
+      "options": [
+        "11",
+        "9",
+        "10",
+        "12"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿En qué deporte se usa una raqueta y un volante?",
+      "options": [
+        "Pádel",
+        "Bádminton",
+        "Tenis",
+        "Squash"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Cuántos puntos vale un tiro libre convertido en básquet?",
+      "options": [
+        "3",
+        "4",
+        "1",
+        "2"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué país ganó el Mundial de fútbol masculino de 1986?",
+      "options": [
+        "Alemania",
+        "Brasil",
+        "Italia",
+        "Argentina"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué deporte practica una persona que compite en mariposa?",
+      "options": [
+        "Natación",
+        "Atletismo",
+        "Gimnasia",
+        "Ciclismo"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿En qué superficie se juega Roland Garros?",
+      "options": [
+        "Hielo",
+        "Polvo de ladrillo",
+        "Césped",
+        "Madera"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Cuántos anillos tiene el símbolo olímpico?",
+      "options": [
+        "6",
+        "7",
+        "5",
+        "4"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿En qué deporte se disputa el Tour de Francia?",
+      "options": [
+        "Automovilismo",
+        "Atletismo",
+        "Remo",
+        "Ciclismo"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Cuál es la distancia oficial de un maratón?",
+      "options": [
+        "42,195 km",
+        "40 km",
+        "21,097 km",
+        "50 km"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué pieza de ajedrez se mueve en forma de L?",
+      "options": [
+        "Reina",
+        "Caballo",
+        "Alfil",
+        "Torre"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Cuántos jugadores por equipo hay en cancha en vóley de sala?",
+      "options": [
+        "7",
+        "8",
+        "6",
+        "5"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿En qué deporte se usa un puck o disco?",
+      "options": [
+        "Rugby",
+        "Béisbol",
+        "Waterpolo",
+        "Hockey sobre hielo"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿A qué deporte pertenece el término scrum?",
+      "options": [
+        "Rugby",
+        "Básquet",
+        "Tenis",
+        "Golf"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿En qué país nació el futbolista Pelé?",
+      "options": [
+        "Argentina",
+        "Brasil",
+        "Uruguay",
+        "Portugal"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué disciplina combina esquí de fondo y tiro con rifle?",
+      "options": [
+        "Pentatlón moderno",
+        "Decatlón",
+        "Biatlón",
+        "Triatlón"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿En qué año comenzó la Revolución francesa?",
+      "options": [
+        "1789",
+        "1776",
+        "1810",
+        "1848"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué civilización construyó las pirámides de Guiza?",
+      "options": [
+        "Persa",
+        "Egipcia",
+        "Maya",
+        "Inca"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿En qué año terminó la Segunda Guerra Mundial?",
+      "options": [
+        "1942",
+        "1950",
+        "1945",
+        "1939"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué ciudad fue la capital del Imperio inca?",
+      "options": [
+        "Lima",
+        "Quito",
+        "La Paz",
+        "Cusco"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué navegante llegó a América en su expedición de 1492?",
+      "options": [
+        "Cristóbal Colón",
+        "Fernando de Magallanes",
+        "Vasco da Gama",
+        "James Cook"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué muro cayó en noviembre de 1989?",
+      "options": [
+        "El Muro de las Lamentaciones",
+        "El Muro de Berlín",
+        "La Gran Muralla China",
+        "El Muro de Adriano"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Quién fue el primer ser humano en pisar la Luna?",
+      "options": [
+        "Buzz Aldrin",
+        "John Glenn",
+        "Neil Armstrong",
+        "Yuri Gagarin"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué civilización usaba la escritura cuneiforme en sus orígenes?",
+      "options": [
+        "Romana",
+        "Azteca",
+        "Vikinga",
+        "Sumeria"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Quién lideró el Ejército de los Andes?",
+      "options": [
+        "José de San Martín",
+        "Manuel Belgrano",
+        "Simón Bolívar",
+        "José Artigas"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿En qué año se declaró la independencia argentina?",
+      "options": [
+        "1806",
+        "1816",
+        "1810",
+        "1820"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué reina gobernaba Egipto cuando se relacionó con Julio César y Marco Antonio?",
+      "options": [
+        "Hatshepsut",
+        "Isabel I",
+        "Cleopatra VII",
+        "Nefertiti"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué invento se asocia con Johannes Gutenberg?",
+      "options": [
+        "La máquina de vapor",
+        "El telégrafo",
+        "La brújula",
+        "La imprenta de tipos móviles en Europa"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué imperio tuvo a Constantinopla como capital?",
+      "options": [
+        "Imperio bizantino",
+        "Imperio mongol",
+        "Imperio carolingio",
+        "Imperio azteca"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué documento inglés de 1215 limitó el poder del rey Juan?",
+      "options": [
+        "La Paz de Westfalia",
+        "La Carta Magna",
+        "El Edicto de Nantes",
+        "El Tratado de Versalles"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿En qué batalla fue derrotado definitivamente Napoleón en 1815?",
+      "options": [
+        "Trafalgar",
+        "Marengo",
+        "Waterloo",
+        "Austerlitz"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es la capital de Francia?",
+      "options": [
+        "París",
+        "Roma",
+        "Madrid",
+        "Lisboa"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué país está Machu Picchu?",
+      "options": [
+        "Ecuador",
+        "Perú",
+        "Bolivia",
+        "Chile"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es el océano más extenso?",
+      "options": [
+        "Índico",
+        "Ártico",
+        "Pacífico",
+        "Atlántico"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué cordillera separa gran parte de Argentina y Chile?",
+      "options": [
+        "Los Alpes",
+        "El Himalaya",
+        "Los Pirineos",
+        "Los Andes"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué continente está el desierto del Sahara?",
+      "options": [
+        "África",
+        "Asia",
+        "Oceanía",
+        "América"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué país tiene a Tokio como capital?",
+      "options": [
+        "Tailandia",
+        "Japón",
+        "China",
+        "Corea del Sur"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es el país más extenso de América del Sur?",
+      "options": [
+        "Perú",
+        "Colombia",
+        "Brasil",
+        "Argentina"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué país se encuentra el Salar de Uyuni?",
+      "options": [
+        "Argentina",
+        "Chile",
+        "Perú",
+        "Bolivia"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es la capital de Canadá?",
+      "options": [
+        "Ottawa",
+        "Toronto",
+        "Montreal",
+        "Vancouver"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué río atraviesa la ciudad de Londres?",
+      "options": [
+        "Rin",
+        "Támesis",
+        "Sena",
+        "Danubio"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué país está la ciudad de Petra?",
+      "options": [
+        "Grecia",
+        "Turquía",
+        "Jordania",
+        "Egipto"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué lago comparten Perú y Bolivia?",
+      "options": [
+        "Maracaibo",
+        "General Carrera",
+        "Nahuel Huapi",
+        "Titicaca"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es la capital de Australia?",
+      "options": [
+        "Canberra",
+        "Sídney",
+        "Melbourne",
+        "Perth"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué estrecho separa Europa de África entre España y Marruecos?",
+      "options": [
+        "Magallanes",
+        "Gibraltar",
+        "Bering",
+        "Ormuz"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué país tiene a Reikiavik como capital?",
+      "options": [
+        "Finlandia",
+        "Dinamarca",
+        "Islandia",
+        "Noruega"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Cuál es la fórmula química del agua?",
+      "options": [
+        "H₂O",
+        "CO₂",
+        "O₂",
+        "NaCl"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué planeta es conocido como el planeta rojo?",
+      "options": [
+        "Mercurio",
+        "Marte",
+        "Venus",
+        "Júpiter"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué gas liberan las plantas durante la fotosíntesis?",
+      "options": [
+        "Hidrógeno",
+        "Nitrógeno",
+        "Oxígeno",
+        "Helio"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Cuál es la unidad de fuerza del Sistema Internacional?",
+      "options": [
+        "Julio",
+        "Vatio",
+        "Pascal",
+        "Newton"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué órgano bombea la sangre en el cuerpo humano?",
+      "options": [
+        "Corazón",
+        "Pulmón",
+        "Hígado",
+        "Riñón"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué científico formuló la teoría de la relatividad?",
+      "options": [
+        "Niels Bohr",
+        "Albert Einstein",
+        "Isaac Newton",
+        "Galileo Galilei"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué parte de la célula eucariota contiene la mayor parte del ADN?",
+      "options": [
+        "Ribosoma",
+        "Lisosoma",
+        "Núcleo",
+        "Membrana plasmática"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué elemento químico tiene el símbolo Au?",
+      "options": [
+        "Plata",
+        "Aluminio",
+        "Argón",
+        "Oro"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué estudia la entomología?",
+      "options": [
+        "Los insectos",
+        "Los hongos",
+        "Los minerales",
+        "Los peces"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué tipo de animal es una ballena?",
+      "options": [
+        "Anfibio",
+        "Mamífero",
+        "Pez",
+        "Reptil"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Cuántos cromosomas tiene normalmente una célula somática humana?",
+      "options": [
+        "48",
+        "44",
+        "46",
+        "23"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué instrumento mide la presión atmosférica?",
+      "options": [
+        "Anemómetro",
+        "Higrómetro",
+        "Sismógrafo",
+        "Barómetro"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué partícula subatómica tiene carga eléctrica negativa?",
+      "options": [
+        "Electrón",
+        "Protón",
+        "Neutrón",
+        "Fotón"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué planeta tiene un sistema de anillos especialmente visible desde la Tierra?",
+      "options": [
+        "Mercurio",
+        "Saturno",
+        "Marte",
+        "Venus"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Cuál es la velocidad aproximada de la luz en el vacío?",
+      "options": [
+        "3.000 km/s",
+        "300 km/s",
+        "300.000 km/s",
+        "30.000 km/s"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué banda interpretó Bohemian Rhapsody?",
+      "options": [
+        "Queen",
+        "The Beatles",
+        "Pink Floyd",
+        "The Rolling Stones"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién dirigió Titanic, estrenada en 1997?",
+      "options": [
+        "Ridley Scott",
+        "James Cameron",
+        "Steven Spielberg",
+        "Christopher Nolan"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué personaje de videojuegos es un plomero con gorra roja?",
+      "options": [
+        "Link",
+        "Kirby",
+        "Mario",
+        "Sonic"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿De qué país es originaria la cantante Shakira?",
+      "options": [
+        "México",
+        "España",
+        "Argentina",
+        "Colombia"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué saga cinematográfica incluye a Darth Vader?",
+      "options": [
+        "Star Wars",
+        "Star Trek",
+        "Dune",
+        "Alien"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Cómo se llama el vaquero de Toy Story?",
+      "options": [
+        "Rex",
+        "Woody",
+        "Buzz",
+        "Andy"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué instrumento tocaba principalmente Louis Armstrong?",
+      "options": [
+        "Piano",
+        "Batería",
+        "Trompeta",
+        "Saxofón"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué serie transcurre principalmente en la ciudad ficticia de Springfield?",
+      "options": [
+        "South Park",
+        "Padre de familia",
+        "Futurama",
+        "Los Simpson"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién protagonizó al capitán Jack Sparrow en Piratas del Caribe?",
+      "options": [
+        "Johnny Depp",
+        "Orlando Bloom",
+        "Brad Pitt",
+        "Tom Cruise"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué estudio creó Mi vecino Totoro?",
+      "options": [
+        "Aardman",
+        "Studio Ghibli",
+        "Pixar",
+        "DreamWorks"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué cantante lanzó el álbum Thriller en 1982?",
+      "options": [
+        "David Bowie",
+        "Elton John",
+        "Michael Jackson",
+        "Prince"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué videojuego consiste en encajar piezas llamadas tetrominós?",
+      "options": [
+        "Pac-Man",
+        "Space Invaders",
+        "Pong",
+        "Tetris"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué director realizó El viaje de Chihiro?",
+      "options": [
+        "Hayao Miyazaki",
+        "Akira Kurosawa",
+        "Satoshi Kon",
+        "Makoto Shinkai"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué grupo sueco interpretó Dancing Queen?",
+      "options": [
+        "Europe",
+        "ABBA",
+        "Ace of Base",
+        "Roxette"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué película de 1994 presenta a los personajes Simba, Timón y Pumba?",
+      "options": [
+        "Tarzán",
+        "Hércules",
+        "El rey león",
+        "Aladdín"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Cómo se llama esta pintura?",
+      "options": [
+        "La Gioconda (Mona Lisa)",
+        "La joven de la perla",
+        "Las meninas",
+        "La dama del armiño"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Mona_Lisa.jpg/960px-Mona_Lisa.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Leonardo da Vinci · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Mona_Lisa.jpg"
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién pintó esta obra?",
+      "options": [
+        "Salvador Dalí",
+        "Vincent van Gogh",
+        "Claude Monet",
+        "Pablo Picasso"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/960px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Vincent van Gogh · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg"
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué escritor está representado en este retrato?",
+      "options": [
+        "Lope de Vega",
+        "Francisco de Quevedo",
+        "Miguel de Cervantes",
+        "William Shakespeare"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Cervantes_J%C3%A1uregui.jpg/960px-Cervantes_J%C3%A1uregui.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Attributed to Juan de Jáuregui · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Cervantes_J%C3%A1uregui.jpg"
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Quién es este futbolista?",
+      "options": [
+        "Cristiano Ronaldo",
+        "Neymar",
+        "Luis Suárez",
+        "Lionel Messi"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Leo_Messi_Argentina_v_Egypt_7_July_2026-1.jpg/960px-Leo_Messi_Argentina_v_Egypt_7_July_2026-1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Bryan Berlin · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Leo_Messi_Argentina_v_Egypt_7_July_2026-1.jpg"
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Quién es esta tenista?",
+      "options": [
+        "Serena Williams",
+        "Venus Williams",
+        "Naomi Osaka",
+        "Coco Gauff"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Serena-Smiling-2020.png/960px-Serena-Smiling-2020.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "AndrewHenkelman · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Serena-Smiling-2020.png"
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Quién es este basquetbolista?",
+      "options": [
+        "Magic Johnson",
+        "Michael Jordan",
+        "Kobe Bryant",
+        "LeBron James"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Michael_jordan_admad_rashad_%2851276390562%29_%28cropped%29.jpg/960px-Michael_jordan_admad_rashad_%2851276390562%29_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Zach Catanzareti Photo · CC BY 2.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Michael_jordan_admad_rashad_(51276390562)_(cropped).jpg"
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué personaje histórico aparece en este retrato?",
+      "options": [
+        "Simón Bolívar",
+        "George Washington",
+        "Napoleón Bonaparte",
+        "Luis XIV"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg/960px-Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Jacques-Louis David · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg"
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué reina está representada en este busto?",
+      "options": [
+        "Nefertiti",
+        "Hatshepsut",
+        "Isabel I",
+        "Cleopatra VII"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Kleopatra-VII.-Altes-Museum-Berlin1.jpg/960px-Kleopatra-VII.-Altes-Museum-Berlin1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Louis le Grand · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Kleopatra-VII.-Altes-Museum-Berlin1.jpg"
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué presidente estadounidense aparece en la foto?",
+      "options": [
+        "Abraham Lincoln",
+        "George Washington",
+        "Theodore Roosevelt",
+        "Thomas Jefferson"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Abraham_Lincoln_O-77_matte_collodion_print.jpg/960px-Abraham_Lincoln_O-77_matte_collodion_print.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Alexander Gardner · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Abraham_Lincoln_O-77_matte_collodion_print.jpg"
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué país se encuentra este monumento?",
+      "options": [
+        "Bélgica",
+        "Francia",
+        "Italia",
+        "España"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg/960px-Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Benh LIEU SONG · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons_(cropped).jpg"
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué país se encuentra este sitio arqueológico?",
+      "options": [
+        "México",
+        "Guatemala",
+        "Perú",
+        "Bolivia"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Machu_Picchu%2C_2023_%28012%29.jpg/960px-Machu_Picchu%2C_2023_%28012%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Draceane · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Machu_Picchu,_2023_(012).jpg"
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cómo se llama esta maravilla del mundo antiguo?",
+      "options": [
+        "El Coloso de Rodas",
+        "El Faro de Alejandría",
+        "El Templo de Artemisa",
+        "La Gran Pirámide de Guiza"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Great_Pyramid_of_Giza_-_Pyramid_of_Khufu.jpg/960px-Great_Pyramid_of_Giza_-_Pyramid_of_Khufu.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Douwe C. van der Zee · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Great_Pyramid_of_Giza_-_Pyramid_of_Khufu.jpg"
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Quién es este científico?",
+      "options": [
+        "Albert Einstein",
+        "Isaac Newton",
+        "Nikola Tesla",
+        "Niels Bohr"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Albert_Einstein_Head_cleaned.jpg/960px-Albert_Einstein_Head_cleaned.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Oren Jack Turner · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Albert_Einstein_Head_cleaned.jpg"
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué planeta se muestra en esta imagen?",
+      "options": [
+        "Neptuno",
+        "Saturno",
+        "Júpiter",
+        "Urano"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png/960px-Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "NASA / JPL-Caltech / SSI / color composite by Gordan Ugarkovic · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Saturn_global_view_from_Cassini,_rings_open_Better_Colour.png"
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Quién es esta científica?",
+      "options": [
+        "Lise Meitner",
+        "Ada Lovelace",
+        "Marie Curie",
+        "Rosalind Franklin"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Marie_Curie_c._1920s.jpg/960px-Marie_Curie_c._1920s.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Henri Manuel · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Marie_Curie_c._1920s.jpg"
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién es esta cantante?",
+      "options": [
+        "Ariana Grande",
+        "Katy Perry",
+        "Dua Lipa",
+        "Taylor Swift"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Taylor_Swift_at_the_2023_MTV_Video_Music_Awards_%283%29.png/960px-Taylor_Swift_at_the_2023_MTV_Video_Music_Awards_%283%29.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "iHeartRadioCA · CC BY 3.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Taylor_Swift_at_the_2023_MTV_Video_Music_Awards_(3).png"
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién es esta cantante?",
+      "options": [
+        "Shakira",
+        "Jennifer Lopez",
+        "Thalía",
+        "Paulina Rubio"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/2023-11-16_Gala_de_los_Latin_Grammy%2C_03_%28cropped%2902.jpg/960px-2023-11-16_Gala_de_los_Latin_Grammy%2C_03_%28cropped%2902.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Junta de Andalucía · CC BY-SA 2.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:2023-11-16_Gala_de_los_Latin_Grammy,_03_(cropped)02.jpg"
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién es este cantante?",
+      "options": [
+        "Elton John",
+        "Freddie Mercury",
+        "David Bowie",
+        "Mick Jagger"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Freddie_Mercury_performing_in_New_Haven%2C_CT%2C_November_1977.jpg/960px-Freddie_Mercury_performing_in_New_Haven%2C_CT%2C_November_1977.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "imageCredit": "Carl Lender · CC BY-SA 3.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Freddie_Mercury_performing_in_New_Haven,_CT,_November_1977.jpg"
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió la saga de Harry Potter?",
+      "options": [
+        "J. R. R. Tolkien",
+        "C. S. Lewis",
+        "Suzanne Collins",
+        "J. K. Rowling"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Cómo se llama el museo de París que alberga la Mona Lisa?",
+      "options": [
+        "Museo del Louvre",
+        "Museo del Prado",
+        "Museo Británico",
+        "Museo de Orsay"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué escritor creó al detective Sherlock Holmes?",
+      "options": [
+        "Arthur C. Clarke",
+        "Arthur Conan Doyle",
+        "Agatha Christie",
+        "Edgar Allan Poe"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Con qué país se asocia principalmente el baile del flamenco?",
+      "options": [
+        "Italia",
+        "Grecia",
+        "España",
+        "Portugal"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió las novelas de El señor de los anillos?",
+      "options": [
+        "George R. R. Martin",
+        "Terry Pratchett",
+        "Philip Pullman",
+        "J. R. R. Tolkien"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué artista pintó el techo de la Capilla Sixtina?",
+      "options": [
+        "Miguel Ángel",
+        "Leonardo da Vinci",
+        "Donatello",
+        "Caravaggio"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué instrumento musical tiene teclas y cuerdas golpeadas por martillos?",
+      "options": [
+        "Xilófono",
+        "Piano",
+        "Órgano",
+        "Acordeón"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió la novela La vuelta al mundo en ochenta días?",
+      "options": [
+        "Robert Louis Stevenson",
+        "Daniel Defoe",
+        "Jules Verne",
+        "H. G. Wells"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿De qué país era el escritor Hans Christian Andersen?",
+      "options": [
+        "Suecia",
+        "Noruega",
+        "Finlandia",
+        "Dinamarca"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué escultor creó El pensador?",
+      "options": [
+        "Auguste Rodin",
+        "Gian Lorenzo Bernini",
+        "Antonio Canova",
+        "Constantin Brâncuși"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió Rayuela?",
+      "options": [
+        "Ernesto Sabato",
+        "Julio Cortázar",
+        "Jorge Luis Borges",
+        "Roberto Bolaño"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué pintor francés es una figura central del impresionismo y pintó numerosos nenúfares?",
+      "options": [
+        "Paul Gauguin",
+        "Gustave Courbet",
+        "Claude Monet",
+        "Henri Rousseau"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió Orgullo y prejuicio?",
+      "options": [
+        "Emily Brontë",
+        "Virginia Woolf",
+        "Mary Shelley",
+        "Jane Austen"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién compuso Las cuatro estaciones?",
+      "options": [
+        "Antonio Vivaldi",
+        "Johann Sebastian Bach",
+        "Wolfgang Amadeus Mozart",
+        "Frédéric Chopin"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué escritora creó al detective Hercule Poirot?",
+      "options": [
+        "Ruth Rendell",
+        "Agatha Christie",
+        "Patricia Highsmith",
+        "Dorothy L. Sayers"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué pintor noruego creó El grito?",
+      "options": [
+        "Egon Schiele",
+        "Wassily Kandinsky",
+        "Edvard Munch",
+        "Gustav Klimt"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió Frankenstein?",
+      "options": [
+        "Bram Stoker",
+        "Ann Radcliffe",
+        "Charlotte Brontë",
+        "Mary Shelley"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué escritor mexicano situó Pedro Páramo en el pueblo de Comala?",
+      "options": [
+        "Juan Rulfo",
+        "Octavio Paz",
+        "Carlos Fuentes",
+        "José Emilio Pacheco"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién pintó La persistencia de la memoria, con sus relojes blandos?",
+      "options": [
+        "Joan Miró",
+        "Salvador Dalí",
+        "René Magritte",
+        "Max Ernst"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué poeta escribió Veinte poemas de amor y una canción desesperada?",
+      "options": [
+        "Rubén Darío",
+        "Vicente Huidobro",
+        "Pablo Neruda",
+        "César Vallejo"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió Crimen y castigo?",
+      "options": [
+        "León Tolstói",
+        "Antón Chéjov",
+        "Nikolái Gógol",
+        "Fiódor Dostoyevski"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué arquitecto diseñó la Casa Batlló de Barcelona?",
+      "options": [
+        "Antoni Gaudí",
+        "Le Corbusier",
+        "Frank Lloyd Wright",
+        "Oscar Niemeyer"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió la novela La casa de los espíritus?",
+      "options": [
+        "Elena Poniatowska",
+        "Isabel Allende",
+        "Laura Esquivel",
+        "Gioconda Belli"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué pintor neerlandés creó La joven de la perla?",
+      "options": [
+        "Frans Hals",
+        "Pieter de Hooch",
+        "Johannes Vermeer",
+        "Rembrandt"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién escribió la novela distópica 1984?",
+      "options": [
+        "Aldous Huxley",
+        "Ray Bradbury",
+        "Anthony Burgess",
+        "George Orwell"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿En qué deporte se intenta introducir una pelota en hoyos con el menor número de golpes?",
+      "options": [
+        "Críquet",
+        "Polo",
+        "Béisbol",
+        "Golf"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué deporte se practica en Wimbledon?",
+      "options": [
+        "Tenis",
+        "Golf",
+        "Rugby",
+        "Hockey"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Cuántos jugadores de un equipo de básquet hay normalmente en cancha?",
+      "options": [
+        "7",
+        "5",
+        "4",
+        "6"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué deporte utiliza un bate, bases y un lanzador llamado pitcher?",
+      "options": [
+        "Hockey",
+        "Polo",
+        "Béisbol",
+        "Rugby"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Cuántos jugadores por pareja compiten en vóley de playa?",
+      "options": [
+        "3",
+        "4",
+        "6",
+        "2"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué selección ganó el Mundial masculino de fútbol de 2010?",
+      "options": [
+        "España",
+        "Países Bajos",
+        "Alemania",
+        "Uruguay"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué deportista jamaicano ganó el oro de 100 metros en Pekín 2008?",
+      "options": [
+        "Justin Gatlin",
+        "Usain Bolt",
+        "Asafa Powell",
+        "Yohan Blake"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿En qué deporte se usan guantes y un ring para combatir con los puños?",
+      "options": [
+        "Judo",
+        "Lucha grecorromana",
+        "Boxeo",
+        "Esgrima"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿En qué país se celebraron los Juegos Olímpicos de Barcelona 1992?",
+      "options": [
+        "Francia",
+        "Italia",
+        "Portugal",
+        "España"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué pieza de ajedrez se mueve en diagonal cualquier número de casillas libres?",
+      "options": [
+        "Alfil",
+        "Torre",
+        "Caballo",
+        "Rey"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué país organizó y ganó el primer Mundial masculino de fútbol, en 1930?",
+      "options": [
+        "Italia",
+        "Uruguay",
+        "Argentina",
+        "Brasil"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué nadador estadounidense ganó ocho medallas de oro en Pekín 2008?",
+      "options": [
+        "Ryan Lochte",
+        "Ian Thorpe",
+        "Michael Phelps",
+        "Mark Spitz"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Cuántos jugadores por equipo tiene el rugby union al comenzar un partido?",
+      "options": [
+        "13",
+        "11",
+        "7",
+        "15"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué país ganó el Mundial masculino de fútbol de 2014?",
+      "options": [
+        "Alemania",
+        "Argentina",
+        "Brasil",
+        "Países Bajos"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué prueba de atletismo consiste en superar una barra horizontal ayudándose con una vara flexible?",
+      "options": [
+        "Salto de altura",
+        "Salto con pértiga",
+        "Salto de longitud",
+        "Triple salto"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿En qué ciudad se celebraron los primeros Juegos Olímpicos modernos, en 1896?",
+      "options": [
+        "Londres",
+        "Roma",
+        "Atenas",
+        "París"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué tenista española ganó Wimbledon en 1994?",
+      "options": [
+        "Arantxa Sánchez Vicario",
+        "Garbiñe Muguruza",
+        "Carla Suárez Navarro",
+        "Conchita Martínez"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false,
+      "explanation": "Conchita Martínez ganó la final ante Martina Navrátilová."
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué selección ganó el Mundial masculino de rugby de 1995?",
+      "options": [
+        "Sudáfrica",
+        "Nueva Zelanda",
+        "Australia",
+        "Inglaterra"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué ciclista belga fue apodado El Caníbal?",
+      "options": [
+        "Fausto Coppi",
+        "Eddy Merckx",
+        "Bernard Hinault",
+        "Miguel Induráin"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿En qué deporte consiguió Nadia Comăneci un diez perfecto en Montreal 1976?",
+      "options": [
+        "Saltos ornamentales",
+        "Natación artística",
+        "Gimnasia artística",
+        "Patinaje artístico"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué selección ganó la primera Copa Mundial femenina de fútbol de la FIFA, en 1991?",
+      "options": [
+        "Noruega",
+        "Alemania",
+        "China",
+        "Estados Unidos"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false,
+      "explanation": "Estados Unidos ganó la primera edición del torneo, disputada en China, al vencer a Noruega."
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué piloto argentino ganó cinco campeonatos mundiales de Fórmula 1 en la década de 1950?",
+      "options": [
+        "Juan Manuel Fangio",
+        "Carlos Reutemann",
+        "José Froilán González",
+        "Oscar Gálvez"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué corredor etíope ganó el maratón olímpico de Roma 1960 corriendo descalzo?",
+      "options": [
+        "Kenenisa Bekele",
+        "Abebe Bikila",
+        "Haile Gebrselassie",
+        "Emil Zátopek"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false,
+      "explanation": "Abebe Bikila ganó el maratón olímpico de Roma corriendo sin zapatillas."
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué equipo de la NBA ganó seis campeonatos con Michael Jordan en la década de 1990?",
+      "options": [
+        "Boston Celtics",
+        "Detroit Pistons",
+        "Chicago Bulls",
+        "Los Angeles Lakers"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué selección ganó la Eurocopa masculina de fútbol de 2004?",
+      "options": [
+        "Portugal",
+        "Francia",
+        "República Checa",
+        "Grecia"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué país declaró su independencia el 4 de julio de 1776?",
+      "options": [
+        "Canadá",
+        "México",
+        "Brasil",
+        "Estados Unidos"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué civilización construyó el Coliseo?",
+      "options": [
+        "La romana",
+        "La griega",
+        "La persa",
+        "La fenicia"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿En qué año comenzó la Primera Guerra Mundial?",
+      "options": [
+        "1905",
+        "1914",
+        "1918",
+        "1939"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué dirigente sudafricano pasó 27 años en prisión antes de convertirse en presidente?",
+      "options": [
+        "Thabo Mbeki",
+        "Jacob Zuma",
+        "Nelson Mandela",
+        "Desmond Tutu"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué personaje histórico fue conocido como el Libertador en varios países de Sudamérica?",
+      "options": [
+        "Francisco Pizarro",
+        "Hernán Cortés",
+        "Pedro de Valdivia",
+        "Simón Bolívar"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué antigua civilización construyó la ciudad de Chichén Itzá?",
+      "options": [
+        "La maya",
+        "La inca",
+        "La romana",
+        "La egipcia"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿En qué país se originó la Revolución Industrial durante el siglo XVIII?",
+      "options": [
+        "Estados Unidos",
+        "Gran Bretaña",
+        "Francia",
+        "Alemania"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué líder promovió la resistencia no violenta durante la independencia de India?",
+      "options": [
+        "Ho Chi Minh",
+        "Mustafa Kemal Atatürk",
+        "Mahatma Gandhi",
+        "Mao Zedong"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué reina británica da nombre a la época victoriana?",
+      "options": [
+        "Isabel I",
+        "Ana",
+        "María Estuardo",
+        "Victoria"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué tratado firmado en 1919 impuso condiciones de paz a Alemania tras la Primera Guerra Mundial?",
+      "options": [
+        "Tratado de Versalles",
+        "Tratado de Tordesillas",
+        "Tratado de Utrecht",
+        "Tratado de París de 1783"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué ciudad quedó sepultada por la erupción del Vesubio en el año 79?",
+      "options": [
+        "Alejandría",
+        "Pompeya",
+        "Cartago",
+        "Esparta"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué revolución tuvo como símbolo el asalto a la Bastilla?",
+      "options": [
+        "La Revolución mexicana",
+        "La Revolución cubana",
+        "La Revolución francesa",
+        "La Revolución rusa"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Quién fue el primer ser humano en viajar al espacio?",
+      "options": [
+        "Neil Armstrong",
+        "Alan Shepard",
+        "John Glenn",
+        "Yuri Gagarin"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué emperador romano fue el primero y gobernó con el título de Augusto?",
+      "options": [
+        "Octavio",
+        "Nerón",
+        "Trajano",
+        "Adriano"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué país fue gobernado por los zares hasta 1917?",
+      "options": [
+        "Grecia",
+        "Rusia",
+        "Japón",
+        "Suecia"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué conflicto enfrentó principalmente a Estados Unidos y la Unión Soviética sin una guerra directa entre ambas potencias?",
+      "options": [
+        "La Guerra de los Cien Años",
+        "La Guerra de los Treinta Años",
+        "La Guerra Fría",
+        "La Guerra de Crimea"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué presidente estadounidense pronunció el discurso de Gettysburg en 1863?",
+      "options": [
+        "George Washington",
+        "Woodrow Wilson",
+        "Franklin D. Roosevelt",
+        "Abraham Lincoln"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué tratado de 1494 repartió áreas de expansión entre las coronas de Castilla y Portugal?",
+      "options": [
+        "Tratado de Tordesillas",
+        "Tratado de Lisboa",
+        "Tratado de Utrecht",
+        "Tratado de Fontainebleau"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué navegante completó la primera circunnavegación del mundo en 1522?",
+      "options": [
+        "Américo Vespucio",
+        "Juan Sebastián Elcano",
+        "Fernando de Magallanes",
+        "Cristóbal Colón"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué ciudad fue tomada por los otomanos en 1453?",
+      "options": [
+        "Viena",
+        "Venecia",
+        "Constantinopla",
+        "Roma"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué dinastía gobernó China entre 1368 y 1644?",
+      "options": [
+        "Han",
+        "Tang",
+        "Qing",
+        "Ming"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué pueblo del Mediterráneo antiguo fundó Cartago?",
+      "options": [
+        "Los fenicios",
+        "Los hititas",
+        "Los sumerios",
+        "Los etruscos"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿En qué país ocurrió la Revolución de los Claveles de 1974?",
+      "options": [
+        "Grecia",
+        "Portugal",
+        "España",
+        "Italia"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué proceso judicial de 1945 y 1946 juzgó a destacados dirigentes nazis?",
+      "options": [
+        "Los juicios de Salem",
+        "El juicio de Sócrates",
+        "Los juicios de Núremberg",
+        "El proceso de Dreyfus"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué documento proclamado por la ONU en 1948 establece derechos fundamentales de todas las personas?",
+      "options": [
+        "La Carta del Atlántico",
+        "La Carta Magna",
+        "El Pacto de Varsovia",
+        "La Declaración Universal de Derechos Humanos"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es la capital de Italia?",
+      "options": [
+        "Milán",
+        "Florencia",
+        "Nápoles",
+        "Roma"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué continente se encuentra Kenia?",
+      "options": [
+        "África",
+        "Asia",
+        "Europa",
+        "Oceanía"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué país tiene forma de bota en los mapas de Europa?",
+      "options": [
+        "Portugal",
+        "Italia",
+        "Grecia",
+        "Croacia"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué país comparte con Estados Unidos las cataratas del Niágara?",
+      "options": [
+        "Cuba",
+        "Islandia",
+        "Canadá",
+        "México"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es la capital de Chile?",
+      "options": [
+        "Valparaíso",
+        "Concepción",
+        "Antofagasta",
+        "Santiago"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué país tiene a Lisboa como capital?",
+      "options": [
+        "Portugal",
+        "España",
+        "Brasil",
+        "Italia"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué continente se encuentra Nueva Zelanda?",
+      "options": [
+        "América",
+        "Oceanía",
+        "Asia",
+        "Europa"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué país alberga el Taj Mahal?",
+      "options": [
+        "Nepal",
+        "Bangladés",
+        "India",
+        "Pakistán"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es la capital de Uruguay?",
+      "options": [
+        "Punta del Este",
+        "Salto",
+        "Colonia del Sacramento",
+        "Montevideo"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué mar separa el sur de Europa del norte de África?",
+      "options": [
+        "Mediterráneo",
+        "Báltico",
+        "Caribe",
+        "Mar del Norte"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es la capital de Colombia?",
+      "options": [
+        "Cartagena",
+        "Bogotá",
+        "Medellín",
+        "Cali"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué línea imaginaria divide la Tierra en los hemisferios norte y sur?",
+      "options": [
+        "El trópico de Cáncer",
+        "El círculo polar ártico",
+        "El ecuador",
+        "El meridiano de Greenwich"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué país está el monte Fuji?",
+      "options": [
+        "China",
+        "Corea del Sur",
+        "Vietnam",
+        "Japón"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué país tiene a El Cairo como capital?",
+      "options": [
+        "Egipto",
+        "Marruecos",
+        "Túnez",
+        "Argelia"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué río atraviesa Budapest?",
+      "options": [
+        "Elba",
+        "Danubio",
+        "Sena",
+        "Rin"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es la capital de Ecuador?",
+      "options": [
+        "Cuenca",
+        "Loja",
+        "Quito",
+        "Guayaquil"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué océano baña la costa oriental de África?",
+      "options": [
+        "Pacífico",
+        "Ártico",
+        "Antártico",
+        "Índico"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es la capital de Mongolia?",
+      "options": [
+        "Ulán Bator",
+        "Taskent",
+        "Biskek",
+        "Dusambé"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué país está completamente rodeado por Sudáfrica?",
+      "options": [
+        "Namibia",
+        "Lesoto",
+        "Esuatini",
+        "Botsuana"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué estrecho separa Asia de América del Norte?",
+      "options": [
+        "Malaca",
+        "Dardanelos",
+        "Bering",
+        "Gibraltar"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es la capital de Vietnam?",
+      "options": [
+        "Ciudad Ho Chi Minh",
+        "Da Nang",
+        "Hué",
+        "Hanói"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿A qué país pertenece el archipiélago de las Galápagos?",
+      "options": [
+        "Ecuador",
+        "Perú",
+        "Colombia",
+        "Costa Rica"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué río forma gran parte de la frontera entre México y Estados Unidos?",
+      "options": [
+        "Río Columbia",
+        "Río Bravo o Río Grande",
+        "Río Colorado",
+        "Río Mississippi"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Qué cordillera se usa tradicionalmente como parte del límite entre Europa y Asia?",
+      "options": [
+        "Los Cárpatos",
+        "Los Apeninos",
+        "Los Urales",
+        "Los Alpes"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cuál es la capital de Etiopía?",
+      "options": [
+        "Nairobi",
+        "Asmara",
+        "Yibuti",
+        "Adís Abeba"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué estrella se encuentra en el centro del sistema solar?",
+      "options": [
+        "Sirio",
+        "Polaris",
+        "Betelgeuse",
+        "El Sol"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué órgano usamos principalmente para respirar?",
+      "options": [
+        "Los pulmones",
+        "El estómago",
+        "El páncreas",
+        "El bazo"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué fuerza mantiene a los planetas en órbita alrededor del Sol?",
+      "options": [
+        "La fuerza elástica",
+        "La gravedad",
+        "La fricción",
+        "La fuerza nuclear fuerte"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Cuántas patas tiene un insecto adulto típico?",
+      "options": [
+        "8",
+        "10",
+        "6",
+        "4"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué estado de la materia tiene volumen definido pero adopta la forma del recipiente?",
+      "options": [
+        "Sólido",
+        "Gas",
+        "Plasma",
+        "Líquido"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué astro es el satélite natural de la Tierra?",
+      "options": [
+        "La Luna",
+        "Marte",
+        "Venus",
+        "Ceres"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué sentido se relaciona principalmente con la nariz?",
+      "options": [
+        "Oído",
+        "Olfato",
+        "Gusto",
+        "Tacto"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué instrumento permite observar objetos muy pequeños como células?",
+      "options": [
+        "Periscopio",
+        "Sextante",
+        "Microscopio",
+        "Telescopio"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué grupo de vertebrados incluye a ranas y salamandras?",
+      "options": [
+        "Reptiles",
+        "Mamíferos",
+        "Aves",
+        "Anfibios"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué elemento químico tiene el símbolo Fe?",
+      "options": [
+        "Hierro",
+        "Flúor",
+        "Fósforo",
+        "Francio"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué planeta es el más grande del sistema solar?",
+      "options": [
+        "Urano",
+        "Júpiter",
+        "Saturno",
+        "Neptuno"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué proceso transforma un líquido en gas desde su superficie?",
+      "options": [
+        "Solidificación",
+        "Fusión",
+        "Evaporación",
+        "Condensación"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué científico publicó El origen de las especies en 1859?",
+      "options": [
+        "Gregor Mendel",
+        "Louis Pasteur",
+        "Alfred Wegener",
+        "Charles Darwin"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué órgano produce la bilis?",
+      "options": [
+        "El hígado",
+        "La vesícula biliar",
+        "El páncreas",
+        "El estómago"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué estructura de las plantas absorbe principalmente agua y sales minerales del suelo?",
+      "options": [
+        "El pétalo",
+        "La raíz",
+        "La flor",
+        "El fruto"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué nombre recibe la división celular que produce dos células hijas con la misma dotación cromosómica?",
+      "options": [
+        "Fecundación",
+        "Transcripción",
+        "Mitosis",
+        "Meiosis"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué escala se usa habitualmente para expresar la acidez de una disolución?",
+      "options": [
+        "Escala de Mohs",
+        "Escala de Beaufort",
+        "Escala de Mercalli",
+        "pH"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué tipo de enlace químico se forma al compartir pares de electrones?",
+      "options": [
+        "Covalente",
+        "Iónico",
+        "Metálico",
+        "Puente de hidrógeno"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Cuál es la unidad de cantidad de sustancia del Sistema Internacional?",
+      "options": [
+        "Kelvin",
+        "Mol",
+        "Candela",
+        "Amperio"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué orgánulo celular realiza la mayor parte de la respiración aeróbica en células eucariotas?",
+      "options": [
+        "Aparato de Golgi",
+        "Nucleolo",
+        "Mitocondria",
+        "Lisosoma"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué gas noble tiene el símbolo Ne?",
+      "options": [
+        "Nitrógeno",
+        "Níquel",
+        "Niobio",
+        "Neón"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué científico formuló las leyes de la herencia a partir de experimentos con guisantes?",
+      "options": [
+        "Gregor Mendel",
+        "Robert Hooke",
+        "Antoine Lavoisier",
+        "Dmitri Mendeléyev"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué fenómeno explica el cambio de frecuencia percibida cuando una fuente sonora se acerca o se aleja?",
+      "options": [
+        "Difracción de rayos X",
+        "Efecto Doppler",
+        "Efecto fotoeléctrico",
+        "Capilaridad"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Cuál es la fórmula molecular de la glucosa?",
+      "options": [
+        "CH₄",
+        "H₂SO₄",
+        "C₆H₁₂O₆",
+        "C₂H₅OH"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué capa de la Tierra se encuentra entre la corteza y el núcleo?",
+      "options": [
+        "La troposfera",
+        "La hidrosfera",
+        "La ionosfera",
+        "El manto"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Cómo se llama el ogro verde protagonista de una saga de DreamWorks?",
+      "options": [
+        "Fiona",
+        "Burro",
+        "Farquaad",
+        "Shrek"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué personaje de videojuegos es un erizo azul?",
+      "options": [
+        "Sonic",
+        "Mario",
+        "Crash Bandicoot",
+        "Donkey Kong"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué cantante británica interpretó Hello y Rolling in the Deep?",
+      "options": [
+        "Jessie J",
+        "Adele",
+        "Amy Winehouse",
+        "Dua Lipa"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Cómo se llama el niño que nunca crece y vive en Nunca Jamás?",
+      "options": [
+        "Oliver Twist",
+        "Tom Sawyer",
+        "Peter Pan",
+        "Pinocho"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué película de Pixar tiene como protagonistas a los peces Marlin y Dory?",
+      "options": [
+        "Luca",
+        "El espantatiburones",
+        "La sirenita",
+        "Buscando a Nemo"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué banda británica integraron John, Paul, George y Ringo?",
+      "options": [
+        "The Beatles",
+        "Queen",
+        "Oasis",
+        "Blur"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué saga de videojuegos incluye a la princesa Zelda?",
+      "options": [
+        "Kingdom Hearts",
+        "The Legend of Zelda",
+        "Final Fantasy",
+        "Dragon Quest"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué actor interpreta a Neo en la película Matrix de 1999?",
+      "options": [
+        "Tom Cruise",
+        "Nicolas Cage",
+        "Keanu Reeves",
+        "Will Smith"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué película de Disney tiene como protagonistas a las hermanas Elsa y Anna?",
+      "options": [
+        "Enredados",
+        "Valiente",
+        "Encanto",
+        "Frozen"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué grupo musical lanzó el álbum The Dark Side of the Moon en 1973?",
+      "options": [
+        "Pink Floyd",
+        "Led Zeppelin",
+        "The Who",
+        "Deep Purple"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué director realizó Jurassic Park, estrenada en 1993?",
+      "options": [
+        "Robert Zemeckis",
+        "Steven Spielberg",
+        "James Cameron",
+        "George Lucas"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué actor protagonizó Forrest Gump en la película de 1994?",
+      "options": [
+        "Dustin Hoffman",
+        "Bill Murray",
+        "Tom Hanks",
+        "Robin Williams"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué película de 2001 reúne a los personajes Sulley y Mike Wazowski?",
+      "options": [
+        "Bichos",
+        "Los increíbles",
+        "Ratatouille",
+        "Monsters, Inc."
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué cantante es conocida por el álbum Born This Way?",
+      "options": [
+        "Lady Gaga",
+        "Madonna",
+        "Britney Spears",
+        "Christina Aguilera"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué serie de televisión tiene como grupo de amigos a Rachel, Monica, Phoebe, Joey, Chandler y Ross?",
+      "options": [
+        "The Big Bang Theory",
+        "Friends",
+        "Seinfeld",
+        "How I Met Your Mother"
+      ],
+      "correct": 1,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué banda irlandesa tiene como cantante a Bono?",
+      "options": [
+        "The Script",
+        "Thin Lizzy",
+        "U2",
+        "The Cranberries"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué videojuego popularizó a los personajes Ryu y Chun-Li?",
+      "options": [
+        "Mortal Kombat",
+        "Tekken",
+        "Virtua Fighter",
+        "Street Fighter II"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué película surcoreana ganó el Óscar a mejor película en 2020?",
+      "options": [
+        "Parásitos",
+        "Oldboy",
+        "Memories of Murder",
+        "Burning"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién compuso la música principal de la saga cinematográfica Star Wars?",
+      "options": [
+        "Danny Elfman",
+        "John Williams",
+        "Hans Zimmer",
+        "Howard Shore"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué director realizó El gran hotel Budapest?",
+      "options": [
+        "David Fincher",
+        "Paul Thomas Anderson",
+        "Wes Anderson",
+        "Tim Burton"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué músico argentino lideró las bandas Almendra y Pescado Rabioso?",
+      "options": [
+        "Charly García",
+        "Gustavo Cerati",
+        "Fito Páez",
+        "Luis Alberto Spinetta"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué dúo francés de música electrónica lanzó el álbum Discovery en 2001?",
+      "options": [
+        "Daft Punk",
+        "Air",
+        "Justice",
+        "Cassius"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién dirigió la trilogía cinematográfica de El señor de los anillos?",
+      "options": [
+        "Ridley Scott",
+        "Peter Jackson",
+        "Guillermo del Toro",
+        "Sam Raimi"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué compositor italiano escribió la música de El bueno, el malo y el feo?",
+      "options": [
+        "Giorgio Moroder",
+        "Ludovico Einaudi",
+        "Ennio Morricone",
+        "Nino Rota"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Qué estudio desarrolló el primer videojuego Portal, publicado en 2007?",
+      "options": [
+        "id Software",
+        "BioWare",
+        "Naughty Dog",
+        "Valve"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "text",
+      "placeholder": false
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Cómo se llama esta obra?",
+      "options": [
+        "La danza",
+        "El sueño",
+        "El grito",
+        "La noche estrellada"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/960px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg",
+      "imageCredit": "Edvard Munch · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Edvard_Munch,_1893,_The_Scream,_oil,_tempera_and_pastel_on_cardboard,_91_x_73_cm,_National_Gallery_of_Norway.jpg"
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué pintor creó este retrato?",
+      "options": [
+        "Rembrandt",
+        "Frans Hals",
+        "Diego Velázquez",
+        "Johannes Vermeer"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/960px-1665_Girl_with_a_Pearl_Earring.jpg",
+      "imageCredit": "Johannes Vermeer · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:1665_Girl_with_a_Pearl_Earring.jpg"
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Quién pintó esta escena mitológica?",
+      "options": [
+        "Sandro Botticelli",
+        "Rafael",
+        "Tiziano",
+        "Caravaggio"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/960px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg",
+      "imageCredit": "Sandro Botticelli · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg"
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Cómo se llama esta famosa estampa japonesa?",
+      "options": [
+        "El estanque de ninfeas",
+        "La gran ola de Kanagawa",
+        "El puente de Langlois",
+        "El jardín de las delicias"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Tsunami_by_hokusai_19th_century.jpg/960px-Tsunami_by_hokusai_19th_century.jpg",
+      "imageCredit": "Katsushika Hokusai · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Tsunami_by_hokusai_19th_century.jpg"
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué artista pintó esta obra de tonos dorados?",
+      "options": [
+        "Alphonse Mucha",
+        "Edvard Munch",
+        "Gustav Klimt",
+        "Egon Schiele"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg/960px-The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg",
+      "imageCredit": "Gustav Klimt · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg"
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué escultor aparece en esta fotografía?",
+      "options": [
+        "Antonio Canova",
+        "Constantin Brâncuși",
+        "Alberto Giacometti",
+        "Auguste Rodin"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/9/94/Auguste_Rodin_by_George_Charles_Beresford_%28NPG_x6573%29.jpg",
+      "imageCredit": "George Charles Beresford · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Auguste_Rodin_by_George_Charles_Beresford_(NPG_x6573).jpg"
+    },
+    {
+      "category": "arte-literatura",
+      "prompt": "¿Qué dramaturgo está representado en este retrato?",
+      "options": [
+        "William Shakespeare",
+        "Christopher Marlowe",
+        "Ben Jonson",
+        "Molière"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/William_Shakespeare_by_John_Taylor%2C_edited.jpg/960px-William_Shakespeare_by_John_Taylor%2C_edited.jpg",
+      "imageCredit": "Attributed to John Taylor · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:William_Shakespeare_by_John_Taylor,_edited.jpg"
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Quién es este futbolista?",
+      "options": [
+        "Robert Lewandowski",
+        "Cristiano Ronaldo",
+        "Gareth Bale",
+        "Karim Benzema"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Cristiano_Ronaldo_Croatia_v_Portugal_2_July_2026-075_%28cropped%29.jpg/960px-Cristiano_Ronaldo_Croatia_v_Portugal_2_July_2026-075_%28cropped%29.jpg",
+      "imageCredit": "Bryan Berlin · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Cristiano_Ronaldo_Croatia_v_Portugal_2_July_2026-075_(cropped).jpg"
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Quién es este tenista?",
+      "options": [
+        "Fernando Verdasco",
+        "David Ferrer",
+        "Rafael Nadal",
+        "Carlos Alcaraz"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Rafael_Nadal_en_2024_%28cropped%29.jpg/960px-Rafael_Nadal_en_2024_%28cropped%29.jpg",
+      "imageCredit": "Barcex · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Rafael_Nadal_en_2024_(cropped).jpg"
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Quién es este tenista?",
+      "options": [
+        "Novak Djokovic",
+        "Andy Murray",
+        "Stan Wawrinka",
+        "Roger Federer"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Roger_Federer_2015_%28cropped%29.jpg/960px-Roger_Federer_2015_%28cropped%29.jpg",
+      "imageCredit": "Tatiana from Moscow, Russia · CC BY-SA 2.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Roger_Federer_2015_(cropped).jpg"
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Quién es este velocista?",
+      "options": [
+        "Usain Bolt",
+        "Yohan Blake",
+        "Asafa Powell",
+        "Justin Gatlin"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/Usain_Bolt_%289391715151%29.jpg/960px-Usain_Bolt_%289391715151%29.jpg",
+      "imageCredit": "Neil · CC BY 2.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Usain_Bolt_(9391715151).jpg"
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Quién es esta gimnasta?",
+      "options": [
+        "Sunisa Lee",
+        "Simone Biles",
+        "Gabby Douglas",
+        "Aly Raisman"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/Simone_Biles_National_Team_2024.jpg/960px-Simone_Biles_National_Team_2024.jpg",
+      "imageCredit": "Ocoudis · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Simone_Biles_National_Team_2024.jpg"
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué futbolista argentino aparece en la imagen?",
+      "options": [
+        "Gabriel Batistuta",
+        "Claudio Caniggia",
+        "Diego Maradona",
+        "Mario Kempes"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/4/48/Argentina_celebrando_copa_%28cropped%29.jpg",
+      "imageCredit": "Unknown authorUnknown author · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Argentina_celebrando_copa_(cropped).jpg"
+    },
+    {
+      "category": "deportes",
+      "prompt": "¿Qué futbolista italiano aparece en esta foto?",
+      "options": [
+        "Alessandro Del Piero",
+        "Paolo Maldini",
+        "Francesco Totti",
+        "Roberto Baggio"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/4/4e/%D8%B1%D9%88%D8%A8%D8%B1%D8%AA%D9%88_%D8%A8%D8%A7%D8%AC%D9%88_%28cropped%29.jpg",
+      "imageCredit": "AbolfaZl0990 · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:%D8%B1%D9%88%D8%A8%D8%B1%D8%AA%D9%88_%D8%A8%D8%A7%D8%AC%D9%88_(cropped).jpg"
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué líder de la independencia de India aparece en la foto?",
+      "options": [
+        "Mahatma Gandhi",
+        "Jawaharlal Nehru",
+        "Subhas Chandra Bose",
+        "Rabindranath Tagore"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/Mahatma-Gandhi%2C_studio%2C_1931.jpg/960px-Mahatma-Gandhi%2C_studio%2C_1931.jpg",
+      "imageCredit": "Elliott & Fry · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Mahatma-Gandhi,_studio,_1931.jpg"
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué dirigente sudafricano aparece en esta imagen?",
+      "options": [
+        "Oliver Tambo",
+        "Nelson Mandela",
+        "Desmond Tutu",
+        "Thabo Mbeki"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Nelson_Mandela_1994.jpg/960px-Nelson_Mandela_1994.jpg",
+      "imageCredit": "Kingkongphoto & www.celebrity-photos.com from Laurel · CC BY-SA 2.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Nelson_Mandela_1994.jpg"
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué prócer está representado en este retrato?",
+      "options": [
+        "Antonio José de Sucre",
+        "José Artigas",
+        "Simón Bolívar",
+        "José de San Martín"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/Sim%C3%B3n_Bol%C3%ADvar._Toro_Moreno%2C_Luis._1922%2C_Legislative_Palace%2C_La_Paz.png/960px-Sim%C3%B3n_Bol%C3%ADvar._Toro_Moreno%2C_Luis._1922%2C_Legislative_Palace%2C_La_Paz.png",
+      "imageCredit": "Luis Enrique Toro Moreno (1897-1933) · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Sim%C3%B3n_Bol%C3%ADvar._Toro_Moreno,_Luis._1922,_Legislative_Palace,_La_Paz.png"
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué prócer argentino está representado en esta imagen?",
+      "options": [
+        "Manuel Belgrano",
+        "Juan Manuel de Rosas",
+        "Bernardino Rivadavia",
+        "José de San Martín"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Jos%C3%A9_de_San_Mart%C3%ADn_%28retrato%2C_c.1828%29.jpg/960px-Jos%C3%A9_de_San_Mart%C3%ADn_%28retrato%2C_c.1828%29.jpg",
+      "imageCredit": "The exact author is disputed. Some sources attribute it to Jean Baptiste Madou, others to the art teacher of San Martin's daughter, and others suspect it to be the work of many different people. · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Jos%C3%A9_de_San_Mart%C3%ADn_(retrato,_c.1828).jpg"
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué monarca británica aparece en esta imagen?",
+      "options": [
+        "La reina Victoria",
+        "Isabel I",
+        "Ana de Gran Bretaña",
+        "María I de Inglaterra"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Queen_Victoria_by_Bassano.jpg/960px-Queen_Victoria_by_Bassano.jpg",
+      "imageCredit": "Alexander Bassano · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Queen_Victoria_by_Bassano.jpg"
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué primer ministro británico aparece en esta fotografía?",
+      "options": [
+        "Harold Macmillan",
+        "Winston Churchill",
+        "Clement Attlee",
+        "Neville Chamberlain"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Sir_Winston_Churchill_-_19086236948_%28restored%29.jpg/960px-Sir_Winston_Churchill_-_19086236948_%28restored%29.jpg",
+      "imageCredit": "Wikimedia Commons · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Sir_Winston_Churchill_-_19086236948_(restored).jpg"
+    },
+    {
+      "category": "historia",
+      "prompt": "¿Qué líder de los derechos civiles aparece en la foto?",
+      "options": [
+        "John Lewis",
+        "James Baldwin",
+        "Martin Luther King Jr.",
+        "Malcolm X"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/Martin_Luther_King%2C_Jr._and_Lyndon_Johnson_%28cropped%29.jpg/960px-Martin_Luther_King%2C_Jr._and_Lyndon_Johnson_%28cropped%29.jpg",
+      "imageCredit": "Yoichi Okamoto · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Martin_Luther_King,_Jr._and_Lyndon_Johnson_(cropped).jpg"
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué país se encuentra este mausoleo?",
+      "options": [
+        "Pakistán",
+        "Bangladés",
+        "Nepal",
+        "India"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_%28Edited%29.jpeg/960px-Taj_Mahal_%28Edited%29.jpeg",
+      "imageCredit": "Yann; edited by Jim Carter · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Taj_Mahal_(Edited).jpeg"
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué país se encuentra este anfiteatro?",
+      "options": [
+        "Italia",
+        "Grecia",
+        "Turquía",
+        "España"
+      ],
+      "correct": 0,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/960px-Colosseo_2020.jpg",
+      "imageCredit": "FeaturedPics · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Colosseo_2020.jpg"
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué país se encuentra esta estatua?",
+      "options": [
+        "Colombia",
+        "Brasil",
+        "Portugal",
+        "México"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Christ_the_Redeemer_-_Cristo_Redentor.jpg/960px-Christ_the_Redeemer_-_Cristo_Redentor.jpg",
+      "imageCredit": "Arne Müseler · CC BY-SA 3.0 de",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Christ_the_Redeemer_-_Cristo_Redentor.jpg"
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué país se encuentra esta fachada tallada en roca?",
+      "options": [
+        "Turquía",
+        "Irán",
+        "Jordania",
+        "Egipto"
+      ],
+      "correct": 2,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Al_Deir_Petra.JPG/960px-Al_Deir_Petra.JPG",
+      "imageCredit": "Azurfrog · CC BY-SA 3.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Al_Deir_Petra.JPG"
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Con qué isla se asocian estas esculturas?",
+      "options": [
+        "Isla de Chiloé",
+        "Isla de Tierra del Fuego",
+        "Isla de Cocos",
+        "Isla de Pascua (Rapa Nui)"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/5/50/AhuTongariki.JPG",
+      "imageCredit": "Ian Sewell · CC BY 2.5",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:AhuTongariki.JPG"
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿Cómo se llama esta montaña de Japón?",
+      "options": [
+        "Monte Fuji",
+        "Monte Aso",
+        "Monte Ontake",
+        "Monte Haku"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/View_of_Mount_Fuji_from_%C5%8Cwakudani_20211202.jpg/960px-View_of_Mount_Fuji_from_%C5%8Cwakudani_20211202.jpg",
+      "imageCredit": "Suicasmo · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:View_of_Mount_Fuji_from_%C5%8Cwakudani_20211202.jpg"
+    },
+    {
+      "category": "geografia",
+      "prompt": "¿En qué país se encuentra este monumento megalítico?",
+      "options": [
+        "Dinamarca",
+        "Reino Unido",
+        "Irlanda",
+        "Francia"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Stonehenge2007_07_30.jpg/960px-Stonehenge2007_07_30.jpg",
+      "imageCredit": "garethwiscombe · CC BY 2.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Stonehenge2007_07_30.jpg"
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Quién es este inventor?",
+      "options": [
+        "Guglielmo Marconi",
+        "Alexander Graham Bell",
+        "Nikola Tesla",
+        "Thomas Edison"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/7/79/Tesla_circa_1890.jpeg",
+      "imageCredit": "Napoleon Sarony · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Tesla_circa_1890.jpeg"
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Quién es este naturalista?",
+      "options": [
+        "Gregor Mendel",
+        "Louis Pasteur",
+        "Alexander von Humboldt",
+        "Charles Darwin"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Charles_Darwin_seated_crop.jpg/960px-Charles_Darwin_seated_crop.jpg",
+      "imageCredit": "Charles_Darwin_seated.jpg: Henry Maull (1829–1914) and John Fox (1832–1907) (Maull & Fox) [3] derivative work: Beao · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Charles_Darwin_seated_crop.jpg"
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué físico está representado en este retrato?",
+      "options": [
+        "Isaac Newton",
+        "Galileo Galilei",
+        "Johannes Kepler",
+        "René Descartes"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Portrait_of_Sir_Isaac_Newton%2C_1689_%28brightened%29.jpg/960px-Portrait_of_Sir_Isaac_Newton%2C_1689_%28brightened%29.jpg",
+      "imageCredit": "Godfrey Kneller · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Portrait_of_Sir_Isaac_Newton,_1689_(brightened).jpg"
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué planeta aparece en esta imagen?",
+      "options": [
+        "Neptuno",
+        "Júpiter",
+        "Saturno",
+        "Urano"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/960px-Jupiter_OPAL_2024.png",
+      "imageCredit": "NASA/STSCI (S.T.A.R.S) · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Jupiter_OPAL_2024.png"
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué planeta aparece en esta imagen?",
+      "options": [
+        "Mercurio",
+        "Neptuno",
+        "Marte",
+        "Venus"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png/960px-Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png",
+      "imageCredit": "Kevin Gill from Los Angeles, CA, United States · CC BY 2.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png"
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué animal aparece en esta foto?",
+      "options": [
+        "Mapache",
+        "Lémur de cola anillada",
+        "Coatí",
+        "Panda rojo"
+      ],
+      "correct": 3,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Red_Panda%2C_Gentle_Tree-Dweller_of_the_Himalayas.jpg/960px-Red_Panda%2C_Gentle_Tree-Dweller_of_the_Himalayas.jpg",
+      "imageCredit": "Sunuwargr · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Red_Panda,_Gentle_Tree-Dweller_of_the_Himalayas.jpg"
+    },
+    {
+      "category": "ciencia",
+      "prompt": "¿Qué mamífero marino aparece en esta imagen?",
+      "options": [
+        "Orca",
+        "Delfín mular",
+        "Beluga",
+        "Cachalote"
+      ],
+      "correct": 0,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Killerwhales_jumping.jpg/960px-Killerwhales_jumping.jpg",
+      "imageCredit": "Robert Pittman · Public domain",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Killerwhales_jumping.jpg"
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién es esta cantante?",
+      "options": [
+        "Alicia Keys",
+        "Beyoncé",
+        "Kelly Rowland",
+        "Rihanna"
+      ],
+      "correct": 1,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Beyonc%C3%A9_-_Tottenham_Hotspur_Stadium_-_1st_June_2023_%2810_of_118%29_%2852946364598%29_%28best_crop%29.jpg",
+      "imageCredit": "Raph_PH · CC BY 2.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Beyonc%C3%A9_-_Tottenham_Hotspur_Stadium_-_1st_June_2023_(10_of_118)_(52946364598)_(best_crop).jpg"
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién es esta cantante?",
+      "options": [
+        "Kelly Clarkson",
+        "Meghan Trainor",
+        "Adele",
+        "Paloma Faith"
+      ],
+      "correct": 2,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Adele_2016.jpg/960px-Adele_2016.jpg",
+      "imageCredit": "Marc E. · CC BY 2.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Adele_2016.jpg"
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién es este cantante?",
+      "options": [
+        "J Balvin",
+        "Maluma",
+        "Rauw Alejandro",
+        "Bad Bunny"
+      ],
+      "correct": 3,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Bad_Bunny_2019_by_Glenn_Francis_%28cropped%29.jpg/960px-Bad_Bunny_2019_by_Glenn_Francis_%28cropped%29.jpg",
+      "imageCredit": "Toglenn · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Bad_Bunny_2019_by_Glenn_Francis_(cropped).jpg"
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién es este cantante?",
+      "options": [
+        "Luis Miguel",
+        "Cristian Castro",
+        "Alejandro Fernández",
+        "Chayanne"
+      ],
+      "correct": 0,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/8/81/Luis_miguel_328_%28cropped%29_%282%29.jpg",
+      "imageCredit": "camposart · CC BY 2.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Luis_miguel_328_(cropped)_(2).jpg"
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién es esta cantante?",
+      "options": [
+        "Gwen Stefani",
+        "Lady Gaga",
+        "Madonna",
+        "Kesha"
+      ],
+      "correct": 1,
+      "difficulty": "hard",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Lady_Gaga_at_Joe_Biden%27s_inauguration_%28cropped_5%29.jpg/960px-Lady_Gaga_at_Joe_Biden%27s_inauguration_%28cropped_5%29.jpg",
+      "imageCredit": "Carlos M. Vazquez II · CC BY 2.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Lady_Gaga_at_Joe_Biden%27s_inauguration_(cropped_5).jpg"
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién es este actor?",
+      "options": [
+        "Johnny Depp",
+        "Jared Leto",
+        "Keanu Reeves",
+        "Christian Bale"
+      ],
+      "correct": 2,
+      "difficulty": "medium",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/Keanu_Reeves_at_TIFF_2025_02_%28Cropped%29.jpg/960px-Keanu_Reeves_at_TIFF_2025_02_%28Cropped%29.jpg",
+      "imageCredit": "Gabriel Hutchinson · CC BY-SA 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Keanu_Reeves_at_TIFF_2025_02_(Cropped).jpg"
+    },
+    {
+      "category": "entretenimiento",
+      "prompt": "¿Quién es este actor?",
+      "options": [
+        "Matt Damon",
+        "Brad Pitt",
+        "Jude Law",
+        "Leonardo DiCaprio"
+      ],
+      "correct": 3,
+      "difficulty": "easy",
+      "kind": "image",
+      "placeholder": false,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/2/2d/LeoPTABFI191125-28_%28cropped%29.jpg",
+      "imageCredit": "Raph_PH · CC BY 4.0",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:LeoPTABFI191125-28_(cropped).jpg"
+    }
   ]
 }

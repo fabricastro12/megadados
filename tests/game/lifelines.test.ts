@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { privateViewFor, toPublicState } from '@/game';
-import { ANSWER_GRACE_MS, EXTRA_TIME_MS } from '@/game/engine/constants';
+import { ANSWER_GRACE_MS } from '@/game/engine/constants';
 import { act, advanceTo, as, newGame, reject, spinToQuestion, tickThrough } from './helpers';
 
 describe('lifelines', () => {
@@ -27,29 +27,7 @@ describe('lifelines', () => {
     tickThrough(t);
     spinToQuestion(t);
     reject(t, as('p1'), { type: 'useLifeline', lifeline: 'fiftyFifty' }, 'lifeline_used');
-    expect(privateViewFor(t.state, 'p1').lifelinesLeft).toEqual(['pass', 'extraTime']);
-  });
-
-  it('+10 s extends only that owner’s deadline', () => {
-    const t = newGame();
-    const q = spinToQuestion(t);
-    act(t, as('p1'), { type: 'useLifeline', lifeline: 'extraTime' });
-    advanceTo(t, q.deadline + ANSWER_GRACE_MS + 1);
-    reject(t, as('p2'), { type: 'answer', questionId: q.questionId, choice: 0 }, 'late');
-    act(t, as('p1'), { type: 'answer', questionId: q.questionId, choice: 0 });
-    advanceTo(t, q.deadline + EXTRA_TIME_MS + ANSWER_GRACE_MS + 1);
-    reject(t, as('p3'), { type: 'answer', questionId: q.questionId, choice: 0 }, 'late');
-  });
-
-  it('the question stays open until the extended owner runs out of time', () => {
-    const t = newGame();
-    const q = spinToQuestion(t);
-    act(t, as('p1'), { type: 'useLifeline', lifeline: 'extraTime' });
-    advanceTo(t, q.deadline + 1000);
-    reject(t, as('p2'), { type: 'tick' }, 'deadline_not_reached');
-    advanceTo(t, q.deadline + EXTRA_TIME_MS + ANSWER_GRACE_MS);
-    act(t, as('p2'), { type: 'tick' });
-    expect(t.state.phase).toBe('reveal');
+    expect(privateViewFor(t.state, 'p1').lifelinesLeft).toEqual(['pass']);
   });
 
   it('ronda pass skips the question without breaking the streak', () => {

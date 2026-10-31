@@ -56,12 +56,16 @@ export function migration(name: string): string {
   return readFileSync(`${root}supabase/migrations/${name}`, 'utf8');
 }
 
-export async function freshDatabase(): Promise<PGlite> {
+export async function freshDatabase(beforeCatalogueUpdate?: (db: PGlite) => Promise<void>): Promise<PGlite> {
   const db = new PGlite();
   await db.exec(SUPABASE_STUB);
   await db.exec(migration('20261025000001_init.sql'));
   await db.exec(migration('20261025000003_reactions_topic.sql'));
   await db.exec(migration('20261025000004_harden_functions.sql'));
+  if (beforeCatalogueUpdate) await beforeCatalogueUpdate(db);
+  await db.exec(migration('20261030000001_six_categories_and_images.sql'));
+  await db.exec(migration('20261030000002_expand_question_bank.sql'));
+  await db.exec('delete from public.questions');
   await db.exec(DEFAULT_GRANTS);
   return db;
 }
@@ -108,7 +112,7 @@ export async function seedRoom(db: PGlite) {
   );
   const byUser = Object.fromEntries(players.rows.map((p) => [p.user_id, p.id]));
   const category = await db.query<{ id: string }>(
-    `insert into public.categories (slug, name, color) values ('latam', 'Latinoamérica', '#FF6A3D') returning id`,
+    `select id from public.categories where slug = 'geografia'`,
   );
   const question = await db.query<{ id: string }>(
     `insert into public.questions (category_id, prompt, options, correct_index)

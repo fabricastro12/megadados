@@ -34,8 +34,21 @@ export function AvatarEditor({ value, onChange }: { value: Avatar; onChange: (av
       </div>
       <p className="text-sm font-extrabold" aria-live="polite">
         {AVATAR_FACE_LABEL[value.face]}
+        <span className="ml-2 font-semibold text-ink-soft">{faceIndex + 1}/{AVATAR_FACES.length}</span>
       </p>
-      <div role="radiogroup" aria-label="Color del dado" className="flex gap-2">
+      <details className="w-full max-w-sm">
+        <summary className="cursor-pointer rounded-xl px-3 py-2 text-center text-sm font-extrabold underline">Ver todas las caras</summary>
+        <fieldset className="mt-2 grid grid-cols-4 gap-2 rounded-2xl bg-panel-alt p-2">
+          <legend className="sr-only">Cara del dado</legend>
+          {AVATAR_FACES.map((face) => (
+            <label key={face} className={`relative flex cursor-pointer justify-center rounded-xl border-[3px] p-1 focus-within:outline focus-within:outline-4 focus-within:outline-gold ${value.face === face ? 'border-ink bg-cream' : 'border-transparent'}`} title={AVATAR_FACE_LABEL[face]}>
+              <input type="radio" name="avatar-face" value={face} checked={value.face === face} onChange={() => onChange({ ...value, face })} aria-label={AVATAR_FACE_LABEL[face]} className="sr-only" />
+              <span aria-hidden="true"><DieAvatar avatar={{ ...value, face }} size={44} /></span>
+            </label>
+          ))}
+        </fieldset>
+      </details>
+      <div role="radiogroup" aria-label="Color del dado" className="flex w-full max-w-sm flex-wrap justify-center gap-2">
         {AVATAR_COLORS.map((color) => (
           <button
             key={color}
@@ -44,7 +57,8 @@ export function AvatarEditor({ value, onChange }: { value: Avatar; onChange: (av
             aria-checked={value.color === color}
             aria-label={AVATAR_PALETTE[color].label}
             onClick={() => onChange({ ...value, color })}
-            className="h-10 w-10 rounded-full border-4 border-ink"
+            title={AVATAR_PALETTE[color].label}
+            className="h-10 w-10 flex-none rounded-full border-4 border-ink"
             style={{
               background: AVATAR_PALETTE[color].face,
               boxShadow: value.color === color ? '0 0 0 3px #fff, 0 0 0 6px #FFD23F' : undefined,

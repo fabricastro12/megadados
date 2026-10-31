@@ -41,5 +41,6 @@ export const ERROR_COPY: Record<string, string> = {
   late: 'Se terminó el tiempo para responder.',
   offline: 'Sin conexión. Reintentamos solos cuando vuelva.',
   no_session: 'No pudimos iniciar tu sesión. Recargá la página y probá de nuevo.',
+  no_questions: 'No hay preguntas para este modo, dificultad y categorías. Cambiá la configuración o agregá preguntas en administración.',
   invalid_category: 'Alguna categoría ya no está disponible.',
 };

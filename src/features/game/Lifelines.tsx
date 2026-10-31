@@ -15,7 +15,6 @@ const LOOK: Record<Lifeline, { label: string; hint: string; color: string; shade
       </svg>
     ),
   },
-  extraTime: { label: '+10 s', hint: '+10 s', color: '#2CC56F', shade: '#1C8A4C', glyph: <span className="font-[family-name:var(--font-display)] text-lg">+10 s</span> },
   audience: {
     label: 'Público',
     hint: 'Público',
@@ -32,7 +31,6 @@ const LOOK: Record<Lifeline, { label: string; hint: string; color: string; shade
 const NAMES: Record<Lifeline, string> = {
   fiftyFifty: 'Comodín 50/50: saca dos respuestas incorrectas',
   pass: 'Comodín pase: salteás esta pregunta sin perder la racha',
-  extraTime: 'Comodín +10 segundos',
   audience: 'Comodín del público: los demás votan',
 };
 

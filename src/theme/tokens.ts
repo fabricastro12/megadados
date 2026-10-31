@@ -31,6 +31,16 @@ export const AVATAR_PALETTE = {
   yellow: { face: '#FFB31A', top: '#FFE08A', side: '#D07F00', label: 'Amarillo' },
   orange: { face: '#FF6A3D', top: '#FFB399', side: '#C9411A', label: 'Naranja' },
   pink: { face: '#FF5DAA', top: '#FFB0D4', side: '#C82F7A', label: 'Rosa' },
+  red: { face: '#F25565', top: '#FFABB4', side: '#C52B40', label: 'Rojo' },
+  cyan: { face: '#28BED9', top: '#99E6F2', side: '#16849F', label: 'Celeste' },
+  teal: { face: '#26B4AA', top: '#8DE1D4', side: '#147D79', label: 'Turquesa' },
+  lime: { face: '#B5D843', top: '#DFEE9E', side: '#7C9D22', label: 'Lima' },
+  mint: { face: '#83DDB6', top: '#C6F3DF', side: '#43A87D', label: 'Menta' },
+  coral: { face: '#FF9884', top: '#FFD2C7', side: '#D26857', label: 'Coral' },
+  lavender: { face: '#C3A5EF', top: '#E7D7FC', side: '#9270C4', label: 'Lavanda' },
+  cream: { face: '#F5DDA0', top: '#FFF0CC', side: '#C6A65E', label: 'Crema' },
+  pearl: { face: '#E9EFF8', top: '#FFFFFF', side: '#ACBDD8', label: 'Perla' },
+  caramel: { face: '#CE9B72', top: '#EFCBAD', side: '#A66D47', label: 'Caramelo' },
 } as const;
 
 export const AVATAR_FACE_LABEL = {
@@ -39,6 +49,17 @@ export const AVATAR_FACE_LABEL = {
   wink: 'Guiño',
   surprised: 'Sorpresa',
   tongue: 'Lengua',
+  laugh: 'Carcajada',
+  hearts: 'Enamorado',
+  stars: 'Estrellitas',
+  sleepy: 'Dormilón',
+  angry: 'Enojado',
+  sad: 'Tristón',
+  nerd: 'Nerd',
+  robot: 'Robot',
+  cat: 'Gatito',
+  mustache: 'Bigote',
+  dizzy: 'Mareado',
 } as const;
 
 /** Darker shade per category color, for the sticker bottom edge. */

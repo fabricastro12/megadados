@@ -43,12 +43,15 @@ export type ServiceError =
   | 'not_found'
   | 'slug_taken'
   | 'category_not_empty'
-  | 'unknown_category';
+  | 'unknown_category'
+  | 'no_questions'
+  | 'image_unavailable';
 
 export type ServiceResult<T> = { ok: true; value: T } | { ok: false; error: ServiceError; status: number };
 
 const STATUS: Partial<Record<ServiceError, number>> = {
   invalid_command: 400,
+  image_unavailable: 502,
   unauthenticated: 401,
   wrong_pin: 403,
   no_room: 404,
@@ -71,7 +74,7 @@ export interface StateEnvelope {
   game: number;
   version: number;
   state: PublicGameState;
-  question: { id: string; prompt: string; options: string[]; imageUrl: string | null; explanation: string | null } | null;
+  question: { id: string; prompt: string; options: string[]; imageUrl: string | null; imageCredit: string | null; imageSource: string | null; explanation: string | null } | null;
 }
 
 export const topics = {
@@ -79,7 +82,7 @@ export const topics = {
   screens: (code: string) => `room:${code}:screens`,
 };
 
-async function envelope(tx: SqlExecutor, game: number, state: GameState, version: number): Promise<StateEnvelope> {
+async function envelope(tx: SqlExecutor, game: number, state: GameState, version: number, code: string): Promise<StateEnvelope> {
   const view = toPublicState(state);
   const questionId = view.question?.id;
   const content = questionId ? await repo.questionContent(tx, questionId) : null;
@@ -92,7 +95,9 @@ async function envelope(tx: SqlExecutor, game: number, state: GameState, version
           id: content.id,
           prompt: content.prompt,
           options: content.options,
-          imageUrl: content.image_url,
+          imageUrl: content.image_url ? `/api/rooms/${code}/image?question=${encodeURIComponent(content.id)}` : null,
+          imageCredit: view.reveal ? content.image_credit : null,
+          imageSource: view.reveal ? content.image_source : null,
           // The explanation would hint at the answer, so it waits for the reveal like the answer does.
           explanation: view.reveal ? content.explanation : null,
         }
@@ -129,9 +134,6 @@ async function persistEvents(tx: SqlExecutor, code: string, game: LockedGame, ne
         await repo.recordLifeline(tx, game.id, e.ownerId, e.lifeline);
         await repo.broadcast(tx, topics.screens(code), 'lifeline', { ownerId: e.ownerId, lifeline: e.lifeline });
         break;
-      case 'playerKicked':
-        await repo.kickSeat(tx, e.playerId);
-        break;
       case 'gameOver':
         await repo.setRoomStatus(tx, game.room_id, 'finished');
         break;
@@ -159,8 +161,9 @@ export async function startGame(deps: ServiceDeps, input: { roomCode: string; us
     const [players, teams, pool] = [
       await repo.lobbyPlayers(tx, room.id),
       await repo.teams(tx, room.id),
-      await repo.questionPool(tx, config.categories, config.difficulty),
+      await repo.questionPool(tx, config.categories, config.difficulty, config.mode === 'imagenes' ? 'image' : 'text'),
     ];
+    if (pool.length === 0) return fail('no_questions');
     const created = createGame(
       {
         config,
@@ -174,7 +177,7 @@ export async function startGame(deps: ServiceDeps, input: { roomCode: string; us
 
     const game = await repo.insertGame(tx, room.id, created.state);
     await repo.setRoomStatus(tx, room.id, 'playing');
-    await repo.broadcast(tx, topics.room(room.code), 'state', await envelope(tx, game.seq, created.state, 1));
+    await repo.broadcast(tx, topics.room(room.code), 'state', await envelope(tx, game.seq, created.state, 1, room.code));
     return { ok: true, value: { version: 1 } };
   });
 }
@@ -220,7 +223,7 @@ export async function applyInTransaction(
   const version = game.version + 1;
   await repo.saveGame(tx, game.id, result.state, version);
   await persistEvents(tx, room.code, game, result.state, result.events);
-  await repo.broadcast(tx, topics.room(room.code), 'state', await envelope(tx, game.seq, result.state, version));
+  await repo.broadcast(tx, topics.room(room.code), 'state', await envelope(tx, game.seq, result.state, version, room.code));
   return { ok: true, value: { version } };
 }
 
@@ -240,7 +243,7 @@ export async function loadSnapshot(
     return {
       ok: true,
       value: {
-        ...(await envelope(tx, game.seq, game.state, game.version)),
+        ...(await envelope(tx, game.seq, game.state, game.version, room.code)),
         you: seat.role === 'spectator' ? null : privateViewFor(game.state, seat.id),
         seatId: seat.id,
         role: seat.role,
