@@ -161,7 +161,7 @@ export async function startGame(deps: ServiceDeps, input: { roomCode: string; us
     const [players, teams, pool] = [
       await repo.lobbyPlayers(tx, room.id),
       await repo.teams(tx, room.id),
-      await repo.questionPool(tx, config.categories, config.difficulty, config.mode === 'imagenes' ? 'image' : 'text'),
+      await repo.questionPool(tx, config.categories, config.difficulty),
     ];
     if (pool.length === 0) return fail('no_questions');
     const created = createGame(

@@ -21,6 +21,5 @@ export function rulesSummary(config: GameConfig): string {
     allCrowns: 'Gana el primero en juntar todas las coronas',
     timeLimit: 'Gana quien sume más puntos',
   }[config.winCondition];
-  const pictures = config.mode === 'imagenes' ? ' con preguntas basadas en fotos' : '';
-  return `${how}${pictures}${teams}, ${rounds}. ${config.questionSeconds} s por pregunta. ${win}.`;
+  return `${how}${teams}, ${rounds}. Preguntas de texto y con imágenes. ${config.questionSeconds} s por pregunta. ${win}.`;
 }

@@ -73,10 +73,10 @@ export function RulesEditor({ config, categories, onChange }: { config: GameConf
         options={[
           { value: 'ronda', label: 'Todos a la vez' },
           { value: 'clasico', label: 'Por turnos' },
-          { value: 'imagenes', label: 'Con imágenes' },
         ]}
         onChange={(mode) => set({ mode })}
       />
+      <p className="-mt-3 text-sm font-semibold text-ink-soft">En ambos modos se mezclan preguntas de texto y con imágenes.</p>
       <Toggle
         id="teams"
         label="Por equipos"

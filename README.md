@@ -3,7 +3,8 @@
 Real-time multiplayer trivia for the Megafy team building: everyone plays from their own phone,
 a TV shows the wheel and the ranking. See [docs/plan.md](docs/plan.md) for the full plan.
 
-Three modes: simultaneous **Ronda**, turn-based **Clásico**, and simultaneous **Con imágenes**.
+Two modes: simultaneous **Ronda** (Todos a la vez) and turn-based **Clásico** (Por turnos).
+Both mix text and image questions in each category's shuffled deck.
 There are exactly six supported categories: **Arte y literatura, Deportes, Historia, Geografía,
 Ciencia and Entretenimiento**. The seed contains 240 text questions and 60 image questions (40 text and 10 visual per category).
 Lifelines are 50/50, pass and (in classic mode) audience voting. Extra time and player expulsion
@@ -150,12 +151,17 @@ Open `docs/revision-preguntas.html` in a browser to review the 300-question snap
 photos, correct answers and filters. Review marks and notes stay in the browser and can be
 exported as CSV. This document does not update the live bank and must be refreshed after bank edits.
 
-## Image mode and image bank
+## Image questions and image bank
 
-Select **Con imágenes** in the lobby, or the **Trivia con imágenes** preset. Everyone identifies
-what is shown in the photo. Only questions marked `kind: "image"` enter that mode; text questions
-are used in Ronda and Clásico. If no questions match the mode, categories and difficulty, starting
-the match returns a clear error. Questions are never repeated inside a match.
+Both **Todos a la vez** and **Por turnos** draw text and image questions from the same bank,
+filtered by the chosen categories and difficulty. Questions marked `kind: "image"` ask players
+to identify what is shown in the photo. The format is selected by shuffling the questions, so
+either can appear next. If no playable questions match, starting the match returns a clear error.
+Questions are never repeated inside a match.
+
+Existing rooms saved with `mode: "imagenes"` are read as **Todos a la vez**, so this change needs
+no database migration. Matches already in progress keep their existing decks; new matches and
+rematches mix both formats.
 
 In `/admin`, choose **Identificar una imagen**, search Wikimedia Commons, select and visually
 verify the photo, write the prompt and four options, and mark the correct answer. Save to add it

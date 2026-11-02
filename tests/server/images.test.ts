@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { StateEnvelope } from '@/server/games/gameService';
 import { executeCommand, loadSnapshot, startGame } from '@/server/games/gameService';
 import { createRoom, joinRoom, lobbyAction } from '@/server/rooms/roomService';
@@ -24,7 +24,7 @@ describe('the Commons image bank', () => {
   });
 });
 
-describe('a visual match', () => {
+describe.each(['ronda', 'clasico'] as const)('a photo question in %s', (mode) => {
   let pg: Awaited<ReturnType<typeof freshDatabase>>;
   let deps: { db: ReturnType<typeof pgliteDatabase>; now: () => number; random: () => number };
   let now: number;
@@ -32,6 +32,8 @@ describe('a visual match', () => {
   beforeEach(async () => {
     pg = await freshDatabase();
     await pg.exec(readFileSync(new URL('../../supabase/seed.sql', import.meta.url), 'utf8'));
+    // Isolate the photo-serving checks; mixed-format gameplay is exercised separately.
+    await pg.exec("update public.questions set is_active = false where kind = 'text'");
     now = Date.now();
     deps = { db: pgliteDatabase(pg), now: () => now, random: () => 0 };
     const created = await createRoom(deps, { userId: U.host, name: 'Host', avatar: { color: 'blue', face: 'happy' } });
@@ -39,7 +41,7 @@ describe('a visual match', () => {
     code = created.value.code;
     const lobby = await lobbyAction(deps, { code, userId: U.host, action: { type: 'heartbeat' } });
     if (!lobby.ok) throw new Error(lobby.error);
-    await lobbyAction(deps, { code, userId: U.host, action: { type: 'updateConfig', config: { ...lobby.value.room.config, mode: 'imagenes' } } });
+    await lobbyAction(deps, { code, userId: U.host, action: { type: 'updateConfig', config: { ...lobby.value.room.config, mode } } });
     await joinRoom(deps, { code, userId: U.spectator, join: { as: 'spectator' } });
     await startGame(deps, { roomCode: code, userId: U.host });
     await executeCommand(deps, { roomCode: code, userId: U.host, command: { type: 'spin' } });
@@ -48,6 +50,7 @@ describe('a visual match', () => {
     now = snap.value.state.phaseDeadline!;
     await executeCommand(deps, { roomCode: code, userId: U.spectator, command: { type: 'tick' } });
   });
+  afterEach(async () => { await pg.close(); });
 
   const snapshot = async (): Promise<StateEnvelope> => {
     const r = await loadSnapshot(deps, { roomCode: code, userId: U.host });
@@ -55,7 +58,7 @@ describe('a visual match', () => {
     return r.value;
   };
 
-  it('only draws visual questions and hides filenames and credits until reveal', async () => {
+  it('hides filenames and credits until reveal', async () => {
     const snap = await snapshot();
     expect(snap.question?.imageUrl).toBe(`/api/rooms/${code}/image?question=${snap.question?.id}`);
     expect(snap.question?.imageCredit).toBeNull();

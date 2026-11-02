@@ -1,4 +1,5 @@
 import type { GameState, Lifeline, RevealState } from '@/game';
+import { GameConfigSchema } from '@/game/config';
 import type { SqlExecutor } from '../db/database';
 
 export interface RoomRow {
@@ -34,6 +35,13 @@ export interface QuestionContent {
 }
 
 const ms = (value: number | null) => (value === null ? null : value / 1000);
+
+/** Older saved matches used `imagenes` for simultaneous play. */
+function currentGame(game: LockedGame | undefined): LockedGame | null {
+  if (!game) return null;
+  game.state.config.mode = GameConfigSchema.shape.mode.parse(game.state.config.mode);
+  return game;
+}
 
 /** Every SQL statement the game server runs lives here (adapter for the Database port). */
 export const gameRepository = {
@@ -72,13 +80,13 @@ export const gameRepository = {
     ]);
   },
 
-  /** Playable questions with their answer key, for building the decks. */
-  async questionPool(tx: SqlExecutor, categoryIds: string[], difficulty: string, kind: 'text' | 'image') {
+  /** Both question formats share each category's shuffled deck. */
+  async questionPool(tx: SqlExecutor, categoryIds: string[], difficulty: string) {
     return tx.query<{ id: string; category_id: string; correct_index: number }>(
       `select id, category_id, correct_index from public.questions
         where is_active and category_id = any($1::uuid[]) and ($2 = 'mixed' or difficulty::text = $2)
-          and kind = $3 and (kind <> 'image' or image_url is not null)`,
-      [categoryIds, difficulty, kind],
+          and (kind <> 'image' or image_url is not null)`,
+      [categoryIds, difficulty],
     );
   },
 
@@ -88,7 +96,7 @@ export const gameRepository = {
       `select id, room_id, seq, state, version from public.games where room_id = $1 order by seq desc limit 1 for update`,
       [roomId],
     );
-    return rows[0] ?? null;
+    return currentGame(rows[0]);
   },
 
   async latestGame(tx: SqlExecutor, roomId: string): Promise<LockedGame | null> {
@@ -96,7 +104,7 @@ export const gameRepository = {
       `select id, room_id, seq, state, version from public.games where room_id = $1 order by seq desc limit 1`,
       [roomId],
     );
-    return rows[0] ?? null;
+    return currentGame(rows[0]);
   },
 
   async insertGame(tx: SqlExecutor, roomId: string, state: GameState): Promise<{ id: string; seq: number }> {

@@ -19,7 +19,8 @@ export const LifelinesConfigSchema = z.object({
 
 export const GameConfigSchema = z.object({
   /** 'ronda': everyone answers the same question, the spinner rotates. 'clasico': turn-based. */
-  mode: z.enum(['ronda', 'clasico', 'imagenes']).default('ronda'),
+  // Saved image-only rooms keep working as simultaneous play; new games mix both formats.
+  mode: z.enum(['ronda', 'clasico', 'imagenes']).default('ronda').transform((mode) => mode === 'imagenes' ? 'ronda' : mode),
   teams: TeamsConfigSchema.prefault({}),
   winCondition: z.enum(['mostPoints', 'mostCrowns', 'allCrowns', 'timeLimit']).default('mostPoints'),
   /** perPlayer: every player spins `rounds` times. fixed: exactly `rounds` rounds. */
@@ -48,7 +49,6 @@ export const PRESETS = {
     name: 'Torneo por equipos',
     config: { mode: 'ronda', teams: { enabled: true, count: 3 }, winCondition: 'mostPoints', roundsMode: 'perPlayer', rounds: 2 },
   },
-  imagenes: { name: 'Trivia con imágenes', config: { mode: 'imagenes', winCondition: 'mostPoints', roundsMode: 'perPlayer', rounds: 1, teams: { enabled: false } } },
   clasico: {
     name: 'Clásico por coronas',
     config: { mode: 'clasico', winCondition: 'allCrowns', roundsMode: 'fixed', rounds: 10, teams: { enabled: false } },

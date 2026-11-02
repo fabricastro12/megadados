@@ -13,7 +13,7 @@ describe('retired features', () => {
 });
 
 describe('time limited matches', () => {
-  it.each(['ronda', 'clasico', 'imagenes'] as const)('%s keeps playing beyond the configured round count', (mode) => {
+  it.each(['ronda', 'clasico'] as const)('%s keeps playing beyond the configured round count', (mode) => {
     const t = newGame({ mode, winCondition: 'timeLimit', timeLimitMinutes: 5, roundsMode: 'fixed', rounds: 1 }, { players: 1 });
     for (let i = 0; i < 3; i++) {
       const q = spinToQuestion(t);
@@ -31,9 +31,10 @@ describe('time limited matches', () => {
   });
 });
 
-describe('image mode and closing statistics', () => {
-  it('rotates the wheel and lets everyone answer in image mode', () => {
+describe('legacy image rooms and closing statistics', () => {
+  it('reads the retired image mode as simultaneous play and rotates its wheel', () => {
     const t = newGame({ mode: 'imagenes' }, { players: 2 });
+    expect(t.state.config.mode).toBe('ronda');
     const q = spinToQuestion(t);
     act(t, as('p1'), { type: 'answer', questionId: q.questionId, choice: q.answer });
     expect(t.state.phase).toBe('question');
